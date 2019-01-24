@@ -1,20 +1,25 @@
 <template>
     <div id="app">
-        <img src="./assets/logo.png">
-        <HelloWorld/>
-        <Test/>
+        <img src="./assets/logo.png" alt="logo"/>
+        <HelloWorld></HelloWorld>
+        <button @click="handleClick">{{counter}}</button>
     </div>
 </template>
 
 <script lang="ts">
+    import {Vue, Component} from 'vue-property-decorator';
     import HelloWorld from './components/HelloWorld.vue'
-    import Test from './components/Test.vue'
 
-    export default {
-        name: 'App',
+    @Component({
         components: {
-            HelloWorld,
-            Test
+            HelloWorld
+        }
+    })
+    export default class App extends Vue {
+        counter: number = 0;
+
+        handleClick() {
+            this.counter++;
         }
     }
 </script>

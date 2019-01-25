@@ -1,27 +1,31 @@
 <template>
     <div id="app">
-        <img src="../../assets/img/logo.png" alt="logo"/>
-        <HelloWorld></HelloWorld>
-        <button @click="handleClick">{{counter}}</button>
+        <Header></Header>
+        <router-view></router-view>
+        <Footer></Footer>
     </div>
 </template>
 
 <script lang="ts">
-    import {Vue, Component} from 'vue-property-decorator';
-    import HelloWorld from '../../components/HelloWorld.vue'
+  import {Vue, Component} from 'vue-property-decorator'
+  import HelloWorld from '../../components/HelloWorld.vue'
+  import Header from '../../components/Header.vue'
+  import Footer from '../../components/Footer.vue'
 
-    @Component({
-        components: {
-            HelloWorld
-        }
-    })
-    export default class App extends Vue {
-        counter: number = 0;
-
-        handleClick() {
-            this.counter++;
-        }
+  @Component({
+    components: {
+      HelloWorld,
+      Header,
+      Footer
     }
+  })
+  export default class App extends Vue {
+    counter: number = 0
+
+    handleClick () {
+      this.counter++
+    }
+  }
 </script>
 
 <style>

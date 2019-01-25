@@ -1,0 +1,27 @@
+<template>
+
+    <div class="list-group">
+        <a href="#" class="list-group-item active">
+            这里是列表页
+        </a>
+        <a href="#" class="list-group-item">Dapibus ac facilisis in</a>
+        <a href="#" class="list-group-item">Morbi leo risus</a>
+        <a href="#" class="list-group-item">Porta ac consectetur ac</a>
+        <a href="#" class="list-group-item">Vestibulum at eros</a>
+        <router-link to="/">Back to index</router-link>
+    </div>
+
+
+</template>
+
+<script lang="ts">
+  import {Vue, Component} from 'vue-property-decorator'
+
+  @Component({})
+  export default class List extends Vue {
+  }
+</script>
+
+<style scoped>
+
+</style>

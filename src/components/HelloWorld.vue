@@ -56,12 +56,12 @@
 </template>
 
 <script lang="ts">
-    import {Vue, Component} from 'vue-property-decorator';
+  import {Vue, Component} from 'vue-property-decorator'
 
-    @Component({})
-    export default class HelloWorld extends Vue {
-        msg: string = "Hello Vue.js + TypeScript!";
-    }
+  @Component({})
+  export default class HelloWorld extends Vue {
+    msg: string = "Hello Vue.js + TypeScript!"
+  }
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->

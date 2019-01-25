@@ -62,7 +62,7 @@ const webpackConfig = merge(baseWebpackConfig, {
         // see https://github.com/ampedandwired/html-webpack-plugin
         new HtmlWebpackPlugin({
             filename: config.build.index,
-            template: './src/modules/index/index.html',
+            template: 'index.html',
             inject: true,
             minify: {
                 removeComments: true,
@@ -117,10 +117,10 @@ const webpackConfig = merge(baseWebpackConfig, {
             }
         ])
     ]
-})
+});
 
 if (config.build.productionGzip) {
-    const CompressionWebpackPlugin = require('compression-webpack-plugin')
+    const CompressionWebpackPlugin = require('compression-webpack-plugin');
 
     webpackConfig.plugins.push(
         new CompressionWebpackPlugin({
@@ -138,8 +138,8 @@ if (config.build.productionGzip) {
 }
 
 if (config.build.bundleAnalyzerReport) {
-    const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin
+    const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
     webpackConfig.plugins.push(new BundleAnalyzerPlugin())
 }
 
-module.exports = webpackConfig
+module.exports = webpackConfig;

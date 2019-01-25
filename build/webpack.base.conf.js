@@ -13,7 +13,7 @@ function resolve(dir) {
 module.exports = {
     context: path.resolve(__dirname, '../'),
     entry: {
-        app: './src/main.ts'
+        app: './src/modules/index/main.ts'
     },
     output: {
         path: config.build.assetsRoot,
@@ -30,6 +30,7 @@ module.exports = {
             'src': path.resolve(__dirname, '../src'),
             'assets': path.resolve(__dirname, '../src/assets'),
             'components': path.resolve(__dirname, '../src/components'),
+            'modules': path.resolve(__dirname, '../src/modules'),
             jquery: "jquery/src/jquery"
         }
     },
@@ -99,4 +100,4 @@ module.exports = {
         tls: 'empty',
         child_process: 'empty'
     }
-}
+};

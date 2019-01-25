@@ -1,6 +1,6 @@
 <template>
     <div id="app">
-        <img src="./assets/logo.png" alt="logo"/>
+        <img src="../../assets/img/logo.png" alt="logo"/>
         <HelloWorld></HelloWorld>
         <button @click="handleClick">{{counter}}</button>
     </div>
@@ -8,7 +8,7 @@
 
 <script lang="ts">
     import {Vue, Component} from 'vue-property-decorator';
-    import HelloWorld from './components/HelloWorld.vue'
+    import HelloWorld from '../../components/HelloWorld.vue'
 
     @Component({
         components: {

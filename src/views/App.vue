@@ -1,30 +1,15 @@
 <template>
     <div id="app">
-        <Header></Header>
         <router-view></router-view>
-        <Footer></Footer>
     </div>
 </template>
 
 <script lang="ts">
   import {Vue, Component} from 'vue-property-decorator'
-  import HelloWorld from '../../components/HelloWorld.vue'
-  import Header from '../../components/Header.vue'
-  import Footer from '../../components/Footer.vue'
 
-  @Component({
-    components: {
-      HelloWorld,
-      Header,
-      Footer
-    }
-  })
+  @Component({})
   export default class App extends Vue {
     counter: number = 0
-
-    handleClick () {
-      this.counter++
-    }
   }
 </script>
 

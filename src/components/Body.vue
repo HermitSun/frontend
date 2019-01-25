@@ -1,6 +1,6 @@
 <template>
     <div>
-        <img src="../modules/index/img/logo.png" alt="logo"/>
+        <img src="../views/index/img/logo.png" alt="logo"/>
         <router-link to="/list">Go to List</router-link>
         <router-link to="/login">Login</router-link>
     </div>

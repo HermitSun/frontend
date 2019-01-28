@@ -1,7 +1,9 @@
+const db = require('./db');
+
 const express = require('express');
-const bodyParser = require('body-parser');
 const app = express();
 
+const bodyParser = require('body-parser');
 const jsonParser = bodyParser.json();
 // const urlencodedParser = bodyParser.urlencoded({extended: false});
 
@@ -13,7 +15,7 @@ app.use(function (req, res, next) {
     next();
 });
 
-app.post('/LoginController/login', jsonParser, (req, res) => {
+app.post('/LoginController/login', jsonParser, async (req, res) => {
     console.log(req.body);
     let emailAddress = req.body.emailAddress;
     let password = req.body.password;
@@ -22,44 +24,25 @@ app.post('/LoginController/login', jsonParser, (req, res) => {
         isSucceed: false,
         information: '-2'
     };
-    for (let user of userInfo) {
-        if (user.emailAddress === emailAddress) {
-            if (user.password === password) {
-                if (captcha === '123') {
-                    result.isSucceed = true;
-                    result.information = user.username;
-                } else {
-                    result.information = '0';
-                }
+    // let user = await JSON.parse(db.get(emailAddress));
+    let user = await db.get(emailAddress);
+    user = JSON.parse(user);
+    if (user !== {}) {
+        if (user.password === password) {
+            if (captcha === '123') {
+                result.isSucceed = true;
+                result.information = user.username;
             } else {
-                result.information = '-1';
+                result.information = '0';
             }
+        } else {
+            result.information = '-1';
         }
     }
     res.json(result);
-});
+})
+;
 
-app.listen(3000, () => {
-    console.log('I\'m listening on port 3000!')
+app.listen(3121, () => {
+    console.log('I\'m listening on port 3121!')
 });
-
-let userInfo = [
-    {
-        "id": 1,
-        "emailAddress": "admin",
-        "username": "administrator",
-        "password": '123'
-    },
-    {
-        "id": 2,
-        "emailAddress": "syl",
-        "username": "WenSun",
-        "password": '123456'
-    },
-    {
-        "id": 3,
-        "emailAddress": "test",
-        "username": "tester",
-        "password": '456'
-    }
-];

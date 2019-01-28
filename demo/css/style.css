@@ -2,7 +2,7 @@
 .form{
   position: relative;
   z-index: 1;
-  background: #FFFFFF;
+  background: rgba(255, 255, 255, 0.5);
   max-width: 400px;
   max-height: 2000px;
   margin: 0 auto 100px;
@@ -125,7 +125,7 @@
 /* END Form */
 /* Demo Purposes */
 body {
-  background: #ccc;
+  background-size: auto 900px;
   font-family: "Roboto", sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -136,7 +136,8 @@ body:before {
   top: 0;
   left: 0;
   display: block;
-  background: rgba(255, 255, 255, 0.8);
+  background: url("IMG_6913.JPG") no-repeat;
+  background-size: 100%,100%;
   width: 100%;
   height: 100%;
 }

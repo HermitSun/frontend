@@ -43,6 +43,6 @@ app.post('/LoginController/login', jsonParser, async (req, res) => {
 })
 ;
 
-app.listen(3121, () => {
-    console.log('I\'m listening on port 3121!')
+app.listen(3000, () => {
+    console.log('I\'m listening on port 3000!')
 });

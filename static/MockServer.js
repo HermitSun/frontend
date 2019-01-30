@@ -15,7 +15,7 @@ app.use(function (req, res, next) {
     next();
 });
 
-app.post('/LoginController/login', jsonParser, async (req, res) => {
+app.post('/login/student', jsonParser, async (req, res) => {
     console.log(req.body);
     let emailAddress = req.body.emailAddress;
     let password = req.body.password;

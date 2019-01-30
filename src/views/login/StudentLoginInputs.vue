@@ -4,15 +4,15 @@
             <div class="inputs">
                 <div>
                     <p class="emailAddress">
-                        <input type="text" placeholder="電郵 Email">
+                        <input type="text" placeholder="電郵 Email" v-model="emailAddress">
                         <i></i>
                     </p>
                     <p class="password">
-                        <input type="password" placeholder="密碼 Password">
+                        <input type="password" placeholder="密碼 Password" v-model="password">
                         <i></i>
                     </p>
                     <p class="verify">
-                        <input type="text" placeholder="驗證碼 Verification code"/>
+                        <input type="text" placeholder="驗證碼 Verification code" v-model="captcha"/>
                         <img class="codeImg" :src="encodeURI(this.captcha)" alt="驗證碼" width="61" height="21"/>
                     </p>
                     <p>
@@ -23,15 +23,16 @@
         </div>
         <div class="footer">
             <router-link to="#" class="router1">忘記密碼</router-link>
-            <router-link to="#" class="router2">沒有賬號？現在註冊</router-link>
-            <router-link to="/admin" class="router3">管理员入口</router-link>
+            <a href="#" class="router2" @click="switchRegister">沒有賬號？現在註冊</a>
+            <a href="#" class="router3" @click="switchAdmin">管理员入口</a>
         </div>
     </div>
 </template>
 
 <script lang="ts">
-  import {Vue, Component} from 'vue-property-decorator'
-  import {setCookie, getCookie} from '../../assets/js/cookie.ts'
+  import {Vue, Component, Emit} from 'vue-property-decorator'
+  import {setCookie} from '../../assets/js/cookie.ts'
+  import {bus} from './bus.ts'
   import axios from 'axios'
 
   @Component({})
@@ -43,13 +44,6 @@
     username: string = ''
     password: string = ''
     captcha: string = ''
-
-    mounted () {
-      /*如果存在cookie，则跳到主页*/
-      if (getCookie('emailAddress') && getCookie('username')) {
-        this.$router.push('/home')
-      }
-    }
 
     private checkAndLogin () {
       if (this.emailAddress === '') {
@@ -103,9 +97,21 @@
           console.log((error))
         })
     }
+
+    private switchRegister () {
+      console.log('register')
+      bus.$emit('switch-page', LoginPages.REGISTER)
+    }
+
+    private switchAdmin () {
+      console.log('admin')
+      bus.$emit('switch-page', LoginPages.ADMIN)
+    }
   }
 
   enum LoginErrors {USER_NOT_EXIST = '-2', PASSWORD_WRONG = '-1', CAPTCHA_WRONG = '0'}
+
+  enum LoginPages {STUDENT = '1', ADMIN = '2', REGISTER = '3'}
 </script>
 
 <style scoped>
@@ -131,6 +137,7 @@
     a {
         color: #fff;
         transition: all 0.4s ease-in-out;
+        cursor: pointer;
     }
 
     a:hover {

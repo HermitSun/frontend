@@ -30,7 +30,7 @@
 </template>
 
 <script lang="ts">
-  import {Vue, Component, Emit} from 'vue-property-decorator'
+  import {Vue, Component} from 'vue-property-decorator'
   import {setCookie} from '../../assets/js/cookie.ts'
   import {bus} from './bus.ts'
   import axios from 'axios'

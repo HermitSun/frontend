@@ -15,10 +15,10 @@ function closeConnection() {
 }
 
 module.exports = {
-    add: function (username, emailAddress) {
+    add: function (username, emailAddress, password) {
         openConnection();
-        let params = [null, username, emailAddress];
-        let sql = "insert into userInfo values (?,?,?);";
+        let params = [null, username, emailAddress, password];
+        let sql = "insert into userinfo values (?,?,?,?);";
         connection.query(sql, params, function (err, result) {
             if (err) {
                 console.log("[INSERT ERROR] - ", err.message);
@@ -31,7 +31,7 @@ module.exports = {
     remove: function (id) {
         openConnection();
         let params = [id];
-        let sql = "delete from userInfo where id = ?;";
+        let sql = "delete from userinfo where id = ?;";
         connection.query(sql, params, function (err, result) {
             if (err) {
                 console.log("[REMOVE ERROR] - ", err.message);
@@ -41,9 +41,10 @@ module.exports = {
         });
         closeConnection();
     },
-    update: function (id, username, emailAddress) {
+    update: function (id, username, emailAddress, password) {
         openConnection();
-        let sql = `update userInfo set username = '${username}',emailAddress='${emailAddress}' where id = ${id};`;
+        let sql = `update userinfo set username = '${username}',emailAddress='${emailAddress}'
+        ,password='${password}' where id = ${id};`;
         connection.query(sql, function (err, result) {
             if (err) {
                 console.log("[UPDATE ERROR] - ", err.message);
@@ -57,7 +58,7 @@ module.exports = {
         return new Promise((resolve, reject) => {
             openConnection();
             let params = [emailAddress];
-            let sql = "select * from userInfo where emailAddress = ?;";
+            let sql = "select * from userinfo where emailAddress = ?;";
             let info = '{}';
             connection.query(sql, params, (err, result) => {
                 if (err) {
@@ -86,7 +87,7 @@ module.exports = {
     },
     showAll: function () {
         openConnection();
-        let sql = "SELECT * FROM userInfo order by id asc;";
+        let sql = "SELECT * FROM userinfo order by id asc;";
         connection.query(sql, function (err, results) {
             if (err) {
                 console.log("[SELECT ERROR] - ", err.message);

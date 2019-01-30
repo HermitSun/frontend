@@ -1,4 +1,5 @@
-const db = require('./db');
+const sdb = require('./StudentDb');
+const adb = require('./AdminDB');
 
 const express = require('express');
 const app = express();
@@ -24,8 +25,7 @@ app.post('/login/student', jsonParser, async (req, res) => {
         isSucceed: false,
         information: '-2'
     };
-    // let user = await JSON.parse(db.get(emailAddress));
-    let user = await db.get(emailAddress);
+    let user = await sdb.get(emailAddress);
     user = JSON.parse(user);
     if (user !== {}) {
         if (user.password === password) {
@@ -40,8 +40,33 @@ app.post('/login/student', jsonParser, async (req, res) => {
         }
     }
     res.json(result);
-})
-;
+});
+
+app.post('/login/admin', jsonParser, async (req, res) => {
+    console.log(req.body);
+    let username = req.body.username;
+    let password = req.body.password;
+    let captcha = req.body.captcha;
+    let result = {
+        isSucceed: false,
+        information: '-2'
+    };
+    let user = await adb.get(username);
+    user = JSON.parse(user);
+    if (user !== {}) {
+        if (user.password === password) {
+            if (captcha === '123') {
+                result.isSucceed = true;
+                result.information = user.username;
+            } else {
+                result.information = '0';
+            }
+        } else {
+            result.information = '-1';
+        }
+    }
+    res.json(result);
+});
 
 app.listen(3000, () => {
     console.log('I\'m listening on port 3000!')

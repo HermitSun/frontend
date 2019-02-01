@@ -9,7 +9,6 @@
 
   @Component({})
   export default class App extends Vue {
-    counter: number = 0
   }
 </script>
 

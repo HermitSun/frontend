@@ -30,7 +30,7 @@
 
 <script lang="ts">
   import {Vue, Component} from 'vue-property-decorator'
-  import {setCookie} from '../../assets/js/cookie.ts'
+  import {setCookie} from '../../assets/utils/cookie.ts'
   import {bus} from './bus.ts'
   import axios from 'axios'
 
@@ -57,15 +57,14 @@
           'password': this.password,
           'captcha': this.captcha
         }).then((response) => {
-          console.log(response)
           console.log(response.data)
           if (response.data.isSucceed) {
             this.promptContent = "登录成功"
             this.showPrompt = true
-            setCookie('username', response.data.username, 1000 * 60)
+            setCookie('username', this.username, 1000 * 60)
             setCookie('name', response.data.information, 1000 * 60)
             setTimeout(function () {
-              this.$router.push('/home')
+              this.$router.push('/admin')
             }.bind(this), 1000)
           } else {
             if (response.data.information === LoginErrors.USER_NOT_EXIST) {

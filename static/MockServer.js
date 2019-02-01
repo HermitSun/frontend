@@ -1,4 +1,4 @@
-const sdb = require('./StudentDb');
+const sdb = require('./StudentDB');
 const adb = require('./AdminDB');
 
 const express = require('express');
@@ -57,7 +57,7 @@ app.post('/login/admin', jsonParser, async (req, res) => {
         if (user.password === password) {
             if (captcha === '123') {
                 result.isSucceed = true;
-                result.information = user.username;
+                result.information = user.name;
             } else {
                 result.information = '0';
             }

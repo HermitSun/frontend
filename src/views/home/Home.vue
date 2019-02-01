@@ -7,7 +7,7 @@
 
 
 <script lang="ts">
-  import {setCookie, getCookie, deleteCookie} from '../../assets/js/cookie.ts'
+  import {setCookie, getCookie, deleteCookie} from '../../assets/utils/cookie.ts'
   import {Vue, Component} from 'vue-property-decorator'
 
   @Component({})

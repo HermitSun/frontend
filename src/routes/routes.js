@@ -7,6 +7,7 @@ import Home from '../views/home/Home.vue'
 
 Vue.use(Router);
 export default new Router({
+    modes: 'history',
     routes: [
         {
             path: '/',
@@ -22,6 +23,10 @@ export default new Router({
             path: '/home',
             name: 'Home',
             component: Home
+        },
+        {
+            path: '*',
+            redirect: '/'
         }
     ]
 })

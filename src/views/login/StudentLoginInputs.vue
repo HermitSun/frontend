@@ -31,7 +31,7 @@
 
 <script lang="ts">
   import {Vue, Component} from 'vue-property-decorator'
-  import {setCookie} from '../../assets/js/cookie.ts'
+  import {setCookie} from '../../assets/utils/cookie.ts'
   import {bus} from './bus.ts'
   import axios from 'axios'
 
@@ -64,8 +64,11 @@
           if (response.data.isSucceed) {
             this.promptContent = "登錄成功"
             this.showPrompt = true
-            setCookie('emailAddress', this.emailAddress, 1000 * 60)
-            setCookie('username', response.data.information, 1000 * 60)
+            new Promise(resolve => {
+              setCookie('emailAddress', this.emailAddress, 1000 * 60)
+              setCookie('username', response.data.information, 1000 * 60)
+            }).then()
+
             setTimeout(function () {
               this.$router.push('/home')
             }.bind(this), 1000)

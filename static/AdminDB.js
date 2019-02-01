@@ -73,8 +73,8 @@ module.exports = {
         }).then((value) => {
             let user = {
                 id: value[0].id,
-                username: value[0].username,
-                password: value[0].password
+                password: value[0].password,
+                name: value[0].name
             };
             return JSON.stringify(user);
         }, (value) => {

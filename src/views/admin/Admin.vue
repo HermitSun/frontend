@@ -3,32 +3,62 @@
         <!--标题栏-->
         <el-col :span="24" class="header">
             <el-col :span="10" class="logo" :class="this.collapsed?'logo-collapse-width':'logo-width'">
-                <img src="./img/NJULogo.png" alt="NJU's logo"/>
+                <img src="./img/NJULogo.png" :class="this.collapsed?'logo-img-collapse':'logo-img'" alt="NJU's logo"/>
                 {{this.collapsed?'':this.systemName}}
             </el-col>
             <el-col :span="10">
-                <div class="tools" @click.prevent="collapse">
-                    <el-tooltip class="item" effect="dark" content="收起侧边栏" placement="right">
-                        <i class="fa fa-align-justify"></i>
+                <div class="tools" @click.prevent="handleCollapse">
+                    <el-tooltip placement="right">
+                        <div slot="content">{{this.collapsed?'打开侧边栏':'收起侧边栏'}}</div>
+                        <i class="fa fa-arrow-right" v-if="this.collapsed"></i>
+                        <i class="fa fa-arrow-left" v-else></i>
                     </el-tooltip>
                 </div>
             </el-col>
-            <el-col :span="4" class="userinfo">
+            <el-col :span="4" class="userInfo">
                 <el-dropdown trigger="hover">
-                    <span class="el-dropdown-link userinfo-inner">
+                    <span class="el-dropdown-link userInfo-inner">
                         <img :src="this.userAvatar?this.userAvatar:require('./img/avatar.jpg')"/>
                         {{this.userName}}
                     </span>
                     <el-dropdown-menu slot="dropdown">
                         <el-dropdown-item>消息</el-dropdown-item>
                         <el-dropdown-item>设置</el-dropdown-item>
-                        <el-dropdown-item divided @click.native="logout">退出登录</el-dropdown-item>
+                        <el-dropdown-item divided @click.native="logout">退出</el-dropdown-item>
                     </el-dropdown-menu>
                 </el-dropdown>
             </el-col>
         </el-col>
-        <!--侧边栏-->
-
+        <el-col :span="24" class="main">
+            <!--侧边栏-->
+            <aside :class="this.collapsed?'menu-collapsed':'menu-expanded'">
+                <el-menu default-active="1-1" :default-openeds="['1','2']" class="el-menu-vertical-demo"
+                         @open="handleOpen" @close="handleClose" :collapse="this.collapsed" background-color="#eef1f6"
+                         :collapse-transition="false" :router="true">
+                    <el-submenu index="1">
+                        <template slot="title">
+                            <i class="el-icon-date"></i>
+                            <span slot="title">招生</span>
+                        </template>
+                        <el-menu-item index="1-1">开启本次招生</el-menu-item>
+                        <el-menu-item index="1-2">设置招生专业</el-menu-item>
+                    </el-submenu>
+                    <el-submenu index="2">
+                        <template slot="title">
+                            <i class="el-icon-edit-outline"></i>
+                            <span slot="title">审核</span>
+                        </template>
+                        <el-menu-item index="2-1">未通过</el-menu-item>
+                        <el-menu-item index="2-2">已通过</el-menu-item>
+                        <el-menu-item index="2-2">全部</el-menu-item>
+                    </el-submenu>
+                    <el-menu-item index="3" :disabled="this.collapsed?false:true">
+                        <i class="el-icon-message"></i>
+                        <span slot="title">发布</span>
+                    </el-menu-item>
+                </el-menu>
+            </aside>
+        </el-col>
     </el-row>
 </template>
 
@@ -39,7 +69,7 @@
   @Component({})
   export default class extends Vue {
     systemName: string = '台湾免试生管理系统'
-    collapsed: boolean = false
+    collapsed: boolean = false//是否折叠（默认否）
     userName: string = ''
     userAvatar: string = ''
 
@@ -52,12 +82,20 @@
       }
     }
 
-    collapse () {
+    handleCollapse () {
       this.collapsed = !this.collapsed
     }
 
+    handleOpen (key, keyPath) {
+      console.log(key, keyPath)
+    }
+
+    handleClose (key, keyPath) {
+      console.log(key, keyPath)
+    }
+
     logout () {
-      this.$confirm('确认退出吗?', '提示', {})
+      this.$confirm('确认退出?', '提示', {})
         .then(() => {
           deleteCookie('username')
           deleteCookie('name')
@@ -85,12 +123,12 @@
             background: $color-primary;
             color: #fff;
 
-            .userinfo {
+            .userInfo {
                 text-align: right;
                 padding-right: 35px;
                 float: right;
 
-                .userinfo-inner {
+                .userInfo-inner {
                     cursor: pointer;
                     color: #fff;
 
@@ -112,9 +150,16 @@
                 padding-top: 5px;
                 background: $color-primary;
 
-                img {
-                    position: absolute;
+                .logo-img-collapse {
                     width: 50px;
+                    position: absolute;
+                    left: 5px;
+                    top: 23px;
+                }
+
+                .logo-img {
+                    width: 50px;
+                    position: absolute;
                     left: 10px;
                     top: 5px;
                 }
@@ -150,13 +195,18 @@
             overflow: hidden;
 
             aside {
-                flex: 0 0 230px;
-                width: 230px;
+                flex: 0 0 250px;
+                width: 250px;
                 // position: absolute;
                 // top: 0px;
                 // bottom: 0px;
                 .el-menu {
                     height: 100%;
+
+                    .el-menu-item {
+                        background: #ffffff !important;
+                        font-size: 14px !important;
+                    }
                 }
 
                 .collapsed {
@@ -168,7 +218,7 @@
 
                     .submenu {
                         position: absolute;
-                        top: 0px;
+                        top: 0;
                         left: 60px;
                         z-index: 99999;
                         height: auto;
@@ -184,8 +234,8 @@
             }
 
             .menu-expanded {
-                flex: 0 0 230px;
-                width: 230px;
+                flex: 0 0 200px;
+                width: 200px;
             }
 
             .content-container {

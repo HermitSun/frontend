@@ -64,11 +64,8 @@
           if (response.data.isSucceed) {
             this.promptContent = "登錄成功"
             this.showPrompt = true
-            new Promise(resolve => {
-              setCookie('emailAddress', this.emailAddress, 1000 * 60)
-              setCookie('username', response.data.information, 1000 * 60)
-            }).then()
-
+            setCookie('emailAddress', this.emailAddress, 1000 * 60)
+            setCookie('username', response.data.information, 1000 * 60)
             setTimeout(function () {
               this.$router.push('/home')
             }.bind(this), 1000)
@@ -102,12 +99,10 @@
     }
 
     private switchRegister () {
-      console.log('register')
       bus.$emit('switch-page', LoginPages.REGISTER)
     }
 
     private switchAdmin () {
-      console.log('admin')
       bus.$emit('switch-page', LoginPages.ADMIN)
     }
   }

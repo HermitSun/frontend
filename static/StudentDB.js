@@ -75,6 +75,7 @@ module.exports = {
         }).then((value) => {
             let user = {
                 id: value[0].id,
+                emailAddress: value[0].emailAddress,
                 username: value[0].username,
                 password: value[0].password
             };

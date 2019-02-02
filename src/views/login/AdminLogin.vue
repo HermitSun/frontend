@@ -62,7 +62,8 @@
             this.promptContent = "登录成功"
             this.showPrompt = true
             setCookie('username', this.username, 1000 * 60)
-            setCookie('name', response.data.information, 1000 * 60)
+            setCookie('actualName', response.data.information, 1000 * 60)
+            console.log(document.cookie)
             setTimeout(function () {
               this.$router.push('/admin')
             }.bind(this), 1000)
@@ -96,7 +97,6 @@
     }
 
     private switchStudent () {
-      console.log('student')
       bus.$emit('switch-page', LoginPages.STUDENT)
     }
   }

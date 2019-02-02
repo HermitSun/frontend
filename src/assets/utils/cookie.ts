@@ -6,7 +6,7 @@ export function setCookie (cookieName: string, value: string, expire: number) {
   console.log(document.cookie)
 }
 
-/*获取cookie*/
+/*获取cookie，尽量避免一个cookie的名字是另一个cookie的子串，否则会出现神秘bug*/
 export function getCookie (cookieName: string) {
   if (document.cookie.length > 0) {
     let cookieStart = document.cookie.indexOf(cookieName + '=')

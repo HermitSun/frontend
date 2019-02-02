@@ -10,8 +10,8 @@
                 <div class="tools" @click.prevent="handleCollapse">
                     <el-tooltip placement="right">
                         <div slot="content">{{this.collapsed?'打开侧边栏':'收起侧边栏'}}</div>
-                        <i class="fa fa-arrow-right" v-if="this.collapsed"></i>
-                        <i class="fa fa-arrow-left" v-else></i>
+                        <i class="el-icon-arrow-left" v-if="this.collapsed"></i>
+                        <i class="el-icon-arrow-right" v-else></i>
                     </el-tooltip>
                 </div>
             </el-col>
@@ -32,15 +32,15 @@
         <el-col :span="24" class="main">
             <!--侧边栏-->
             <aside :class="this.collapsed?'menu-collapsed':'menu-expanded'">
-                <el-menu default-active="1-1" :default-openeds="['1','2']" class="el-menu-vertical-demo"
-                         @open="handleOpen" @close="handleClose" :collapse="this.collapsed" background-color="#eef1f6"
-                         :collapse-transition="false" :router="true">
+                <el-menu :default-openeds="['1','2']" @open="handleOpen" @close="handleClose" :unique-opened="true"
+                         background-color="#eef1f6" :collapse="this.collapsed" :collapse-transition="false"
+                         :router="true">
                     <el-submenu index="1">
                         <template slot="title">
                             <i class="el-icon-date"></i>
-                            <span slot="title">招生</span>
+                            <span slot="title" style="font-size: medium;">招生</span>
                         </template>
-                        <el-menu-item index="1-1">开启本次招生</el-menu-item>
+                        <el-menu-item index="1-1" @click="toForm()">开启本次招生</el-menu-item>
                         <el-menu-item index="1-2">设置招生专业</el-menu-item>
                     </el-submenu>
                     <el-submenu index="2">
@@ -52,7 +52,7 @@
                         <el-menu-item index="2-2">已通过</el-menu-item>
                         <el-menu-item index="2-2">全部</el-menu-item>
                     </el-submenu>
-                    <el-menu-item index="3" :disabled="this.collapsed?false:true">
+                    <el-menu-item index="3" :disabled="!this.collapsed">
                         <i class="el-icon-message"></i>
                         <span slot="title">发布</span>
                     </el-menu-item>
@@ -74,8 +74,7 @@
     userAvatar: string = ''
 
     mounted () {
-      this.userName = getCookie('name')
-      console.log(this.userName)
+      this.userName = getCookie('actualName')
       /*如果cookie不存在，则跳转到登录页*/
       if (this.userName == '') {
         this.$router.push('/')
@@ -87,18 +86,22 @@
     }
 
     handleOpen (key, keyPath) {
-      console.log(key, keyPath)
+      // console.log(key, keyPath)
     }
 
     handleClose (key, keyPath) {
-      console.log(key, keyPath)
+      // console.log(key, keyPath)
+    }
+
+    toForm () {
+      this.$router.push('/admin/form')
     }
 
     logout () {
       this.$confirm('确认退出?', '提示', {})
         .then(() => {
           deleteCookie('username')
-          deleteCookie('name')
+          deleteCookie('actualName')
           this.$router.push('/')
         })
         .catch(() => {
@@ -203,9 +206,18 @@
                 .el-menu {
                     height: 100%;
 
+                    /deep/ span {
+                        font-weight: bold !important;
+                    }
+
+                    //利用深选择器修改字体粗细（卑微）
+
                     .el-menu-item {
-                        background: #ffffff !important;
-                        font-size: 14px !important;
+                        background-color: #e4e8f1 !important;
+                    }
+
+                    .el-menu-item:hover {
+                        background-color: #8c939d !important;
                     }
                 }
 

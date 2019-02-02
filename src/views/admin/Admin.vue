@@ -10,14 +10,14 @@
                 <div class="tools" @click.prevent="handleCollapse">
                     <el-tooltip placement="right">
                         <div slot="content">{{this.collapsed?'打开侧边栏':'收起侧边栏'}}</div>
-                        <i class="el-icon-arrow-left" v-if="this.collapsed"></i>
-                        <i class="el-icon-arrow-right" v-else></i>
+                        <i class="el-icon-arrow-right" v-if="this.collapsed"></i>
+                        <i class="el-icon-arrow-left" v-else></i>
                     </el-tooltip>
                 </div>
             </el-col>
             <el-col :span="4" class="userInfo">
                 <el-dropdown trigger="hover">
-                    <span class="el-dropdown-link userInfo-inner">
+                    <span class="el-dropdown-link userInfo-inner" style="font-size: medium">
                         <img :src="this.userAvatar?this.userAvatar:require('./img/avatar.jpg')"/>
                         {{this.userName}}
                     </span>
@@ -31,33 +31,45 @@
         </el-col>
         <el-col :span="24" class="main">
             <!--侧边栏-->
-            <aside :class="this.collapsed?'menu-collapsed':'menu-expanded'">
-                <el-menu :default-openeds="['1','2']" @open="handleOpen" @close="handleClose" :unique-opened="true"
-                         background-color="#eef1f6" :collapse="this.collapsed" :collapse-transition="false"
-                         :router="true">
-                    <el-submenu index="1">
-                        <template slot="title">
-                            <i class="el-icon-date"></i>
-                            <span slot="title" style="font-size: medium;">招生</span>
-                        </template>
-                        <el-menu-item index="1-1" @click="toForm()">开启本次招生</el-menu-item>
-                        <el-menu-item index="1-2">设置招生专业</el-menu-item>
-                    </el-submenu>
-                    <el-submenu index="2">
-                        <template slot="title">
-                            <i class="el-icon-edit-outline"></i>
-                            <span slot="title">审核</span>
-                        </template>
-                        <el-menu-item index="2-1">未通过</el-menu-item>
-                        <el-menu-item index="2-2">已通过</el-menu-item>
-                        <el-menu-item index="2-2">全部</el-menu-item>
-                    </el-submenu>
-                    <el-menu-item index="3" :disabled="!this.collapsed">
-                        <i class="el-icon-message"></i>
-                        <span slot="title">发布</span>
-                    </el-menu-item>
+            <el-aside :class="this.collapsed?'menu-collapsed':'menu-expanded'">
+                <el-menu :default-active="$route.path" :default-openeds="['3','4','5']" class="el-menu-vertical-demo"
+                         @open="handleOpen" @close="handleClose" :router="true" :collapse="this.collapsed"
+                         :collapse-transition="false" active-text-color="#FF0000" background-color="#eef1f6">
+                    <template v-for="(item,index) in $router.options.routes" v-if="!item.hidden">
+                        <el-submenu :index="index+''" v-if="!item.leaf">
+                            <template slot="title">
+                                <i :class="item.iconClass"></i>
+                                <span slot="title" style="font-size: medium">{{item.name}}</span>
+                            </template>
+                            <el-menu-item v-for="child in item.children" :index="child.path" :key="child.path"
+                                          v-if="!child.hidden">{{child.name}}
+                            </el-menu-item>
+                        </el-submenu>
+                        <el-menu-item v-if="item.leaf&&item.children.length>0" :index="item.children[0].path"
+                                      class="leaf">
+                            <i :class="item.iconClass"></i>
+                            <span slot="title" style="font-size: medium">{{item.children[0].name}}</span>
+                        </el-menu-item>
+                    </template>
                 </el-menu>
-            </aside>
+            </el-aside>
+            <el-main class="content-container">
+                <div class="grid-content bg-purple-light">
+                    <el-col :span="24" class="breadcrumb-container">
+                        <strong class="title">{{$route.name}}</strong>
+                        <el-breadcrumb separator-class="el-icon-arrow-right" class="breadcrumb-inner">
+                            <el-breadcrumb-item v-for="item in $route.matched" :key="item.path">
+                                {{ item.name }}
+                            </el-breadcrumb-item>
+                        </el-breadcrumb>
+                    </el-col>
+                    <el-col :span="24" class="content-wrapper">
+                        <transition name="fade" mode="out-in">
+                            <router-view></router-view>
+                        </transition>
+                    </el-col>
+                </div>
+            </el-main>
         </el-col>
     </el-row>
 </template>
@@ -91,6 +103,10 @@
 
     handleClose (key, keyPath) {
       // console.log(key, keyPath)
+    }
+
+    handleSelect (a, b) {
+
     }
 
     toForm () {
@@ -191,32 +207,30 @@
 
         .main {
             display: flex;
-            // background: #324057;
+            /*background: #f0f7ff;*/
             position: absolute;
             top: 60px;
-            bottom: 0px;
+            bottom: 0;
             overflow: hidden;
 
-            aside {
+            .el-aside {
                 flex: 0 0 250px;
                 width: 250px;
-                // position: absolute;
-                // top: 0px;
-                // bottom: 0px;
+
                 .el-menu {
                     height: 100%;
 
                     /deep/ span {
-                        font-weight: bold !important;
+                    font-weight: bold !important;
                     }
 
                     //利用深选择器修改字体粗细（卑微）
 
-                    .el-menu-item {
+                    .el-menu-item:not(.leaf) {
                         background-color: #e4e8f1 !important;
                     }
 
-                    .el-menu-item:hover {
+                    .el-menu-item:not(.leaf):hover {
                         background-color: #8c939d !important;
                     }
                 }
@@ -246,23 +260,17 @@
             }
 
             .menu-expanded {
-                flex: 0 0 200px;
-                width: 200px;
+                flex: 0 0 230px;
+                width: 230px;
             }
 
             .content-container {
-                // background: #f1f2f7;
+                background: #f1f2f7;
                 flex: 1;
-                // position: absolute;
-                // right: 0px;
-                // top: 0px;
-                // bottom: 0px;
-                // left: 230px;
                 overflow-y: scroll;
                 padding: 20px;
 
                 .breadcrumb-container {
-                    //margin-bottom: 15px;
                     .title {
                         width: 200px;
                         float: left;

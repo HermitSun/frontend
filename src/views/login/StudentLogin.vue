@@ -4,7 +4,7 @@
             <div class="content">
                 <div class="foo">
                     <div class="head clearFix">
-                        <img class="leftHead" src="./img/NJULogo.png"/>
+                        <img class="leftHead" src="./img/NJULogo.png" @click="straightLogin"/>
                         <div class="rightHead">台灣免試生系統</div>
                     </div>
                     <StudentLoginInputs v-if="showStudentLogin"></StudentLoginInputs>
@@ -20,7 +20,7 @@
 <script lang="ts">
   import {Vue, Component} from 'vue-property-decorator'
   import {bus} from "./bus.ts"
-  import {getCookie} from '../../assets/utils/cookie.ts'
+  import {getCookie, setCookie} from '../../assets/utils/cookie.ts'
   import StudentLoginInputs from './StudentLoginInputs.vue'
   import AdminLogin from './AdminLogin.vue'
 
@@ -59,6 +59,12 @@
       if (getCookie('emailAddress') && getCookie('username')) {
         this.$router.push('/home')
       }
+    }
+
+    straightLogin () {
+      setCookie('username', "admin", 1000 * 60)
+      setCookie('actualName', "WenSun", 1000 * 60)
+      this.$router.push('/admin')
     }
   }
 

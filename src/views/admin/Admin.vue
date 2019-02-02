@@ -32,9 +32,9 @@
         <el-col :span="24" class="main">
             <!--侧边栏-->
             <el-aside :class="this.collapsed?'menu-collapsed':'menu-expanded'">
-                <el-menu :default-active="$route.path" :default-openeds="['3','4','5']" class="el-menu-vertical-demo"
-                         @open="handleOpen" @close="handleClose" :router="true" :collapse="this.collapsed"
-                         :collapse-transition="false" active-text-color="#FF0000" background-color="#eef1f6">
+                <el-menu :default-active="$route.path" :default-openeds="['3','4','5']" @open="handleOpen"
+                         @close="handleClose" :router="true" :collapse="this.collapsed" :collapse-transition="false"
+                         active-text-color="#FF0000" background-color="#eef1f6">
                     <template v-for="(item,index) in $router.options.routes" v-if="!item.hidden">
                         <el-submenu :index="index+''" v-if="!item.leaf">
                             <template slot="title">
@@ -45,8 +45,7 @@
                                           v-if="!child.hidden">{{child.name}}
                             </el-menu-item>
                         </el-submenu>
-                        <el-menu-item v-if="item.leaf&&item.children.length>0" :index="item.children[0].path"
-                                      class="leaf">
+                        <el-menu-item v-if="item.leaf" :index="item.children[0].path" class="leaf">
                             <i :class="item.iconClass"></i>
                             <span slot="title" style="font-size: medium">{{item.children[0].name}}</span>
                         </el-menu-item>
@@ -221,7 +220,7 @@
                     height: 100%;
 
                     /deep/ span {
-                    font-weight: bold !important;
+                        font-weight: bold !important;
                     }
 
                     //利用深选择器修改字体粗细（卑微）

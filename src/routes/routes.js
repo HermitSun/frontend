@@ -33,7 +33,7 @@ export default new Router({
         },
         {
             path: '/admin',
-            name: 'Admin',
+            name: '首页',
             component: Admin,
             hidden: true
         },
@@ -43,9 +43,9 @@ export default new Router({
             name: '招生',
             iconClass: 'el-icon-date',//图标
             children: [
-                {path: '/start-enroll', component: StartEnrollment, name: '开启本次招生'},
-                {path: '/set-profess', component: SetProfessions, name: '设置招生专业'},
-                {path: '/end-enroll', component: EndEnrollment, name: '结束本次招生'}
+                {path: '/admin/start-enroll', component: StartEnrollment, name: '开启本次招生'},
+                {path: '/admin/set-profess', component: SetProfessions, name: '设置招生专业'},
+                {path: '/admin/end-enroll', component: EndEnrollment, name: '结束本次招生'}
             ]
         },
         {
@@ -54,9 +54,9 @@ export default new Router({
             name: '审核',
             iconClass: 'el-icon-edit-outline',
             children: [
-                {path: '/not-pass-stu', component: NotPassStudents, name: '未通过'},
-                {path: '/passed-stu', component: PassedStudents, name: '已通过'},
-                {path: '/all-stu', component: AllStudents, name: '全部'}
+                {path: '/admin/not-pass-stu', component: NotPassStudents, name: '未通过'},
+                {path: '/admin/passed-stu', component: PassedStudents, name: '已通过'},
+                {path: '/admin/all-stu', component: AllStudents, name: '全部'}
             ]
         },
         {
@@ -66,9 +66,9 @@ export default new Router({
             iconClass: 'el-icon-message',
             // leaf: true,//只有一个节点
             children: [
-                {path: '/edit-msg', component: EditMessage, name: '编辑消息'},
-                {path: '/edit-email', component: EditEmail, name: '编辑邮件'},
-                {path: '/pub-res', component: PublishResult, name: '发布结果'}
+                {path: '/admin/edit-msg', component: EditMessage, name: '编辑消息'},
+                {path: '/admin/edit-email', component: EditEmail, name: '编辑邮件'},
+                {path: '/admin/pub-res', component: PublishResult, name: '发布结果'}
             ]
         },
         {

@@ -3,8 +3,11 @@
         <!--标题栏-->
         <el-col :span="24" class="header">
             <el-col :span="10" class="logo" :class="this.collapsed?'logo-collapse-width':'logo-width'">
-                <img src="./img/NJULogo.png" :class="this.collapsed?'logo-img-collapse':'logo-img'" alt="NJU's logo"/>
+                <div @click="backToIndex" style="cursor: pointer">
+                    <img src="./img/NJULogo.png" :class="this.collapsed?'logo-img-collapse':'logo-img'"
+                         alt="NJU's logo"/>
                 {{this.collapsed?'':this.systemName}}
+                </div>
             </el-col>
             <el-col :span="10">
                 <div class="tools" @click.prevent="handleCollapse">
@@ -45,7 +48,7 @@
                                           v-if="!child.hidden">{{child.name}}
                             </el-menu-item>
                         </el-submenu>
-                        <el-menu-item v-if="item.leaf" :index="item.children[0].path" class="leaf">
+                        <el-menu-item v-else :index="item.children[0].path" class="leaf">
                             <i :class="item.iconClass"></i>
                             <span slot="title" style="font-size: medium">{{item.children[0].name}}</span>
                         </el-menu-item>
@@ -63,6 +66,7 @@
                         </el-breadcrumb>
                     </el-col>
                     <el-col :span="24" class="content-wrapper">
+                        <Guide v-show="$route.path==='/admin'"></Guide>
                         <transition name="fade" mode="out-in">
                             <router-view></router-view>
                         </transition>
@@ -75,9 +79,12 @@
 
 <script lang="ts">
   import {Vue, Component} from 'vue-property-decorator'
-  import {getCookie, deleteCookie} from "../../assets/utils/cookie.ts"
+  import {getCookie, deleteCookie} from '../../assets/utils/cookie.ts'
+  import Guide from './Guide.vue'
 
-  @Component({})
+  @Component({
+    components: {Guide}
+  })
   export default class extends Vue {
     systemName: string = '台湾免试生管理系统'
     collapsed: boolean = false//是否折叠（默认否）
@@ -108,8 +115,8 @@
 
     }
 
-    toForm () {
-      this.$router.push('/admin/form')
+    backToIndex () {
+      this.$router.push('/admin')
     }
 
     logout () {
@@ -206,7 +213,6 @@
 
         .main {
             display: flex;
-            /*background: #f0f7ff;*/
             position: absolute;
             top: 60px;
             bottom: 0;
@@ -264,7 +270,7 @@
             }
 
             .content-container {
-                background: #f1f2f7;
+                /*background: #f1f2f7;*/
                 flex: 1;
                 overflow-y: scroll;
                 padding: 20px;

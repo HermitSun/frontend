@@ -15,7 +15,7 @@ export const getCaptcha = () => {
 };
 
 export const verifyCode = params => {
-    return axios.get(`${base}/email/verification`, params);
+    return axios.get(`${base}/email/verification`, {params: params});
 };
 
 export const sendEmail = params => {
@@ -27,11 +27,11 @@ export const registerUser = params => {
 };
 
 export const checkStuList = params => {
-    return axios.get(`${base}/list/getlist`, params);
+    return axios.get(`${base}/list/getlist`, {params: params});
 };
 
 export const checkStuDetail = () => {
-    return axios.get(`${base}/list/detail`, params);
+    return axios.get(`${base}/list/detail`);
 };
 
 export const setMessage = params => {

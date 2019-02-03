@@ -69,6 +69,7 @@
 
 <script lang="ts">
   import {Vue, Component} from 'vue-property-decorator'
+  import {} from '../../../assets/utils/api'
 
   @Component({})
   export default class AllStudents extends Vue {

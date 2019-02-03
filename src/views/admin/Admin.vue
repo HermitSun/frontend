@@ -6,7 +6,7 @@
                 <div @click="backToIndex" style="cursor: pointer">
                     <img src="./img/NJULogo.png" :class="this.collapsed?'logo-img-collapse':'logo-img'"
                          alt="NJU's logo"/>
-                {{this.collapsed?'':this.systemName}}
+                    {{this.collapsed?'':this.systemName}}
                 </div>
             </el-col>
             <el-col :span="10">
@@ -35,9 +35,9 @@
         <el-col :span="24" class="main">
             <!--侧边栏-->
             <el-aside :class="this.collapsed?'menu-collapsed':'menu-expanded'">
-                <el-menu :default-active="$route.path" :default-openeds="['3','4','5']" @open="handleOpen"
-                         @close="handleClose" :router="true" :collapse="this.collapsed" :collapse-transition="false"
-                         active-text-color="#FF0000" background-color="#eef1f6">
+                <el-menu :default-active="$route.path" :default-openeds="['3','4','5']" :router="true"
+                         :collapse="this.collapsed" :collapse-transition="false" active-text-color="#FF0000"
+                         background-color="#eef1f6">
                     <template v-for="(item,index) in $router.options.routes" v-if="!item.hidden">
                         <el-submenu :index="index+''" v-if="!item.leaf">
                             <template slot="title">
@@ -101,18 +101,6 @@
 
     handleCollapse () {
       this.collapsed = !this.collapsed
-    }
-
-    handleOpen (key, keyPath) {
-      // console.log(key, keyPath)
-    }
-
-    handleClose (key, keyPath) {
-      // console.log(key, keyPath)
-    }
-
-    handleSelect (a, b) {
-
     }
 
     backToIndex () {

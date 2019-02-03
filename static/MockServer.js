@@ -68,6 +68,30 @@ app.post('/login/admin', jsonParser, async (req, res) => {
     res.json(result);
 });
 
+app.get('/list/getlist', jsonParser, async (req, res) => {
+    let {page, name} = req.query;
+    let allStudents = await sdb.getAll();
+    let actualStudents = allStudents.filter(user => {
+        return !(name && user.username.indexOf(name) === -1);
+    });
+    let total = actualStudents.length;
+    let temp = [];
+    for (let i = 0; i < total; ++i) {
+        temp.push({
+            id: actualStudents[i].id,
+            name: actualStudents[i].username,
+            gender: actualStudents[i].gender,
+            score: actualStudents[i].score,
+            school: actualStudents[i].highSchool
+        });
+    }
+    actualStudents = temp.filter((u, index) => index < 15 * page && index >= 15 * (page - 1));
+    res.json({
+        total: total,
+        stuList: actualStudents
+    });
+});
+
 app.listen(3000, () => {
     console.log('I\'m listening on port 3000!')
 });

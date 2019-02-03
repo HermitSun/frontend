@@ -55,7 +55,7 @@ module.exports = {
         closeConnection();
     },
     get: function (emailAddress) {
-        return new Promise((resolve, reject) => {
+        return new Promise(resolve => {
             openConnection();
             let params = [emailAddress];
             let sql = "select * from userinfo where emailAddress = ?;";
@@ -85,6 +85,24 @@ module.exports = {
         }).catch((err) => {
             console.log(err);
         });
+    },
+    getAll: function () {
+        openConnection();
+        let sql = "SELECT * FROM userinfo order by id asc;";
+        return new Promise(resolve => {
+            connection.query(sql, function (err, results) {
+                if (err) {
+                    console.log("[SELECT ERROR] - ", err.message);
+                    return;
+                }
+                if (results) {
+                    resolve(results);
+                }
+            });
+            closeConnection();
+        }).then(value => {
+            return value;
+        })
     },
     showAll: function () {
         openConnection();

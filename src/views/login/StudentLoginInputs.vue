@@ -23,8 +23,8 @@
         </div>
         <div class="footer">
             <router-link to="#" class="router1">忘記密碼</router-link>
-            <a href="#" class="router2" @click="switchRegister">沒有賬號？現在註冊</a>
-            <a href="#" class="router3" @click="switchAdmin">管理员入口</a>
+            <a class="router2" @click="switchRegister">沒有賬號？現在註冊</a>
+            <a class="router3" @click="switchAdmin">管理员入口</a>
         </div>
     </div>
 </template>
@@ -32,8 +32,8 @@
 <script lang="ts">
   import {Vue, Component} from 'vue-property-decorator'
   import {setCookie} from '../../assets/utils/cookie.ts'
+  import {getCaptcha, studentLogin} from '../../assets/utils/api'
   import {bus} from './bus.ts'
-  import axios from 'axios'
 
   @Component({})
   export default class StudentLoginInputs extends Vue {
@@ -54,12 +54,11 @@
         alert("請輸入驗證碼")
       } else {
         /*接口请求*/
-        axios.post('http://localhost:3000/login/student', {
+        studentLogin({
           'emailAddress': this.emailAddress,
           'password': this.password,
           'captcha': this.captcha
         }).then((response) => {
-          // console.log(response)
           console.log(response.data)
           if (response.data.isSucceed) {
             this.promptContent = "登錄成功"
@@ -89,7 +88,7 @@
     }
 
     private getCaptcha () {
-      axios.get('http://localhost:3000/login/captcha')
+      getCaptcha()
         .then((response) => {
           this.captcha = response.data.captchaImage
         })

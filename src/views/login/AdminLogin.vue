@@ -31,8 +31,8 @@
 <script lang="ts">
   import {Vue, Component} from 'vue-property-decorator'
   import {setCookie} from '../../assets/utils/cookie.ts'
+  import {adminLogin, getCaptcha} from '../../assets/utils/api'
   import {bus} from './bus.ts'
-  import axios from 'axios'
 
   @Component({})
   export default class AdminLogin extends Vue {
@@ -52,7 +52,7 @@
         alert("请输入验证码")
       } else {
         /*接口请求*/
-        axios.post('http://localhost:3000/login/admin', {
+        adminLogin({
           'username': this.username,
           'password': this.password,
           'captcha': this.captcha
@@ -87,7 +87,7 @@
     }
 
     private getCaptcha () {
-      axios.get('http://localhost:3000/login/captcha')
+      getCaptcha()
         .then((response) => {
           this.captcha = response.data.captchaImage
         })

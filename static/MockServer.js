@@ -85,7 +85,7 @@ app.get('/list/getlist', jsonParser, async (req, res) => {
             school: actualStudents[i].highSchool
         });
     }
-    actualStudents = temp.filter((u, index) => index < 15 * page && index >= 15 * (page - 1));
+    actualStudents = temp.filter((u, index) => 15 * (page - 1) <= index && index < 15 * page);
     res.json({
         total: total,
         stuList: actualStudents

@@ -64,6 +64,30 @@
                            :total="total" style="float:right;">
             </el-pagination>
         </el-col>
+        <!--编辑-->
+        <el-dialog title="编辑" :visible.snyc="editFormVisible" :before-close="handleEditClose">
+            <el-form :model="editForm" label-width="80px" :rules="editFormRules" ref="editForm">
+                <el-form-item label="姓名" prop="name">
+                    <el-input v-model="editForm.name" auto-complete="off"></el-input>
+                </el-form-item>
+                <el-form-item label="性别">
+                    <el-radio-group v-model="editForm.gender">
+                        <el-radio class="radio" :label="'男'">男</el-radio>
+                        <el-radio class="radio" :label="'女'">女</el-radio>
+                    </el-radio-group>
+                </el-form-item>
+                <el-form-item label="总级分">
+                    <el-input-number v-model="editForm.score" :min="0" :max="72"></el-input-number>
+                </el-form-item>
+                <el-form-item label="就读高中">
+                    <el-input v-model="editForm.school"></el-input>
+                </el-form-item>
+            </el-form>
+            <div slot="footer" class="dialog-footer">
+                <el-button @click.native="editFormVisible = false">取消</el-button>
+                <el-button type="primary" @click.native="editSubmit" :loading="editLoading">提交</el-button>
+            </div>
+        </el-dialog>
     </el-main>
 </template>
 
@@ -81,6 +105,21 @@
     total: number = 0
     page: number = 1
     listLoading: boolean = false
+
+    editFormVisible: boolean = false//是否显示编辑界面
+    editLoading: boolean = false
+    editFormRules = {
+      name: [
+        {required: true, message: '请输入姓名', trigger: 'blur'}
+      ]
+    }
+    editForm = {
+      id: 0,
+      name: '',
+      gender: '',
+      score: 0,
+      school: ''
+    }
 
     mounted () {
       this.getStudents()
@@ -106,12 +145,47 @@
         })
     }
 
-    handleEdit () {
+    handleEdit (index, row) {
+      this.editFormVisible = true
+      this.editForm = (<any> Object).assign({}, row)
+      console.log(this.editForm)
+    }
 
+    handleEditClose () {
+      this.$confirm('确认关闭？')
+        .then(() => {
+          this.editFormVisible = false
+        })
+        .catch(() => {
+        })
     }
 
     handlePass () {
 
+    }
+
+    editSubmit () {
+      //   this.$refs.editForm.validate((valid) => {
+      //     if (valid) {
+      //       this.$confirm('确认提交吗？', '提示', {}).then(() => {
+      //         this.editLoading = true
+      //         //NProgress.start();
+      //         let para = Object.assign({}, this.editForm)
+      //         para.birth = (!para.birth || para.birth == '') ? '' : util.formatDate.format(new Date(para.birth), 'yyyy-MM-dd')
+      //         editUser(para).then((res) => {
+      //           this.editLoading = false
+      //           //NProgress.done();
+      //           this.$message({
+      //             message: '提交成功',
+      //             type: 'success'
+      //           })
+      //           this.$refs['editForm'].resetFields()
+      //           this.editFormVisible = false
+      //           this.getUsers()
+      //         })
+      //       })
+      //     }
+      //   })
     }
 
     batchExport () {

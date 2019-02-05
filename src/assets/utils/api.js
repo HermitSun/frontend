@@ -45,3 +45,7 @@ export const getMessage = () => {
 export const remind = () => {
     return axios.post(`${base}/email/remind`);
 };
+
+export const exportSelected = (params) => {
+    return axios.post(`${base}/form/download`, params);
+};

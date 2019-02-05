@@ -12,7 +12,7 @@
             </el-form>
         </el-col>
         <!--列表-->
-        <el-table :data="students" :highlight-current-row="true" v-loading="listLoading"
+        <el-table :data="students" :highlight-current-row="true" v-loading="listLoading" ref="table"
                   @selection-change="handleSelectionChange" style="width: 100%;">
             <el-table-column type="selection" width="60">
             </el-table-column>
@@ -92,7 +92,7 @@
 </template>
 
 <script>
-    import {checkStuList} from '../../../assets/utils/api';
+    import {checkStuList, exportSelected} from '../../../assets/utils/api';
 
     export default {
         name: 'AllStudents',
@@ -100,7 +100,7 @@
             return {
                 filters: {name: ''},
                 students: [],
-                selected: [],
+                currentSelected: [],
                 allSelected: [],
 
                 total: 0,
@@ -125,11 +125,13 @@
             }
         },
         mounted() {
-            this.getStudents()
+            this.$nextTick(() => {
+                this.getStudents()
+            })
         },
         methods: {
             handleSelectionChange(selected) {
-                this.selected = selected
+                this.currentSelected = selected
             },
             getStudents() {
                 let params = {
@@ -140,19 +142,75 @@
                 checkStuList(params)
                     .then((res) => {
                         this.total = res.data.total;
-                        let list = res.data.stuList;
-                        let temp = this.students.slice(0);
-                        for (let i = 0; i < list.length; ++i) {
-                            if (this.students.indexOf(list[i]) === -1) {
-                                temp.push(list[i]);
-                            }
-                        }
-                        this.students = temp;
-                        console.log(this.students);
+                        this.students = res.data.stuList;
                         this.listLoading = false;
+                    })
+                    .then(() => {
+                        this.setSelectedRow();
                     })
                     .catch(() => {
                     })
+            },
+            handleCurrentChange(val) {
+                this.changePageRecordSelectedData();
+                this.page = val;
+                this.getStudents()
+            },
+            setSelectedRow() {
+                if (this.allSelected.length <= 0) {
+                    return;
+                }
+                let idKey = this.idKey;
+                let allSelectedIds = [];
+                for (let i = 0; i < this.allSelected.length; ++i) {
+                    allSelectedIds.push(this.allSelected[i][idKey])
+                }
+                this.$refs.table.clearSelection();
+                for (let i = 0; i < this.students.length; i++) {
+                    if (allSelectedIds.indexOf(this.students[i][idKey]) >= 0) {
+                        this.$nextTick(() => {
+                            this.$refs.table.toggleRowSelection(this.students[i], true);
+                        });
+                    }
+                }
+            },
+            changePageRecordSelectedData() {
+                let idKey = this.idKey;
+                // 如果总选择为空，直接取当前页选中的数据
+                if (this.allSelected.length <= 0) {
+                    this.allSelected = this.currentSelected;
+                    return;
+                }
+                let allSelectedIds = [];
+                for (let i = 0; i < this.allSelected.length; ++i) {
+                    allSelectedIds.push(this.allSelected[idKey]);
+                }
+                let currentSelectedIds = [];
+                // 获取当前页选中的id
+                for (let i = 0; i < this.currentSelected.length; ++i) {
+                    currentSelectedIds.push(this.currentSelected[i][idKey]);
+                    if (allSelectedIds.indexOf(this.currentSelected[i][idKey]) < 0) {
+                        this.allSelected.push(this.currentSelected[i])
+                    }
+                }
+                let noSelectIds = [];
+                // 获取当前页没有选中的id
+                for (let i = 0; i < this.students.length; ++i) {
+                    if (currentSelectedIds.indexOf(this.students[i][idKey]) < 0) {
+                        noSelectIds.push(this.students[i][idKey])
+                    }
+                }
+                for (let j = 0; j < noSelectIds.length; ++j) {
+                    if (allSelectedIds.indexOf(noSelectIds[i]) >= 0) {
+                        for (let i = 0; i < this.allSelected.length; i++) {
+                            if (this.allSelected[i][idKey] === noSelectIds[i]) {
+                                // 如果总选择中有未被选中的，则删除
+                                this.allSelected.splice(i, 1);
+                                break;
+                            }
+                        }
+                    }
+                }
             },
             handleEdit(index, row) {
                 this.editFormVisible = true;
@@ -194,92 +252,24 @@
                 //   })
             },
             batchExport() {
-                let ids = this.selected.map(item => item.id).toString();
+                let ids = this.allSelected.map(student => student.id);
+                console.log(ids);
                 this.$confirm('确认导出选中记录吗？', '提示', {
                     type: 'warning'
                 }).then(() => {
-                    this.listLoading = true
-                    // let para = {ids: ids}
-                    // batchRemoveUser(para).then((res) => {
-                    //   this.listLoading = false
-                    //   //NProgress.done();
-                    //   this.$message({
-                    //     message: '导出成功',
-                    //     type: 'success'
-                    //   })
-                    //   this.getStudents()
-                    // })
+                    this.listLoading = true;
+                    exportSelected(ids)
+                        .then((res) => {
+                            this.listLoading = false;
+                            this.$message({
+                                message: '导出成功',
+                                type: 'success'
+                            });
+                            this.getStudents();
+                        })
+                        .catch(() => {
+                        })
                 }).catch(() => {
-                })
-            },
-            handleCurrentChange(val) {
-                this.changePageCoreRecordData();
-                this.page = val;
-                this.getStudents()
-            },
-            // 设置选中的方法
-            setSelectRow() {
-                if (!this.allSelected || this.allSelected.length <= 0) {
-                    return
-                }
-                // 标识当前行的唯一键的名称
-                let idKey = this.idKey;
-                let selectAllIds = [];
-                let that = this;
-                this.allSelected.forEach(row => {
-                    selectAllIds.push(row[idKey])
-                });
-                this.$refs.table.clearSelection();
-                for (let i = 0; i < this.students.length; i++) {
-                    if (selectAllIds.indexOf(this.students[i][idKey]) >= 0) {
-                        // 设置选中，记住table组件需要使用ref="table"
-                        this.$refs.table.toggleRowSelection(this.students[i], true);
-                    }
-                }
-            },
-            // 记忆选择核心方法
-            changePageCoreRecordData() {
-                // 标识当前行的唯一键的名称
-                let idKey = this.idKey;
-                let that = this;
-                console.log(this.selected);
-                console.log(this.allSelected);
-                // 如果总记忆中还没有选择的数据，那么就直接取当前页选中的数据，不需要后面一系列计算
-                if (this.allSelected.length <= 0) {
-                    this.allSelected = this.selected;
-                    return
-                }
-                // 总选择里面的key集合
-                let selectAllIds = [];
-                this.allSelected.forEach(row => {
-                    selectAllIds.push(row[idKey])
-                });
-                let selectIds = [];
-                // 获取当前页选中的id
-                this.selected.forEach(row => {
-                    selectIds.push(row[idKey]);
-                    // 如果总选择里面不包含当前页选中的数据，那么就加入到总选择集合里
-                    if (selectAllIds.indexOf(row[idKey]) < 0) {
-                        that.allSelected.push(row)
-                    }
-                });
-                let noSelectIds = [];
-                // 得到当前页没有选中的id
-                this.students.forEach(row => {
-                    if (selectIds.indexOf(row[idKey]) < 0) {
-                        noSelectIds.push(row[idKey])
-                    }
-                });
-                noSelectIds.forEach(id => {
-                    if (selectAllIds.indexOf(id) >= 0) {
-                        for (let i = 0; i < that.allSelected.length; i++) {
-                            if (that.allSelected[i][idKey] === id) {
-                                // 如果总选择中有未被选中的，那么就删除这条
-                                that.allSelected.splice(i, 1);
-                                break
-                            }
-                        }
-                    }
                 })
             }
         }

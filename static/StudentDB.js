@@ -22,9 +22,10 @@ module.exports = {
         connection.query(sql, params, function (err, result) {
             if (err) {
                 console.log("[INSERT ERROR] - ", err.message);
-                return;
+                return false;
             }
             console.log("insert success, the generated id is:", result.insertId);
+            return true;
         });
         closeConnection();
     },
@@ -35,9 +36,10 @@ module.exports = {
         connection.query(sql, params, function (err, result) {
             if (err) {
                 console.log("[REMOVE ERROR] - ", err.message);
-                return;
+                return false;
             }
             console.log("remove id=%d success ", id);
+            return true;
         });
         closeConnection();
     },
@@ -48,11 +50,30 @@ module.exports = {
         connection.query(sql, function (err, result) {
             if (err) {
                 console.log("[UPDATE ERROR] - ", err.message);
-                return;
+                return false;
             }
             console.log("update success " + result.affectedRows);
+            return true;
         });
         closeConnection();
+    },
+    updateEdit: function (id, username, highSchool) {
+        return new Promise(resolve => {
+            openConnection();
+            let sql = `update userinfo set username = '${username}',highSchool='${highSchool}'where id = ${id};`;
+            connection.query(sql, function (err, result) {
+                if (err) {
+                    console.log("[UPDATE ERROR] - ", err.message);
+                    return false;
+                }
+                resolve(result);
+            });
+            closeConnection();
+        }).then((result) => {
+            console.log("update success " + result.affectedRows);
+            return true;
+        }).catch(() => {
+        });
     },
     get: function (emailAddress) {
         return new Promise(resolve => {
@@ -63,7 +84,7 @@ module.exports = {
             connection.query(sql, params, (err, result) => {
                 if (err) {
                     console.log("[GET ERROR] - ", err.message);
-                    return;
+                    return '{}';
                 }
                 if (result.length !== 0) {
                     resolve(result);
@@ -93,7 +114,7 @@ module.exports = {
             connection.query(sql, function (err, results) {
                 if (err) {
                     console.log("[SELECT ERROR] - ", err.message);
-                    return;
+                    return [];
                 }
                 if (results) {
                     resolve(results);

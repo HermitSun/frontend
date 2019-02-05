@@ -92,6 +92,18 @@ app.get('/list/getlist', jsonParser, async (req, res) => {
     });
 });
 
+app.post('/list/save', jsonParser, async (req, res) => {
+    console.log(req.body);
+    let id = req.body.id;
+    let username = req.body.name;
+    let highSchool = req.body.school;
+    let result = {
+        isSucceed: false
+    };
+    result.isSucceed = await sdb.updateEdit(id, username, highSchool);
+    res.json(result);
+});
+
 app.listen(3000, () => {
     console.log('I\'m listening on port 3000!')
 });

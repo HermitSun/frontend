@@ -79,7 +79,7 @@
                 <el-form-item label="总级分">
                     <el-input-number v-model="editForm.score" :min="0" :max="72" :disabled="true"></el-input-number>
                 </el-form-item>
-                <el-form-item label="就读高中">
+                <el-form-item label="就读高中" prop="school">
                     <el-input v-model="editForm.school"></el-input>
                 </el-form-item>
             </el-form>
@@ -92,7 +92,7 @@
 </template>
 
 <script>
-    import {checkStuList, exportSelected} from '../../../assets/utils/api';
+    import {checkStuList, exportSelected, modifyStuInfo} from '../../../assets/utils/api';
 
     export default {
         name: 'AllStudents',
@@ -215,7 +215,6 @@
             handleEdit(index, row) {
                 this.editFormVisible = true;
                 this.editForm = Object.assign({}, row);
-                console.log(this.editForm)
             },
             handleEditClose() {
                 this.$confirm('确认关闭？')
@@ -229,27 +228,36 @@
 
             },
             editSubmit() {
-                //   this.$refs.editForm.validate((valid) => {
-                //     if (valid) {
-                //       this.$confirm('确认提交吗？', '提示', {}).then(() => {
-                //         this.editLoading = true
-                //         //NProgress.start();
-                //         let para = Object.assign({}, this.editForm)
-                //         para.birth = (!para.birth || para.birth == '') ? '' : util.formatDate.format(new Date(para.birth), 'yyyy-MM-dd')
-                //         editUser(para).then((res) => {
-                //           this.editLoading = false
-                //           //NProgress.done();
-                //           this.$message({
-                //             message: '提交成功',
-                //             type: 'success'
-                //           })
-                //           this.$refs['editForm'].resetFields()
-                //           this.editFormVisible = false
-                //           this.getUsers()
-                //         })
-                //       })
-                //     }
-                //   })
+                this.$refs.editForm.validate((valid) => {
+                    if (valid) {
+                        this.$confirm('确认提交吗？', '提示', {}).then(() => {
+                            this.editLoading = true;
+                            let params = {
+                                'id': this.editForm.id,
+                                'name': this.editForm.name,
+                                'school': this.editForm.school
+                            };
+                            modifyStuInfo(params).then((res) => {
+                                this.editLoading = false;
+                                if (res.data.isSucceed) {
+                                    this.$message({
+                                        message: '提交成功',
+                                        type: 'success'
+                                    });
+                                } else {
+                                    this.$message({
+                                        message: '提交失败',
+                                        type: 'error'
+                                    });
+                                }
+                                this.$refs.editForm.resetFields();
+                                this.editFormVisible = false;
+                                this.getStudents();
+                            }).catch(err => {
+                            })
+                        })
+                    }
+                })
             },
             batchExport() {
                 let ids = this.allSelected.map(student => student.id);

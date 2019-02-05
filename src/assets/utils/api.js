@@ -46,6 +46,10 @@ export const remind = () => {
     return axios.post(`${base}/email/remind`);
 };
 
+export const modifyStuInfo = (params) => {
+    return axios.post(`${base}/list/save`, params);
+};
+
 export const exportSelected = (params) => {
     return axios.post(`${base}/form/download`, params);
 };

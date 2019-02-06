@@ -4,12 +4,13 @@
         <el-col :span="24" class="toolbar" style="padding-bottom: 0;">
             <el-form :inline="true" :model="filters">
                 <el-form-item>
-                    <el-input v-model="filters.name" placeholder="姓名"></el-input>
+                    <el-input v-model="filters.name" size="small" placeholder="姓名"></el-input>
                 </el-form-item>
                 <el-form-item>
-                    <el-button type="primary" @click="getStudents">查询</el-button>
+                    <el-button type="primary" size="small" @click="getStudents">查询</el-button>
                 </el-form-item>
             </el-form>
+            <el-input v-model="" size="small" placeholder="设置筛选"
         </el-col>
         <!--列表-->
         <el-table :data="students" :highlight-current-row="true" v-loading="listLoading" ref="table"
@@ -46,11 +47,15 @@
             </el-table-column>
             <el-table-column prop="gender" label="性别" width="120">
             </el-table-column>
-            <el-table-column prop="score" label="总级分" width="120" sortable>
+            <el-table-column prop="score" label="总级分" width="120" :sortable="true">
             </el-table-column>
             <el-table-column prop="school" label="就读高中" min-width="180" style="max-width: 200px">
             </el-table-column>
-            <el-table-column prop="status" label="审核结果" width="150" sortable>
+            <el-table-column label="审核结果" width="150" :sortable="true" :sort-method="sortByResult">
+                <template slot-scope="scope">
+                    <el-tag type="success" v-if="scope.row.status==='通过'">通过</el-tag>
+                    <el-tag type="danger" v-else>未通过</el-tag>
+                </template>
             </el-table-column>
             <el-table-column label="操作" width="180">
                 <template slot-scope="scope">
@@ -243,6 +248,9 @@
                         }
                     }
                 }
+            },
+            sortByResult(stu1, stu2) {
+                return stu1.status.length - stu2.status.length;
             },
             handleEdit(row) {
                 this.editFormVisible = true;

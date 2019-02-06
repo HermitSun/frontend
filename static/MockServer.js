@@ -82,7 +82,8 @@ app.get('/list/getlist', jsonParser, async (req, res) => {
             name: actualStudents[i].username,
             gender: actualStudents[i].gender,
             score: actualStudents[i].score,
-            school: actualStudents[i].highSchool
+            school: actualStudents[i].highSchool,
+            status: actualStudents[i].status ? '通过' : '未通过'
         });
     }
     actualStudents = temp.filter((u, index) => 15 * (page - 1) <= index && index < 15 * page);
@@ -93,7 +94,36 @@ app.get('/list/getlist', jsonParser, async (req, res) => {
 });
 
 app.post('/list/save', jsonParser, async (req, res) => {
+    let paramLength = Object.keys(req.body).length;
+    if (paramLength === 2) {//modifyStuStatus
+        let ids = req.body.ids;
+        let status = req.body.status;
+        let result = {
+            isSucceed: false
+        };
+        for (let id of ids) {
+            let tempRes = await sdb.updateStatus(id, status);
+            result.isSucceed = tempRes;
+            if (!tempRes) {
+                break;
+            }
+        }
+        res.json(result);
+    } else if (paramLength === 3) {//modifyStuInfo
+        let id = req.body.id;
+        let username = req.body.name;
+        let highSchool = req.body.school;
+        let result = {
+            isSucceed: false
+        };
+        result.isSucceed = await sdb.updateEdit(id, username, highSchool);
+        res.json(result);
+    }
+});
+
+app.post('/form/download', jsonParser, async (req, res) => {
     console.log(req.body);
+    //此处应有下载操作
     let id = req.body.id;
     let username = req.body.name;
     let highSchool = req.body.school;

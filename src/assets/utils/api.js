@@ -51,5 +51,14 @@ export const modifyStuInfo = (params) => {
 };
 
 export const exportSelected = (params) => {
-    return axios.post(`${base}/form/download`, params);
+    return axios({
+        method: 'post',
+        url: 'form/download',
+        data: params,
+        responseType: 'blob'
+    });
+};
+
+export const modifyStuStatus = (params) => {
+    return axios.post(`${base}/list/save`, params);
 };

@@ -40,26 +40,38 @@
                     </el-form>
                 </template>
             </el-table-column>
-            <el-table-column prop="id" label="#" width="60">
+            <el-table-column prop="id" label="#" width="80">
             </el-table-column>
-            <el-table-column prop="name" label="姓名" width="120" sortable>
+            <el-table-column prop="name" label="姓名" width="120">
             </el-table-column>
-            <el-table-column prop="gender" label="性别" width="120" sortable>
+            <el-table-column prop="gender" label="性别" width="120">
             </el-table-column>
             <el-table-column prop="score" label="总级分" width="120" sortable>
             </el-table-column>
-            <el-table-column prop="school" label="就读高中" min-width="180" sortable>
+            <el-table-column prop="school" label="就读高中" min-width="180" style="max-width: 200px">
             </el-table-column>
-            <el-table-column label="操作" width="150">
+            <el-table-column prop="status" label="审核结果" width="150" sortable>
+            </el-table-column>
+            <el-table-column label="操作" width="180">
                 <template slot-scope="scope">
                     <el-button size="small" @click="handleEdit(scope.$index, scope.row)">编辑</el-button>
-                    <el-button type="danger" size="small" @click="handlePass(scope.$index, scope.row)">通过</el-button>
+                    <el-button type="danger" size="small" @click="handlePass(scope.$index, scope.row)">
+                        {{scope.row.status==='通过'?'通过':'取消'}}
+                    </el-button>
                 </template>
             </el-table-column>
         </el-table>
         <!--导出和页码-->
         <el-col :span="24" class="toolbar">
-            <el-button type="danger" @click="batchExport">批量导出</el-button>
+            <el-button type="primary" @click="exportVisible=true"
+                       :disabled="this.allSelected.length===0&&this.currentSelected.length===0">批量导出
+            </el-button>
+            <el-button type="danger" @click="allPass"
+                       :disabled="this.allSelected.length===0&&this.currentSelected.length===0">一键通过
+            </el-button>
+            <el-button type="danger" @click="allCancel"
+                       :disabled="this.allSelected.length===0&&this.currentSelected.length===0">一键取消
+            </el-button>
             <el-pagination layout="prev, pager, next" @current-change="handleCurrentChange" :page-size="15"
                            :total="total" style="float:right;">
             </el-pagination>
@@ -88,11 +100,24 @@
                 <el-button type="primary" @click.native="editSubmit" :loading="editLoading">提交</el-button>
             </div>
         </el-dialog>
+        <!--导出-->
+        <el-dialog title="导出" :visible.snyc="exportVisible" :before-close="handleExportClose">
+            <el-button type="primary" @click="batchExport(0)"
+                       style="float: left; margin-left: 150px">导出为Excel
+            </el-button>
+            <el-button type="primary" @click="batchExport(1)"
+                       style="float: right; margin-right: 150px;">导出为PDF
+            </el-button>
+            <div class="clearFix"></div>
+            <div slot="footer" class="dialog-footer">
+                <el-button @click.native="exportVisible = false">取消</el-button>
+            </div>
+        </el-dialog>
     </el-main>
 </template>
 
 <script>
-    import {checkStuList, exportSelected, modifyStuInfo} from '../../../assets/utils/api';
+    import {checkStuList, exportSelected, modifyStuInfo, modifyStuStatus} from '../../../assets/utils/api';
 
     export default {
         name: 'AllStudents',
@@ -121,7 +146,14 @@
                     gender: '',
                     score: 0,
                     school: ''
-                }
+                },
+
+                exportVisible: false,
+                exportForms: {
+                    'Excel': 0,
+                    'PDF': 1
+                },
+                exportForm: 0
             }
         },
         mounted() {
@@ -259,26 +291,104 @@
                     }
                 })
             },
-            batchExport() {
-                let ids = this.allSelected.map(student => student.id);
-                console.log(ids);
-                this.$confirm('确认导出选中记录吗？', '提示', {
-                    type: 'warning'
-                }).then(() => {
-                    this.listLoading = true;
-                    exportSelected(ids)
-                        .then((res) => {
-                            this.listLoading = false;
-                            this.$message({
-                                message: '导出成功',
-                                type: 'success'
-                            });
-                            this.getStudents();
-                        })
-                        .catch(() => {
-                        })
+            batchExport(form) {
+                let ids = [];
+                if (this.allSelected.length === 0) {
+                    ids = this.currentSelected.map(student => student.id);
+                } else {
+                    ids = this.allSelected.map(student => student.id);
+                }
+                exportSelected({
+                    ids: ids,
+                    form: this.exportForm
+                }).then((res) => {
+                    this.download(res);
+                    this.$message({
+                        message: '导出成功',
+                        type: 'success'
+                    });
+                    this.getStudents();
                 }).catch(() => {
+                    this.$message({
+                        message: '导出失败',
+                        type: 'error'
+                    });
+                    this.getStudents();
                 })
+            },
+            handleExportClose() {
+                this.$confirm('确认关闭？')
+                    .then(() => {
+                        this.exportVisible = false;
+                    })
+                    .catch(() => {
+                    })
+            },
+            download(data) {
+                if (!data) {
+                    return;
+                }
+                let url = window.URL.createObjectURL(new Blob([data]));
+                let link = document.createElement('a');
+                link.style.display = 'none';
+                link.href = url;
+                link.setAttribute('download', '学生信息.xlsx');//名称可以修改
+                document.body.appendChild(link);
+                link.click()
+            },
+            allPass() {
+                let ids = [];
+                if (this.allSelected.length === 0) {
+                    ids = this.currentSelected.map(student => student.id);
+                } else {
+                    ids = this.allSelected.map(student => student.id);
+                }
+                this.$confirm('确认修改吗？', '提示', {}).then(() => {
+                    modifyStuStatus({
+                        ids: ids,
+                        status: 1
+                    }).then((res) => {
+                        this.$message({
+                            message: '修改成功',
+                            type: 'success'
+                        });
+                        this.getStudents();
+                    }).catch(() => {
+                        this.$message({
+                            message: '修改失败',
+                            type: 'error'
+                        });
+                        this.getStudents();
+                    });
+                }).catch(() => {
+                });
+            },
+            allCancel() {
+                let ids = [];
+                if (this.allSelected.length === 0) {
+                    ids = this.currentSelected.map(student => student.id);
+                } else {
+                    ids = this.allSelected.map(student => student.id);
+                }
+                this.$confirm('确认修改吗？', '提示', {}).then(() => {
+                    modifyStuStatus({
+                        ids: ids,
+                        status: 0
+                    }).then((res) => {
+                        this.$message({
+                            message: '修改成功',
+                            type: 'success'
+                        });
+                        this.getStudents();
+                    }).catch(() => {
+                        this.$message({
+                            message: '修改失败',
+                            type: 'error'
+                        });
+                        this.getStudents();
+                    });
+                }).catch(() => {
+                });
             }
         }
     }
@@ -304,6 +414,16 @@
         .el-table-column {
             height: 40px !important;
             line-height: 40px !important;
+        }
+    }
+
+    .el-dialog {
+        .clearFix:after {
+            clear: both;
+            content: ".";
+            display: block;
+            height: 0;
+            visibility: hidden;
         }
     }
 </style>

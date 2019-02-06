@@ -73,6 +73,26 @@ module.exports = {
             console.log("update success " + result.affectedRows);
             return true;
         }).catch(() => {
+            return false;
+        });
+    },
+    updateStatus: function (id, status) {
+        return new Promise(resolve => {
+            openConnection();
+            let sql = `update userinfo set status = '${status}' where id = ${id};`;
+            connection.query(sql, function (err, result) {
+                if (err) {
+                    console.log("[UPDATE ERROR] - ", err.message);
+                    return false;
+                }
+                resolve(result);
+            });
+            closeConnection();
+        }).then((result) => {
+            console.log("update success " + result.affectedRows);
+            return true;
+        }).catch(() => {
+            return false;
         });
     },
     get: function (emailAddress) {

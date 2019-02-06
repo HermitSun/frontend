@@ -54,9 +54,9 @@
             </el-table-column>
             <el-table-column label="操作" width="180">
                 <template slot-scope="scope">
-                    <el-button size="small" @click="handleEdit(scope.$index, scope.row)">编辑</el-button>
-                    <el-button type="danger" size="small" @click="handlePass(scope.$index, scope.row)">
-                        {{scope.row.status==='通过'?'通过':'取消'}}
+                    <el-button size="small" @click="handleEdit(scope.row)">编辑</el-button>
+                    <el-button type="danger" size="small" @click="handlePass(scope.row)">
+                        {{scope.row.status==='通过'?'取消':'通过'}}
                     </el-button>
                 </template>
             </el-table-column>
@@ -244,7 +244,7 @@
                     }
                 }
             },
-            handleEdit(index, row) {
+            handleEdit(row) {
                 this.editFormVisible = true;
                 this.editForm = Object.assign({}, row);
             },
@@ -256,8 +256,26 @@
                     .catch(() => {
                     })
             },
-            handlePass() {
-
+            handlePass(row) {
+                this.$confirm('确认修改吗？', '提示', {}).then(() => {
+                    modifyStuStatus({
+                        ids: [row.id],
+                        status: row.status === '通过' ? 0 : 1
+                    }).then((res) => {
+                        this.$message({
+                            message: '修改成功',
+                            type: 'success'
+                        });
+                        this.getStudents();
+                    }).catch(() => {
+                        this.$message({
+                            message: '修改失败',
+                            type: 'error'
+                        });
+                        this.getStudents();
+                    });
+                }).catch(() => {
+                });
             },
             editSubmit() {
                 this.$refs.editForm.validate((valid) => {

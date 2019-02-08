@@ -10,7 +10,6 @@ import NotPassStudents from '../views/admin/check/NotPassStudents.vue'
 import PassedStudents from '../views/admin/check/PassedStudents.vue'
 import AllStudents from '../views/admin/check/AllStudents.vue'
 import EditMessage from '../views/admin/publish/EditMessage.vue'
-import EditEmail from '../views/admin/publish/EditEmail.vue'
 import PublishResult from '../views/admin/publish/PublishResult.vue'
 import EndEnrollment from '../views/admin/enrollment/EndEnrollment.vue'
 import Home from '../views/home/Home.vue'
@@ -67,7 +66,6 @@ export default new Router({
             // leaf: true,//只有一个节点
             children: [
                 {path: '/admin/edit-msg', component: EditMessage, name: '编辑消息'},
-                {path: '/admin/edit-email', component: EditEmail, name: '编辑邮件'},
                 {path: '/admin/pub-res', component: PublishResult, name: '发布结果'}
             ]
         },

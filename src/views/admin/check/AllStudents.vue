@@ -157,7 +157,13 @@
                     'Excel': 0,
                     'PDF': 1
                 },
-                exportForm: 0
+                exportForm: 0,
+
+                froms: {
+                    'NotPass': 0,
+                    'Pass': 1,
+                    'All': 2
+                }
             }
         },
         mounted() {
@@ -171,6 +177,7 @@
             },
             getStudents() {
                 let params = {
+                    from: this.froms.All,
                     page: this.page,
                     name: this.filters.name
                 };

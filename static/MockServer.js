@@ -8,6 +8,12 @@ const bodyParser = require('body-parser');
 const jsonParser = bodyParser.json();
 // const urlencodedParser = bodyParser.urlencoded({extended: false});
 
+const froms = {
+    'NotPass': 0,
+    'Pass': 1,
+    'All': 2
+};
+
 app.use(function (req, res, next) {
     res.header("Access-Control-Allow-Origin", "*");
     res.header('Access-Control-Allow-Methods', 'PUT, GET, POST, DELETE, OPTIONS');
@@ -69,11 +75,25 @@ app.post('/login/admin', jsonParser, async (req, res) => {
 });
 
 app.get('/list/getlist', jsonParser, async (req, res) => {
-    let {page, name} = req.query;
+    let {from, page, name} = req.query;
     let allStudents = await sdb.getAll();
-    let actualStudents = allStudents.filter(user => {
-        return !(name && user.username.indexOf(name) === -1);
-    });
+    let actualStudents = [];
+    if (from == froms.All) {
+        console.log('enter');
+        actualStudents = allStudents.filter(user => {
+            return !(name && user.username.indexOf(name) === -1);
+        });
+    } else if (from == froms.NotPass) {
+        actualStudents = allStudents.filter(user => {
+            return !(name && user.username.indexOf(name) === -1) && user.status === 0;
+        });
+    } else if (from == froms.Pass) {
+        actualStudents = allStudents.filter(user => {
+            return !(name && user.username.indexOf(name) === -1) && user.status === 1;
+        });
+    } else {
+        actualStudents = [];
+    }
     let total = actualStudents.length;
     let temp = [];
     for (let i = 0; i < total; ++i) {

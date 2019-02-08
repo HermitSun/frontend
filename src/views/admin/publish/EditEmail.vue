@@ -115,6 +115,7 @@
 
             .el-upload-tip {
                 margin-left: 10px;
+                color: #a6a9ad;
             }
         }
 
@@ -125,7 +126,7 @@
         }
 
         .prompt {
-            margin-top: 10px;
+            margin-top: 8px;
             margin-left: 20px;
             color: #a6a9ad;
         }

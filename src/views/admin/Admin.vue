@@ -104,7 +104,7 @@
     userName: string = ''
     userAvatar: string = ''
     //收到的消息
-    hasNewMessage: boolean = true
+    hasNewMessage: boolean = false
     totalMessage: number = 0
 
     mounted () {
@@ -113,6 +113,13 @@
       if (this.userName == '') {
         this.$router.push('/')
       }
+      window.setInterval(() => {
+        setTimeout(this.handleNewMessage, 0)
+      }, 30000)//30s查询一次消息
+    }
+
+    handleNewMessage () {
+      this.hasNewMessage = !!this.totalMessage
     }
 
     handleCollapse () {

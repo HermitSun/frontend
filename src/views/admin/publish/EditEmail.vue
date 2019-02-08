@@ -2,7 +2,7 @@
     <el-card class="wrapper">
         <el-row>
             <el-col :span="1">
-                <div class="prompt">主题</div>
+                <div class="title">主题</div>
             </el-col>
             <el-col :span="23">
                 <el-input placeholder="请输入邮件主题" v-model="emailSubject"></el-input>
@@ -10,7 +10,7 @@
         </el-row>
         <el-row>
             <el-col :span="1">
-                <div class="prompt">附件</div>
+                <div class="title">附件</div>
             </el-col>
             <el-col :span="23" class="toolbar">
                 <el-upload class="upload" action="http://localhost:3000/message/attachment"
@@ -24,7 +24,7 @@
         </el-row>
         <el-row>
             <el-col :span="1">
-                <div class="prompt">正文</div>
+                <div class="title">正文</div>
             </el-col>
             <el-col :span="23">
                 <el-input type="textarea" placeholder="请输入邮件内容" v-model="emailContent" class="emailContent"
@@ -32,7 +32,10 @@
             </el-col>
         </el-row>
         <el-col :span="24">
-            <div></div>
+            <div class="prompt">
+                <i class="el-icon-info"></i>
+                <span>此邮件会发送给通过的学生。</span>
+            </div>
             <el-button type="primary" icon="el-icon-document" class="saveEmail">保存</el-button>
         </el-col>
     </el-card>
@@ -99,14 +102,14 @@
             margin: 10px auto;
         }
 
-        .prompt {
+        .title {
             padding-top: 10px;
             font-weight: bold;
         }
 
         .toolbar {
             margin: 0;
-            padding: 8px 15px;
+            padding: 8px 5px;
             border-radius: 4px;
             background: white;
 
@@ -115,13 +118,16 @@
             }
         }
 
-        .emailContent {
-            width: 100%;
-        }
-
         .saveEmail {
             float: right;
+            margin-top: -25px;
             margin-bottom: 10px;
+        }
+
+        .prompt {
+            margin-top: 10px;
+            margin-left: 20px;
+            color: #a6a9ad;
         }
     }
 </style>
@@ -129,6 +135,7 @@
 <style>
     .el-textarea__inner {
         resize: none !important;
+        width: 100%;
         height: 390px;
     }
 </style>

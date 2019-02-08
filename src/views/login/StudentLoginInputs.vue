@@ -111,24 +111,9 @@
   enum LoginPages {STUDENT = '1', ADMIN = '2', REGISTER = '3'}
 </script>
 
-<style scoped>
+<style scoped lang="scss" rel="stylesheet/scss">
     a, a:hover {
         text-decoration: none;
-    }
-
-    body, input, button {
-        font: 12px arial;
-        color: #333333;
-        outline: 0;
-        vertical-align: middle;
-    }
-
-    body {
-        background-color: #fff;
-    }
-
-    body, p {
-        font-family: "Microsoft Yahei", serif;
     }
 
     a {
@@ -141,30 +126,95 @@
         color: #00a65a;
     }
 
+    body, input, button {
+        font: 12px arial;
+        color: #333333;
+        outline: 0;
+        vertical-align: middle;
+    }
+
+    body {
+        background-color: #fff;
+
+        p {
+            font-family: "Microsoft Yahei", serif;
+        }
+    }
+
     .login {
         float: none;
         width: 364px;
         margin: 0 auto;
-    }
 
-    .login .inputs p {
-        margin-bottom: 15px;
-        position: relative;
-        width: 100%;
-        background: #fff;
-        text-align: left;
-        border-radius: 4px;
-    }
+        .inputs {
+            margin-left: 12px;
+            line-height: 36px;
 
-    .login .inputs p i {
-        display: inline-block;
-        width: 28px;
-        height: 28px;
-        background: url(./img/LoginIcons.png) no-repeat;
-        position: absolute;
-        right: 6px;
-        top: 7px;
-        z-index: 1000;
+            p {
+                margin-bottom: 15px;
+                position: relative;
+                width: 100%;
+                background: #fff;
+                text-align: left;
+                border-radius: 4px;
+
+                i {
+                    display: inline-block;
+                    width: 28px;
+                    height: 28px;
+                    background: url(./img/LoginIcons.png) no-repeat;
+                    position: absolute;
+                    right: 6px;
+                    top: 7px;
+                    z-index: 1000;
+                }
+            }
+
+            input {
+                width: 85%;
+                height: 40px;
+                line-height: 40px;
+                margin-left: 16px;
+                font-family: "Microsoft Yahei", serif;
+                border: 0;
+                font-size: 14px;
+                color: #878787;
+            }
+
+            a {
+                color: #b70e0e;
+            }
+
+            .verify .codeImg {
+                width: 70px;
+                height: 30px;
+                vertical-align: top;
+                position: absolute;
+                right: 4px;
+                top: 6px;
+                z-index: 1000;
+            }
+
+            .loginButton {
+                height: 40px;
+                line-height: 40px;
+                width: 100%;
+                padding: 0;
+                margin-left: 0;
+                background: #90138b;
+                border: 0;
+                color: #fff;
+                font-size: 18px;
+                cursor: pointer;
+                border-radius: 4px;
+            }
+
+            .loginButton:hover {
+                opacity: .9;
+                filter: Alpha(opacity=90);
+            }
+        }
+
     }
 
     .emailAddress i {
@@ -175,82 +225,33 @@
         background-position: 7px -50px !important;
     }
 
-    .login .inputs input {
-        width: 85%;
-        height: 40px;
-        line-height: 40px;
-        margin-left: 16px;
-        font-family: "Microsoft Yahei", serif;
-        border: 0;
-        font-size: 14px;
-        color: #878787;
-    }
-
-    .login .inputs .verify .codeImg {
-        width: 70px;
-        height: 30px;
-        vertical-align: top;
-        position: absolute;
-        right: 4px;
-        top: 6px;
-        z-index: 1000;
-    }
-
-    .login .inputs {
-        margin-left: 12px;
-        line-height: 36px;
-    }
-
-    .login .inputs a {
-        color: #b70e0e;
-    }
-
-    .login .inputs .loginButton {
-        height: 40px;
-        line-height: 40px;
-        width: 100%;
-        padding: 0;
-        margin-left: 0;
-        background: #90138b;
-        border: 0;
-        color: #fff;
-        font-size: 18px;
-        cursor: pointer;
-        border-radius: 4px;
-    }
-
-    .login .inputs .loginButton:hover {
-        opacity: .9;
-        filter: Alpha(opacity=90);
-    }
-
     .footer {
         display: inline-block;
         width: 88%;
         line-height: 25px;
-    }
 
-    .footer a {
-        float: left;
-        font-size: 14px;
-        color: #fff;
-    }
+        a {
+            float: left;
+            font-size: 14px;
+            color: #fff;
+        }
 
-    .footer .router1 {
-        text-align: left;
-        width: 30%
-    }
+        a:hover {
+            color: #ccc;
+        }
 
-    .footer .router2 {
-        width: 40%;
-    }
+        .router1 {
+            text-align: left;
+            width: 30%
+        }
 
-    .footer .router3 {
-        text-align: right;
-        width: 30%
-    }
+        .router2 {
+            width: 40%;
+        }
 
-    .footer a:hover {
-        color: #ccc;
+        .router3 {
+            text-align: right;
+            width: 30%
+        }
     }
 </style>

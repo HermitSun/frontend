@@ -71,9 +71,18 @@
   enum LoginPages {STUDENT = '1', ADMIN = '2', REGISTER = '3'}
 </script>
 
-<style scoped>
+<style scoped lang="scss" rel="stylesheet/scss">
     a, a:hover {
         text-decoration: none;
+    }
+
+    a {
+        color: #fff;
+        transition: all 0.4s ease-in-out;
+    }
+
+    a:hover {
+        color: #00a65a;
     }
 
     body, input, button {
@@ -93,19 +102,10 @@
 
     body {
         background-color: #fff;
-    }
 
-    body, p {
-        font-family: "Microsoft Yahei", serif;
-    }
-
-    a {
-        color: #fff;
-        transition: all 0.4s ease-in-out;
-    }
-
-    a:hover {
-        color: #00a65a;
+        p {
+            font-family: "Microsoft Yahei", serif;
+        }
     }
 
     .total {
@@ -117,21 +117,21 @@
         z-index: 1000;
         overflow: hidden;
         text-align: center;
-    }
 
-    .total .background {
-        width: 459px;
-        height: 433px;
-        position: absolute;
-        top: 0;
-        right: 0;
-        bottom: 0;
-        left: 0;
-        z-index: -1;
-        background: #000;
-        opacity: .6;
-        filter: Alpha(opacity=60);
-        border-radius: 31px;
+        .background {
+            width: 459px;
+            height: 433px;
+            position: absolute;
+            top: 0;
+            right: 0;
+            bottom: 0;
+            left: 0;
+            z-index: -1;
+            background: #000;
+            opacity: .6;
+            filter: Alpha(opacity=60);
+            border-radius: 31px;
+        }
     }
 
     .content {
@@ -139,36 +139,36 @@
         margin: 0 auto;
         padding: 19px 20px 30px;
         position: relative;
-    }
 
-    .content .foo {
-        width: 419px;
-        margin: 10px auto;
-    }
+        .foo {
+            width: 419px;
+            margin: 10px auto;
+        }
 
-    .content .head {
-        padding: 15px 0;
-        margin-bottom: 33px;
-        border-bottom: 1px solid #fff;
-    }
+        .head {
+            padding: 15px 0;
+            margin-bottom: 33px;
+            border-bottom: 1px solid #fff;
 
-    .content .head .leftHead {
-        float: left;
-        margin-left: 18px;
-        width: 187px;
-        height: 66px;
-        background: no-repeat;
-    }
+            .leftHead {
+                float: left;
+                margin-left: 18px;
+                width: 187px;
+                height: 66px;
+                background: no-repeat;
+            }
 
-    .content .head .rightHead {
-        float: left;
-        line-height: 30px;
-        margin-top: 25px;
-        margin-left: 18px;
-        font-size: 26px;
-        font-weight: bold;
-        color: #fff;
-        vertical-align: bottom;
+            .rightHead {
+                float: left;
+                line-height: 30px;
+                margin-top: 25px;
+                margin-left: 18px;
+                font-size: 26px;
+                font-weight: bold;
+                color: #fff;
+                vertical-align: bottom;
+            }
+        }
     }
 
     .mainBackground {

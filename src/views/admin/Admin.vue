@@ -20,14 +20,27 @@
             </el-col>
             <el-col :span="4" class="userInfo">
                 <el-dropdown trigger="hover">
-                    <span class="el-dropdown-link userInfo-inner" style="font-size: medium">
+                    <el-badge :is-dot="this.hasNewMessage" class="avatarBadge">
+                        <span class="el-dropdown-link userInfo-inner" style="font-size: medium">
                         <img :src="this.userAvatar?this.userAvatar:require('./img/avatar.jpg')"/>
                         {{this.userName}}
                     </span>
+                    </el-badge>
                     <el-dropdown-menu slot="dropdown">
-                        <el-dropdown-item>消息</el-dropdown-item>
-                        <el-dropdown-item>设置</el-dropdown-item>
-                        <el-dropdown-item divided @click.native="logout">退出</el-dropdown-item>
+                        <el-dropdown-item>
+                            <i class="el-icon-bell"></i>
+                            <el-badge :value="this.totalMessage" :max="99" class="messageBadge">
+                                <span>消息</span>
+                            </el-badge>
+                        </el-dropdown-item>
+                        <el-dropdown-item>
+                            <i class="el-icon-setting"></i>
+                            <span>设置</span>
+                        </el-dropdown-item>
+                        <el-dropdown-item :divided="true" @click.native="logout">
+                            <i class="el-icon-back"></i>
+                            <span>退出</span>
+                        </el-dropdown-item>
                     </el-dropdown-menu>
                 </el-dropdown>
             </el-col>
@@ -90,6 +103,9 @@
     collapsed: boolean = false//是否折叠（默认否）
     userName: string = ''
     userAvatar: string = ''
+    //收到的消息
+    hasNewMessage: boolean = true
+    totalMessage: number = 0
 
     mounted () {
       this.userName = getCookie('actualName')
@@ -280,6 +296,13 @@
                     box-sizing: border-box;
                 }
             }
+        }
+    }
+</style>
+<style lang="scss" rel="stylesheet/scss">
+    .avatarBadge {
+        .el-badge__content {
+            top: 10px !important;
         }
     }
 </style>

@@ -7,10 +7,9 @@
                     <el-input v-model="filters.name" size="small" placeholder="姓名"></el-input>
                 </el-form-item>
                 <el-form-item>
-                    <el-button type="primary" size="small" @click="getStudents">查询</el-button>
+                    <el-button type="primary" size="small" @click="getStudents" icon="el-icon-search">查询</el-button>
                 </el-form-item>
             </el-form>
-            <el-input v-model="" size="small" placeholder="设置筛选"
         </el-col>
         <!--列表-->
         <el-table :data="students" :highlight-current-row="true" v-loading="listLoading" ref="table"
@@ -68,13 +67,13 @@
         </el-table>
         <!--导出和页码-->
         <el-col :span="24" class="toolbar">
-            <el-button type="primary" @click="exportVisible=true"
+            <el-button type="primary" @click="exportVisible=true" icon="el-icon-download"
                        :disabled="this.allSelected.length===0&&this.currentSelected.length===0">批量导出
             </el-button>
-            <el-button type="danger" @click="allPass"
+            <el-button type="danger" @click="allPass" icon="el-icon-check"
                        :disabled="this.allSelected.length===0&&this.currentSelected.length===0">一键通过
             </el-button>
-            <el-button type="danger" @click="allCancel"
+            <el-button type="danger" @click="allCancel" icon="el-icon-close"
                        :disabled="this.allSelected.length===0&&this.currentSelected.length===0">一键取消
             </el-button>
             <el-pagination layout="prev, pager, next" @current-change="handleCurrentChange" :page-size="15"

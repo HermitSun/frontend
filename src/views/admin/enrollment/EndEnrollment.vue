@@ -1,11 +1,13 @@
 <template>
-    
+
 </template>
 
-<script>
-    export default {
-        name: "EndEnrollment"
-    }
+<script lang="ts">
+  import {Vue, Component} from 'vue-property-decorator'
+
+  @Component({})
+  export default class EndEnrollment extends Vue {
+  }
 </script>
 
 <style scoped>

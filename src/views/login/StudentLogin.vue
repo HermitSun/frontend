@@ -19,10 +19,10 @@
 
 <script lang="ts">
   import {Vue, Component} from 'vue-property-decorator'
-  import {bus} from "./bus.ts"
-  import {getCookie, setCookie} from '../../assets/utils/cookie.ts'
-  import StudentLoginInputs from './StudentLoginInputs.vue'
-  import AdminLogin from './AdminLogin.vue'
+  import {bus} from "./bus"
+  import {getCookie, setCookie} from 'utils/cookie'
+  import StudentLoginInputs from './StudentLoginInputs'
+  import AdminLogin from './AdminLogin'
 
   @Component({
     components: {

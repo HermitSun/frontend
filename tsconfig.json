@@ -22,6 +22,15 @@
       "es5",
       "es2015.promise"
     ],
+    "baseUrl": "./",
+    "paths": {
+      "@/*": [
+        "src/*"
+      ],
+      "utils/*": [
+        "src/assets/utils/*"
+      ]
+    },
     "sourceMap": true,
     "pretty": true
   }

@@ -30,8 +30,8 @@
 
 <script lang="ts">
   import {Vue, Component} from 'vue-property-decorator'
-  import {setCookie} from '../../assets/utils/cookie.ts'
-  import {adminLogin, getCaptcha} from '../../assets/utils/api'
+  import {setCookie} from 'utils/cookie'
+  import {adminLogin, getCaptcha} from 'utils/api'
   import {bus} from './bus.ts'
 
   @Component({})

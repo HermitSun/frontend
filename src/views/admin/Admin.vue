@@ -92,8 +92,8 @@
 
 <script lang="ts">
   import {Vue, Component} from 'vue-property-decorator'
-  import {getCookie, deleteCookie} from '../../assets/utils/cookie.ts'
-  import Guide from './Guide.vue'
+  import {getCookie, deleteCookie} from 'utils/cookie'
+  import Guide from './Guide'
 
   @Component({
     components: {Guide}

@@ -121,7 +121,7 @@
 </template>
 
 <script>
-    import {checkStuList, exportSelected, modifyStuInfo, modifyStuStatus} from '../../../assets/utils/api';
+    import {checkStuList, exportSelected, modifyStuInfo, modifyStuStatus} from 'utils/api';
 
     export default {
         name: 'AllStudents',

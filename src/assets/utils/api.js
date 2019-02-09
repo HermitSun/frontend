@@ -2,12 +2,26 @@ import axios from 'axios';
 
 let base = 'http://localhost:3000';
 
-export const adminLogin = params => {
-    return axios.post(`${base}/login/admin`, params);
+export const adminLogin = (params, token) => {
+    return axios({
+        method: 'post',
+        url: `${base}/login/admin`,
+        data: params,
+        headers: {
+            "Authorization": "Bearer " + token
+        }
+    });
 };
 
-export const studentLogin = params => {
-    return axios.post(`${base}/login/student`, params);
+export const studentLogin = (params, token) => {
+    return axios({
+        method: 'post',
+        url: `${base}/login/student`,
+        data: params,
+        headers: {
+            "Authorization": "Bearer " + token
+        }
+    });
 };
 
 export const getCaptcha = () => {
@@ -53,7 +67,7 @@ export const modifyStuInfo = (params) => {
 export const exportSelected = (params) => {
     return axios({
         method: 'post',
-        url: 'form/download',
+        url: `${base}/form/download`,
         data: params,
         responseType: 'blob'
     });

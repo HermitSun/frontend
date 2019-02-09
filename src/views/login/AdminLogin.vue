@@ -30,7 +30,7 @@
 
 <script lang="ts">
   import {Vue, Component} from 'vue-property-decorator'
-  import {setCookie} from 'utils/cookie'
+  import {getCookie, setCookie} from 'utils/cookie'
   import {adminLogin, getCaptcha} from 'utils/api'
   import {bus} from './bus.ts'
 
@@ -42,6 +42,11 @@
     username: string = ''
     password: string = ''
     captcha: string = ''
+    token: string = ''
+
+    mounted () {
+      this.token = getCookie('token')
+    }
 
     private checkAndLogin () {
       if (this.username === '') {
@@ -56,14 +61,14 @@
           'username': this.username,
           'password': this.password,
           'captcha': this.captcha
-        }).then((response) => {
+        }, this.token).then((response) => {
           console.log(response.data)
           if (response.data.isSucceed) {
             this.promptContent = "登录成功"
             this.showPrompt = true
             setCookie('username', this.username, 1000 * 60)
             setCookie('actualName', response.data.information, 1000 * 60)
-            console.log(document.cookie)
+            setCookie('token', response.data.token, 1000 * 60 * 60 * 24 * 7)
             setTimeout(function () {
               this.$router.push('/admin')
             }.bind(this), 1000)

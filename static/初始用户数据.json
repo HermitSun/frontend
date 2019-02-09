@@ -1,0 +1,20 @@
+{
+	"user1": {
+		"username": "x950031@gmail.com",
+		"password": "qwerasdf",
+		"token": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiLolKHlsJrpgZQiLCJleHAiOjE1NTAzMDcxNzMsImlhdCI6MTU0OTcwMjM3M30.BuPpiGc3ls4qkibEFNY8qg1PhNFlXrqMgcjZtv_hiwq2wwQRmJMytVmB5K6z7qkHL_tMx-wz-4TYPk_VXZSrVg"
+	},
+	"user2": {
+		"username": "superfreeeee@gmail.com",
+		"password": "qazwsxedc",
+		"token": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiLol43kuo7mtrUiLCJleHAiOjE1NTAzMDczMjgsImlhdCI6MTU0OTcwMjUyOH0.yIQmFsZOQtDFCwrUhRNB0B3nKjBloIRLEJsNC7YQTqEUSEly99LJW47YwKWiz41KIhtPzGVYByBYzkd_RPLqdw "
+	},
+	"user3": {
+		"username": "clv123654@yahoo.com.tw",
+		"password": "qwerfdsa",
+		"token": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiLpu47lvrfosKYiLCJleHAiOjE1NTAzMDc0MTIsImlhdCI6MTU0OTcwMjYxMn0.CX4ddyzX5ikD37suSFeWBjx4jr5X - B6Kw01Ygd81xUKazLOv6DatnnxHy4nz6U2VOb1jeHV9mDyx_nHmEuH8TQ "
+	},
+	"token有效期": "七天",
+	"token使用方法": "Request Headers中加入\"Authorization\"的键, 值为\"Bearer \"+ token。" 
+}
+

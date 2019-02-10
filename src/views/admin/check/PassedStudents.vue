@@ -397,35 +397,5 @@
 </script>
 
 <style lang="scss" rel="stylesheet/scss">
-    .table-expand {
-        font-size: 0;
-
-        label {
-            width: 90px;
-            color: #99a9bf !important;
-        }
-
-        .el-form-item {
-            margin-right: 0;
-            margin-bottom: 0;
-            width: 50%;
-        }
-    }
-
-    .el-table {
-        .el-table-column {
-            height: 40px !important;
-            line-height: 40px !important;
-        }
-    }
-
-    .el-dialog {
-        .clearFix:after {
-            clear: both;
-            content: ".";
-            display: block;
-            height: 0;
-            visibility: hidden;
-        }
-    }
+    @import "./common.scss";
 </style>

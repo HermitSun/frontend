@@ -1,6 +1,6 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import {getToken} from "../assets/utils/token.ts";
+import {getToken} from "utils/token.ts";
 // 加载模板文件
 import NotFound from '../views/404.vue'
 import StudentLogin from '../views/login/StudentLogin.vue'

@@ -1,5 +1,5 @@
 import Cookies from 'js-cookie'
-import { cookieExpires } from '@/config/index.ts' // cookie保存的天数
+import { cookieExpires } from '../config/index.ts' // cookie保存的天数
 
 /**
  * @msg: 存取token

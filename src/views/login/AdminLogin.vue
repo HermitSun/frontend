@@ -3,18 +3,24 @@
         <div class="login">
             <div class="inputs">
                 <div>
-                    <p class="emailAddress">
-                        <input type="text" placeholder="账号 AdminName" v-model="username">
-                        <i></i>
-                    </p>
-                    <p class="password">
-                        <input type="password" placeholder="密码 Password" v-model="password">
-                        <i></i>
-                    </p>
-                    <p class="verify">
-                        <input type="text" placeholder="验证码 Verification code" v-model="captcha"/>
-                        <img class="codeImg" :src="encodeURI(this.captcha)" alt="验证码" width="61" height="21"/>
-                    </p>
+                    <el-tooltip :disabled="this.usernamePrompt" content="请输入邮箱" placement="right">
+                        <p class="emailAddress">
+                            <input type="text" placeholder="账号 AdminName" v-model="username">
+                            <i></i>
+                        </p>
+                    </el-tooltip>
+                    <el-tooltip :disabled="this.passwordPrompt" content="请输入密码" placement="right">
+                        <p class="password">
+                            <input type="password" placeholder="密码 Password" v-model="password">
+                            <i></i>
+                        </p>
+                    </el-tooltip>
+                    <el-tooltip :disabled="this.captchaPrompt" content="请输入验证码" placement="right">
+                        <p class="verify">
+                            <input type="text" placeholder="验证码 Verification code" v-model="captcha"/>
+                            <img class="codeImg" :src="encodeURI(this.captcha)" alt="验证码" width="61" height="21"/>
+                        </p>
+                    </el-tooltip>
                     <p>
                         <button class="loginButton" @click="checkAndLogin()">登 录</button>
                     </p>
@@ -29,7 +35,7 @@
 </template>
 
 <script lang="ts">
-  import { Vue, Component } from 'vue-property-decorator'
+  import { Vue, Component, Watch } from 'vue-property-decorator'
   import { setToken, getToken } from 'utils/token.ts'
   import { adminLogin, getCaptcha } from 'utils/api'
   import { bus } from './bus.ts'
@@ -44,8 +50,39 @@
     captcha: string = ''
     token: string = ''
 
+    usernamePrompt: boolean = true
+    passwordPrompt: boolean = true
+    captchaPrompt: boolean = true
+
     mounted () {
       this.token = getToken()
+    }
+
+    @Watch('username')
+    onEmailChange (newVal: string, oldVal: string) {
+      if (newVal !== '' && oldVal === '') {
+        this.usernamePrompt = true
+      } else if (newVal === '' && oldVal !== '') {
+        this.usernamePrompt = false
+      }
+    }
+
+    @Watch('password')
+    onPasswordChange (newVal: string, oldVal: string) {
+      if (newVal !== '' && oldVal === '') {
+        this.passwordPrompt = true
+      } else if (newVal === '' && oldVal !== '') {
+        this.passwordPrompt = false
+      }
+    }
+
+    @Watch('captcha')
+    onCaptchaChange (newVal: string, oldVal: string) {
+      if (newVal !== '' && oldVal === '') {
+        this.captchaPrompt = true
+      } else if (newVal === '' && oldVal !== '') {
+        this.captchaPrompt = false
+      }
     }
 
     private checkAndLogin () {
@@ -62,10 +99,8 @@
           'password': this.password,
           'captcha': this.captcha
         }).then((response) => {
-          console.log(response.data)
-          if (response.data.isSucceed) {
-            this.promptContent = "登录成功"
-            this.showPrompt = true
+          if (response.data.token) {
+            this.showPrompt = false
             setToken(response.data.token)
             setTimeout(function () {
               this.$router.push('/admin')
@@ -82,6 +117,14 @@
               this.showPrompt = true
               this.getCaptcha()
             }
+          }
+          if (this.showPrompt) {
+            this.username = ''
+            this.password = ''
+            this.captcha = ''
+            bus.$emit('switch-page', LoginPages.PROMPT)
+            bus.$emit('prompt-content', this.promptContent)
+            bus.$emit('simplified', true)
           }
         }).catch((error) => {
           console.log(error)
@@ -106,7 +149,7 @@
 
   enum LoginErrors {USER_NOT_EXIST = '-2', PASSWORD_WRONG = '-1', CAPTCHA_WRONG = '0'}
 
-  enum LoginPages {STUDENT = '1', ADMIN = '2', REGISTER = '3'}
+  enum LoginPages {STUDENT = '1', ADMIN = '2', REGISTER = '3', PROMPT = '4'}
 </script>
 
 <style scoped>

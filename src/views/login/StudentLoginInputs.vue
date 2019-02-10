@@ -3,18 +3,24 @@
         <div class="login">
             <div class="inputs">
                 <div>
-                    <p class="emailAddress">
-                        <input type="text" placeholder="電郵 Email" v-model="emailAddress">
-                        <i></i>
-                    </p>
-                    <p class="password">
-                        <input type="password" placeholder="密碼 Password" v-model="password">
-                        <i></i>
-                    </p>
-                    <p class="verify">
-                        <input type="text" placeholder="驗證碼 Verification code" v-model="captcha"/>
-                        <img class="codeImg" :src="encodeURI(this.captcha)" alt="驗證碼" width="61" height="21"/>
-                    </p>
+                    <el-tooltip :disabled="this.emailPrompt" content="請輸入郵箱" placement="right">
+                        <p class="emailAddress">
+                            <input type="text" placeholder="電郵 Email" v-model="emailAddress">
+                            <i></i>
+                        </p>
+                    </el-tooltip>
+                    <el-tooltip :disabled="this.passwordPrompt" content="請輸入密碼" placement="right">
+                        <p class="password">
+                            <input type="password" placeholder="密碼 Password" v-model="password">
+                            <i></i>
+                        </p>
+                    </el-tooltip>
+                    <el-tooltip :disabled="this.captchaPrompt" content="請輸入驗證碼" placement="right">
+                        <p class="verify">
+                            <input type="text" placeholder="驗證碼 Verification code" v-model="captcha"/>
+                            <img class="codeImg" :src="encodeURI(this.captcha)" alt="驗證碼" width="61" height="21"/>
+                        </p>
+                    </el-tooltip>
                     <p>
                         <button class="loginButton" @click="checkAndLogin()">登 錄</button>
                     </p>
@@ -30,7 +36,7 @@
 </template>
 
 <script lang="ts">
-  import { Vue, Component } from 'vue-property-decorator'
+  import { Vue, Component, Watch } from 'vue-property-decorator'
   import { setToken, getToken } from 'utils/token.ts'
   import { getCaptcha, studentLogin } from 'utils/api'
   import { bus } from './bus.ts'
@@ -46,17 +52,48 @@
     captcha: string = ''
     token: string = ''
 
+    emailPrompt: boolean = true
+    passwordPrompt: boolean = true
+    captchaPrompt: boolean = true
+
     mounted () {
       this.token = getToken()
     }
 
+    @Watch('emailAddress')
+    onEmailChange (newVal: string, oldVal: string) {
+      if (newVal !== '' && oldVal === '') {
+        this.emailPrompt = true
+      } else if (newVal === '' && oldVal !== '') {
+        this.emailPrompt = false
+      }
+    }
+
+    @Watch('password')
+    onPasswordChange (newVal: string, oldVal: string) {
+      if (newVal !== '' && oldVal === '') {
+        this.passwordPrompt = true
+      } else if (newVal === '' && oldVal !== '') {
+        this.passwordPrompt = false
+      }
+    }
+
+    @Watch('captcha')
+    onCaptchaChange (newVal: string, oldVal: string) {
+      if (newVal !== '' && oldVal === '') {
+        this.captchaPrompt = true
+      } else if (newVal === '' && oldVal !== '') {
+        this.captchaPrompt = false
+      }
+    }
+
     private checkAndLogin () {
       if (this.emailAddress === '') {
-        alert("請輸入郵箱")
+        this.emailPrompt = false
       } else if (this.password === '') {
-        alert("請輸入密碼")
+        this.passwordPrompt = false
       } else if (this.captcha === '') {
-        alert("請輸入驗證碼")
+        this.captchaPrompt = false
       } else {
         /*接口请求*/
         studentLogin({
@@ -64,26 +101,32 @@
           'password': this.password,
           'captcha': this.captcha
         }).then((response) => {
-          console.log(response.data)
-          if (response.data.isSucceed) {
-            this.promptContent = "登錄成功"
-            this.showPrompt = true
+          if (response.data.token) {
+            this.showPrompt = false
             setToken(response.data.token)
             setTimeout(function () {
               this.$router.push('/home')
             }.bind(this), 1000)
           } else {
-            if (response.data.information === LoginErrors.USER_NOT_EXIST) {
+            if (response.data.information == LoginErrors.USER_NOT_EXIST) {
               this.promptContent = "用戶不存在"
               this.showPrompt = true
-            } else if (response.data.information === LoginErrors.PASSWORD_WRONG) {
+            } else if (response.data.information == LoginErrors.PASSWORD_WRONG) {
               this.promptContent = "密碼錯誤"
               this.showPrompt = true
-            } else if (response.data.information === LoginErrors.CAPTCHA_WRONG) {
+            } else if (response.data.information == LoginErrors.CAPTCHA_WRONG) {
               this.promptContent = "驗證碼錯誤"
               this.showPrompt = true
               this.getCaptcha()
             }
+          }
+          if (this.showPrompt) {
+            this.emailAddress = ''
+            this.password = ''
+            this.captcha = ''
+            bus.$emit('switch-page', LoginPages.PROMPT)
+            bus.$emit('prompt-content', this.promptContent)
+            bus.$emit('simplified', false)
           }
         }).catch((error) => {
           console.log(error)
@@ -112,7 +155,7 @@
 
   enum LoginErrors {USER_NOT_EXIST = '-2', PASSWORD_WRONG = '-1', CAPTCHA_WRONG = '0'}
 
-  enum LoginPages {STUDENT = '1', ADMIN = '2', REGISTER = '3'}
+  enum LoginPages {STUDENT = '1', ADMIN = '2', REGISTER = '3', PROMPT = '4'}
 </script>
 
 <style scoped lang="scss" rel="stylesheet/scss">

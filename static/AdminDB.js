@@ -57,27 +57,27 @@ module.exports = {
         return new Promise((resolve, reject) => {
             openConnection();
             let sql = `select * from admininfo where username = '${username}';`;
-            let info = '{}';
             connection.query(sql, (err, result) => {
                 if (err) {
                     console.log("[GET ERROR] - ", err.message);
-                    return;
+                    return '{}';
                 }
-                if (result.length !== 0) {
-                    resolve(result);
-                } else {
-                    console.log("User Not Found.");
-                }
+                resolve(result);
             });
             closeConnection();
         }).then((value) => {
-            let user = {
-                id: value[0].id,
-                username: value[0].username,
-                password: value[0].password,
-                name: value[0].name
-            };
-            return JSON.stringify(user);
+            if (value.length !== 0) {
+                let user = {
+                    id: value[0].id,
+                    username: value[0].username,
+                    password: value[0].password,
+                    name: value[0].name
+                };
+                return JSON.stringify(user);
+            } else {
+                console.log("User Not Found.");
+                return JSON.stringify({});
+            }
         }, (value) => {
             return value;
         }).catch((err) => {

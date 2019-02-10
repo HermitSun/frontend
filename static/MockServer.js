@@ -14,14 +14,19 @@ const froms = {
     'All': 2
 };
 
+const LoginErrors = {
+    'USER_NOT_EXIST': '-2',
+    'PASSWORD_WRONG': '-1',
+    'CAPTCHA_WRONG': '0'
+};
+
 app.all('*', function (req, res, next) {
     //响应头指定了该响应的资源是否被允许与给定的origin共享。
     // *表示所有域都可以访问，同时可以将*改为指定的url，表示只有指定的url可以访问到资源
     res.header("Access-Control-Allow-Origin", "*");
-    res.header("Access-Control-Allow-Headers", " Origin, X-Requested-With, Content-Type, Accept");
+    res.header("Access-Control-Allow-Headers", "X-Requested-With,Authorization,Content-Type,Accept");
     //允许请求资源的方式
     res.header("Access-Control-Allow-Methods", "PUT,POST,GET,DELETE,OPTIONS");
-    // res.header("X-Powered-By", ' 3.2.1');
     res.header("Content-Type", "application/json;charset=utf-8");
     next();
 });
@@ -32,21 +37,21 @@ app.post('/login/student', jsonParser, async (req, res) => {
     let password = req.body.password;
     let captcha = req.body.captcha;
     let result = {
-        isSucceed: false,
-        information: '-2'
+        information: LoginErrors.USER_NOT_EXIST
     };
     let user = await sdb.get(emailAddress);
     user = JSON.parse(user);
-    if (user !== {}) {
+    console.log(user);
+    if (user != {}) {
         if (user.password === password) {
             if (captcha === '123') {
-                result.isSucceed = true;
+                result.token = 'TestToken';
                 result.information = user.username;
             } else {
-                result.information = '0';
+                result.information = LoginErrors.CAPTCHA_WRONG;
             }
         } else {
-            result.information = '-1';
+            result.information = LoginErrors.PASSWORD_WRONG;
         }
     }
     res.json(result);
@@ -57,21 +62,20 @@ app.post('/login/admin', jsonParser, async (req, res) => {
     let password = req.body.password;
     let captcha = req.body.captcha;
     let result = {
-        isSucceed: false,
-        information: '-2'
+        information: LoginErrors.USER_NOT_EXIST
     };
     let user = await adb.get(username);
     user = JSON.parse(user);
-    if (user !== {}) {
+    if (user != {}) {
         if (user.password === password) {
             if (captcha === '123') {
-                result.isSucceed = true;
+                result.token = 'TestToken';
                 result.information = user.name;
             } else {
-                result.information = '0';
+                result.information = LoginErrors.CAPTCHA_WRONG;
             }
         } else {
-            result.information = '-1';
+            result.information = LoginErrors.PASSWORD_WRONG;
         }
     }
     res.json(result);
@@ -82,7 +86,6 @@ app.get('/list/getlist', jsonParser, async (req, res) => {
     let allStudents = await sdb.getAll();
     let actualStudents = [];
     if (from == froms.All) {
-        console.log('enter');
         actualStudents = allStudents.filter(user => {
             return !(name && user.username.indexOf(name) === -1);
         });

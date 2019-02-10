@@ -7,8 +7,8 @@
                         <img class="leftHead" src="./img/NJULogo.png" @click="straightLogin"/>
                         <div class="rightHead">台灣免試生系統</div>
                     </div>
-                    <StudentLoginInputs v-if="showStudentLogin"></StudentLoginInputs>
-                    <AdminLogin v-else-if="showAdminLogin"></AdminLogin>
+                    <StudentLoginInputs v-if="this.showStudentLogin"></StudentLoginInputs>
+                    <AdminLogin v-else-if="this.showAdminLogin"></AdminLogin>
                 </div>
                 <div class="background"></div>
             </div>
@@ -18,11 +18,11 @@
 </template>
 
 <script lang="ts">
-  import {Vue, Component} from 'vue-property-decorator'
-  import {bus} from "./bus"
-  import {getCookie, setCookie} from 'utils/cookie'
-  import StudentLoginInputs from './StudentLoginInputs'
-  import AdminLogin from './AdminLogin'
+  import { Vue, Component } from 'vue-property-decorator'
+  import { setToken, getToken } from 'utils/token.ts'
+  import { bus } from "./bus.ts"
+  import StudentLoginInputs from './StudentLoginInputs.vue'
+  import AdminLogin from './AdminLogin.vue'
 
   @Component({
     components: {
@@ -56,14 +56,13 @@
 
     mounted () {
       /*如果存在cookie，则转到主页*/
-      if (getCookie('emailAddress') && getCookie('username')) {
+      if (getToken()) {
         this.$router.push('/home')
       }
     }
 
     straightLogin () {
-      setCookie('username', "admin", 1000 * 60)
-      setCookie('actualName', "WenSun", 1000 * 60)
+      setToken('TestToken')
       this.$router.push('/admin')
     }
   }

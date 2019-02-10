@@ -91,12 +91,12 @@
 </template>
 
 <script lang="ts">
-  import {Vue, Component} from 'vue-property-decorator'
-  import {getCookie, deleteCookie} from 'utils/cookie'
-  import Guide from './Guide'
+  import { Vue, Component } from 'vue-property-decorator'
+  import { setToken, getToken, delToken } from 'utils/token.ts'
+  import Guide from './Guide.vue'
 
   @Component({
-    components: {Guide}
+    components: { Guide }
   })
   export default class extends Vue {
     systemName: string = '台湾免试生管理系统'
@@ -106,13 +106,15 @@
     //收到的消息
     hasNewMessage: boolean = false
     totalMessage: number = 0
+    token: string = ''
 
     mounted () {
-      this.userName = getCookie('actualName')
+      this.token = getToken()
       /*如果cookie不存在，则跳转到登录页*/
-      if (this.userName == '') {
+      if (this.token == '') {
         this.$router.push('/')
       }
+      //此处还缺少获取用户名称和信息数量的方法
       window.setInterval(() => {
         setTimeout(this.handleNewMessage, 0)
       }, 30000)//30s查询一次消息
@@ -133,8 +135,7 @@
     logout () {
       this.$confirm('确认退出?', '提示', {})
         .then(() => {
-          deleteCookie('username')
-          deleteCookie('actualName')
+          delToken()
           this.$router.push('/')
         })
         .catch(() => {

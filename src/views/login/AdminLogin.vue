@@ -29,10 +29,10 @@
 </template>
 
 <script lang="ts">
-  import {Vue, Component} from 'vue-property-decorator'
-  import {getCookie, setCookie} from 'utils/cookie'
-  import {adminLogin, getCaptcha} from 'utils/api'
-  import {bus} from './bus.ts'
+  import { Vue, Component } from 'vue-property-decorator'
+  import { setToken, getToken } from 'utils/token.ts'
+  import { adminLogin, getCaptcha } from 'utils/api'
+  import { bus } from './bus.ts'
 
   @Component({})
   export default class AdminLogin extends Vue {
@@ -45,7 +45,7 @@
     token: string = ''
 
     mounted () {
-      this.token = getCookie('token')
+      this.token = getToken()
     }
 
     private checkAndLogin () {
@@ -61,14 +61,12 @@
           'username': this.username,
           'password': this.password,
           'captcha': this.captcha
-        }, this.token).then((response) => {
+        }).then((response) => {
           console.log(response.data)
           if (response.data.isSucceed) {
             this.promptContent = "登录成功"
             this.showPrompt = true
-            setCookie('username', this.username, 1000 * 60)
-            setCookie('actualName', response.data.information, 1000 * 60)
-            setCookie('token', response.data.token, 1000 * 60 * 60 * 24 * 7)
+            setToken(response.data.token)
             setTimeout(function () {
               this.$router.push('/admin')
             }.bind(this), 1000)

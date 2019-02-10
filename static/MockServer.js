@@ -14,11 +14,15 @@ const froms = {
     'All': 2
 };
 
-app.use(function (req, res, next) {
+app.all('*', function (req, res, next) {
+    //响应头指定了该响应的资源是否被允许与给定的origin共享。
+    // *表示所有域都可以访问，同时可以将*改为指定的url，表示只有指定的url可以访问到资源
     res.header("Access-Control-Allow-Origin", "*");
-    res.header('Access-Control-Allow-Methods', 'PUT, GET, POST, DELETE, OPTIONS');
-    res.header("Access-Control-Allow-Headers", "X-Requested-With");
-    res.header('Access-Control-Allow-Headers', 'Content-Type');
+    res.header("Access-Control-Allow-Headers", " Origin, X-Requested-With, Content-Type, Accept");
+    //允许请求资源的方式
+    res.header("Access-Control-Allow-Methods", "PUT,POST,GET,DELETE,OPTIONS");
+    // res.header("X-Powered-By", ' 3.2.1');
+    res.header("Content-Type", "application/json;charset=utf-8");
     next();
 });
 
@@ -49,7 +53,6 @@ app.post('/login/student', jsonParser, async (req, res) => {
 });
 
 app.post('/login/admin', jsonParser, async (req, res) => {
-    console.log(req.body);
     let username = req.body.username;
     let password = req.body.password;
     let captcha = req.body.captcha;

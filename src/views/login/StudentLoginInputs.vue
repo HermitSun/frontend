@@ -30,10 +30,10 @@
 </template>
 
 <script lang="ts">
-  import {Vue, Component} from 'vue-property-decorator'
-  import {getCookie, setCookie} from 'utils/cookie'
-  import {getCaptcha, studentLogin} from 'utils/api'
-  import {bus} from './bus.ts'
+  import { Vue, Component } from 'vue-property-decorator'
+  import { setToken, getToken } from 'utils/token.ts'
+  import { getCaptcha, studentLogin } from 'utils/api'
+  import { bus } from './bus.ts'
 
   @Component({})
   export default class StudentLoginInputs extends Vue {
@@ -47,7 +47,7 @@
     token: string = ''
 
     mounted () {
-      this.token = getCookie('token')
+      this.token = getToken()
     }
 
     private checkAndLogin () {
@@ -63,14 +63,12 @@
           'emailAddress': this.emailAddress,
           'password': this.password,
           'captcha': this.captcha
-        }, this.token).then((response) => {
+        }).then((response) => {
           console.log(response.data)
           if (response.data.isSucceed) {
             this.promptContent = "登錄成功"
             this.showPrompt = true
-            setCookie('emailAddress', this.emailAddress, 1000 * 60)
-            setCookie('username', response.data.information, 1000 * 60)
-            setCookie('token', response.data.token, 1000 * 60 * 60 * 24 * 7)
+            setToken(response.data.token)
             setTimeout(function () {
               this.$router.push('/home')
             }.bind(this), 1000)

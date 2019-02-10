@@ -7,25 +7,25 @@
 
 
 <script lang="ts">
-  import {setCookie, getCookie, deleteCookie} from '../../assets/utils/cookie.ts'
-  import {Vue, Component} from 'vue-property-decorator'
+  import { Vue, Component } from 'vue-property-decorator'
+  import { delToken, getToken } from 'utils/token.ts'
 
   @Component({})
   export default class Home extends Vue {
     username: string = ''
+    token: string = ''
 
     mounted () {
       /*获取cookie*/
-      this.username = getCookie('username')
+      this.token = getToken()
       /*如果cookie不存在，则跳转到登录页*/
-      if (this.username == '') {
+      if (this.token == '') {
         this.$router.push('/')
       }
     }
 
     quit () {
-      deleteCookie('emailAddress')
-      deleteCookie('username')
+      delToken()
       this.$router.push('/')
     }
   }

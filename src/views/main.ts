@@ -3,8 +3,7 @@
 import ElementUI from 'element-ui'
 import '../assets/theme/theme-NJUpurple/index.css'
 import Vue from 'vue'
-// @ts-ignore
-import App from './App'
+import App from './App.vue'
 import router from '../routes/routes'
 
 Vue.config.productionTip = false

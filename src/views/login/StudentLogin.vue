@@ -7,8 +7,9 @@
                         <img class="leftHead" src="./img/NJULogo.png" @click="straightLogin"/>
                         <div class="rightHead">台灣免試生系統</div>
                     </div>
-                    <StudentLoginInputs v-if="showStudentLogin"></StudentLoginInputs>
-                    <AdminLogin v-else-if="showAdminLogin"></AdminLogin>
+                    <StudentLoginInputs v-show="this.showStudentLogin"></StudentLoginInputs>
+                    <AdminLogin v-show="this.showAdminLogin"></AdminLogin>
+                    <LoginPrompt v-show="this.showPrompt"></LoginPrompt>
                 </div>
                 <div class="background"></div>
             </div>
@@ -18,16 +19,18 @@
 </template>
 
 <script lang="ts">
-  import {Vue, Component} from 'vue-property-decorator'
-  import {bus} from "./bus"
-  import {getCookie, setCookie} from 'utils/cookie'
-  import StudentLoginInputs from './StudentLoginInputs'
-  import AdminLogin from './AdminLogin'
+  import { Vue, Component } from 'vue-property-decorator'
+  import { setToken, getToken } from 'utils/token.ts'
+  import { bus } from "./bus.ts"
+  import StudentLoginInputs from './StudentLoginInputs.vue'
+  import AdminLogin from './AdminLogin.vue'
+  import LoginPrompt from './LoginPrompt.vue'
 
   @Component({
     components: {
       StudentLoginInputs,
-      AdminLogin
+      AdminLogin,
+      LoginPrompt
     }
   })
   export default class StudentLogin extends Vue {
@@ -35,6 +38,7 @@
     showStudentLogin: boolean = true
     showRegister: boolean = false
     showAdminLogin: boolean = false
+    showPrompt: boolean = false
 
     created () {
       bus.$on('switch-page', (page) => {
@@ -42,13 +46,21 @@
           this.showStudentLogin = true
           this.showRegister = false
           this.showAdminLogin = false
+          this.showPrompt = false
         } else if (page === LoginPages.ADMIN) {
           this.showAdminLogin = true
           this.showStudentLogin = false
           this.showRegister = false
+          this.showPrompt = false
         } else if (page === LoginPages.REGISTER) {
           this.showRegister = true
           this.showStudentLogin = false
+          this.showAdminLogin = false
+          this.showPrompt = false
+        } else if (page === LoginPages.PROMPT) {
+          this.showPrompt = true
+          this.showStudentLogin = false
+          this.showRegister = false
           this.showAdminLogin = false
         }
       })
@@ -56,19 +68,18 @@
 
     mounted () {
       /*如果存在cookie，则转到主页*/
-      if (getCookie('emailAddress') && getCookie('username')) {
+      if (getToken()) {
         this.$router.push('/home')
       }
     }
 
     straightLogin () {
-      setCookie('username', "admin", 1000 * 60)
-      setCookie('actualName', "WenSun", 1000 * 60)
+      setToken('TestToken')
       this.$router.push('/admin')
     }
   }
 
-  enum LoginPages {STUDENT = '1', ADMIN = '2', REGISTER = '3'}
+  enum LoginPages {STUDENT = '1', ADMIN = '2', REGISTER = '3', PROMPT = '4'}
 </script>
 
 <style scoped lang="scss" rel="stylesheet/scss">

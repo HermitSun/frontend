@@ -28,7 +28,7 @@
         "src/*"
       ],
       "utils/*": [
-        "src/assets/utils/*"
+        "src/utils/*"
       ]
     },
     "sourceMap": true,

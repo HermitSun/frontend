@@ -100,27 +100,27 @@ module.exports = {
             openConnection();
             let params = [emailAddress];
             let sql = "select * from userinfo where emailAddress = ?;";
-            let info = '{}';
             connection.query(sql, params, (err, result) => {
                 if (err) {
                     console.log("[GET ERROR] - ", err.message);
                     return '{}';
                 }
-                if (result.length !== 0) {
-                    resolve(result);
-                } else {
-                    console.log("User Not Found.");
-                }
+                resolve(result);
             });
             closeConnection();
         }).then((value) => {
-            let user = {
-                id: value[0].id,
-                emailAddress: value[0].emailAddress,
-                username: value[0].username,
-                password: value[0].password
-            };
-            return JSON.stringify(user);
+            if (value.length !== 0) {
+                let user = {
+                    id: value[0].id,
+                    emailAddress: value[0].emailAddress,
+                    username: value[0].username,
+                    password: value[0].password
+                };
+                return JSON.stringify(user);
+            } else {
+                console.log("User Not Found.");
+                return JSON.stringify({});
+            }
         }, (value) => {
             return value;
         }).catch((err) => {

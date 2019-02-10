@@ -1,5 +1,6 @@
 import Vue from 'vue'
 import Router from 'vue-router'
+import {getToken} from "utils/token.ts";
 // 加载模板文件
 import NotFound from '../views/404.vue'
 import StudentLogin from '../views/login/StudentLogin.vue'
@@ -15,26 +16,39 @@ import EndEnrollment from '../views/admin/enrollment/EndEnrollment.vue'
 import Home from '../views/home/Home.vue'
 
 Vue.use(Router);
-export default new Router({
+
+const router = new Router({
     modes: 'history',
     routes: [
         {
             path: '/',
             name: 'StudentLogin',
             component: StudentLogin,
-            hidden: true
+            hidden: true,
+            meta: {
+                icon: '',
+                title: '登錄'
+            }
         },
         {
             path: '/404',
             name: '404',
             component: NotFound,
-            hidden: true
+            hidden: true,
+            meta: {
+                icon: '',
+                title: '页面不存在'
+            }
         },
         {
             path: '/admin',
             name: '首页',
             component: Admin,
-            hidden: true
+            hidden: true,
+            meta: {
+                icon: '',
+                title: '南京大学台湾免试生管理系统'
+            }
         },
         {
             path: '/admin',
@@ -81,4 +95,42 @@ export default new Router({
             hidden: true
         }
     ]
-})
+});
+
+// 登陆页面路由 name
+const LOGIN_PAGE_NAME = 'StudentLogin';
+
+// 跳转之前
+router.beforeEach((to, from, next) => {
+    const token = getToken();
+    if (to.meta.title) {
+        document.title = to.meta.title
+    }
+    if (!token && to.name !== LOGIN_PAGE_NAME) {
+        // 未登录且要跳转的页面不是登录页
+        next({
+            name: LOGIN_PAGE_NAME // 跳转到登录页
+        });
+    } else if (!token && to.name === LOGIN_PAGE_NAME) {
+        // 未登陆且要跳转的页面是登录页
+        next(); // 跳转
+    } else if (token && to.name === LOGIN_PAGE_NAME) {
+        // 已登录且要跳转的页面是登录页
+        next();// 跳转
+    } else {
+        if (token) {
+            next(); // 跳转
+        } else {
+            next({
+                name: LOGIN_PAGE_NAME
+            });
+        }
+    }
+});
+
+// 跳转之后
+router.afterEach(to => {
+    //
+});
+
+export default router;

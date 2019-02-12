@@ -9,9 +9,21 @@ const jsonParser = bodyParser.json();
 // const urlencodedParser = bodyParser.urlencoded({extended: false});
 
 const froms = {
-    'NotPass': 0,
-    'Pass': 1,
-    'All': 2
+    'JUNIOR_PASSED': 0,
+    'JUNIOR_FAILED': 1,
+    'JUNIOR_ALL': 2,
+    'SENIOR_PASSED': 3,
+    'SENIOR_FAILED': 4,
+    'SENIOR_ALL': 5
+};
+
+const StudentState = {
+    'NULL': 0,
+    'UNDER_EXAMINED': 1,
+    'JUNIOR_PASSED': 2,
+    'JUNIOR_FAILED': 3,
+    'SENIOR_PASSED': 4,
+    'SENIOR_FAILED': 5
 };
 
 const LoginErrors = {
@@ -85,17 +97,31 @@ app.get('/list/getlist', jsonParser, async (req, res) => {
     let {from, page, name} = req.query;
     let allStudents = await sdb.getAll();
     let actualStudents = [];
-    if (from == froms.All) {
+    if (from == froms.JUNIOR_ALL) {
         actualStudents = allStudents.filter(user => {
-            return !(name && user.username.indexOf(name) === -1);
+            return !(name && user.username.indexOf(name) === -1) && (user.status === StudentState.JUNIOR_FAILED
+                || user.status === StudentState.JUNIOR_PASSED);
         });
-    } else if (from == froms.NotPass) {
+    } else if (from == froms.JUNIOR_FAILED) {
         actualStudents = allStudents.filter(user => {
-            return !(name && user.username.indexOf(name) === -1) && user.status === 0;
+            return !(name && user.username.indexOf(name) === -1) && user.status === StudentState.JUNIOR_FAILED;
         });
-    } else if (from == froms.Pass) {
+    } else if (from == froms.JUNIOR_PASSED) {
         actualStudents = allStudents.filter(user => {
-            return !(name && user.username.indexOf(name) === -1) && user.status === 1;
+            return !(name && user.username.indexOf(name) === -1) && user.status === StudentState.JUNIOR_PASSED;
+        });
+    } else if (from == froms.SENIOR_ALL) {
+        actualStudents = allStudents.filter(user => {
+            return !(name && user.username.indexOf(name) === -1) && (user.status === StudentState.SENIOR_FAILED
+                || user.status === StudentState.SENIOR_PASSED);
+        });
+    } else if (from == froms.SENIOR_FAILED) {
+        actualStudents = allStudents.filter(user => {
+            return !(name && user.username.indexOf(name) === -1) && user.status === StudentState.SENIOR_FAILED;
+        });
+    } else if (from == froms.SENIOR_PASSED) {
+        actualStudents = allStudents.filter(user => {
+            return !(name && user.username.indexOf(name) === -1) && user.status === StudentState.SENIOR_PASSED;
         });
     } else {
         actualStudents = [];
@@ -109,7 +135,7 @@ app.get('/list/getlist', jsonParser, async (req, res) => {
             gender: actualStudents[i].gender,
             score: actualStudents[i].score,
             school: actualStudents[i].highSchool,
-            status: actualStudents[i].status ? '通过' : '未通过'
+            status: actualStudents[i].status
         });
     }
     actualStudents = temp.filter((u, index) => 15 * (page - 1) <= index && index < 15 * page);

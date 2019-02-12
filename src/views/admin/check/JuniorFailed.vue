@@ -52,7 +52,7 @@
             </el-table-column>
             <el-table-column label="审核结果" width="150" :sortable="true" :sort-method="sortByResult">
                 <template slot-scope="scope">
-                    <el-tag type="success" v-if="scope.row.status==='通过'">通过</el-tag>
+                    <el-tag type="success" v-if="scope.row.status===2">通过</el-tag>
                     <el-tag type="danger" v-else>未通过</el-tag>
                 </template>
             </el-table-column>
@@ -60,7 +60,7 @@
                 <template slot-scope="scope">
                     <el-button size="small" @click="handleEdit(scope.row)">编辑</el-button>
                     <el-button type="danger" size="small" @click="handlePass(scope.row)">
-                        {{scope.row.status==='通过'?'取消':'通过'}}
+                        {{scope.row.status===2?'取消':'通过'}}
                     </el-button>
                 </template>
             </el-table-column>
@@ -70,8 +70,8 @@
             <el-button type="primary" @click="exportVisible=true" icon="el-icon-download"
                        :disabled="this.allSelected.length===0&&this.currentSelected.length===0">批量导出
             </el-button>
-            <el-button type="danger" @click="allCancel" icon="el-icon-close"
-                       :disabled="this.allSelected.length===0&&this.currentSelected.length===0">一键取消
+            <el-button type="danger" @click="allPass" icon="el-icon-check"
+                       :disabled="this.allSelected.length===0&&this.currentSelected.length===0">一键通过
             </el-button>
             <el-pagination layout="prev, pager, next" @current-change="handleCurrentChange" :page-size="15"
                            :total="total" style="float:right;">
@@ -157,9 +157,12 @@
                 exportForm: 0,
 
                 froms: {
-                    'NotPass': 0,
-                    'Pass': 1,
-                    'All': 2
+                    'JUNIOR_PASSED': 0,
+                    'JUNIOR_FAILED': 1,
+                    'JUNIOR_ALL': 2,
+                    'SENIOR_PASSED': 3,
+                    'SENIOR_FAILED': 4,
+                    'SENIOR_ALL': 5
                 }
             }
         },
@@ -174,7 +177,7 @@
             },
             getStudents() {
                 let params = {
-                    from: this.froms.Pass,
+                    from: this.froms.JUNIOR_FAILED,
                     page: this.page,
                     name: this.filters.name
                 };
@@ -183,6 +186,7 @@
                     .then((res) => {
                         this.total = res.data.total;
                         this.students = res.data.stuList;
+                        console.log(this.students);
                         this.listLoading = false;
                     })
                     .then(() => {
@@ -365,7 +369,7 @@
                 document.body.appendChild(link);
                 link.click()
             },
-            allCancel() {
+            allPass() {
                 let ids = [];
                 if (this.allSelected.length === 0) {
                     ids = this.currentSelected.map(student => student.id);
@@ -375,7 +379,7 @@
                 this.$confirm('确认修改吗？', '提示', {}).then(() => {
                     modifyStuStatus({
                         ids: ids,
-                        status: 0
+                        status: 1
                     }).then((res) => {
                         this.$message({
                             message: '修改成功',

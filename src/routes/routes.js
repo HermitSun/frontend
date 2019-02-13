@@ -27,7 +27,6 @@ const router = new Router({
             path: '/',
             name: 'StudentLogin',
             component: StudentLogin,
-            hidden: true,
             meta: {
                 icon: '',
                 title: '登錄'
@@ -37,7 +36,6 @@ const router = new Router({
             path: '/404',
             name: '404',
             component: NotFound,
-            hidden: true,
             meta: {
                 icon: '',
                 title: '页面不存在'
@@ -47,7 +45,6 @@ const router = new Router({
             path: '/admin',
             name: '首页',
             component: Admin,
-            hidden: true,
             meta: {
                 icon: '',
                 title: '南京大学台湾免试生管理系统'
@@ -101,12 +98,10 @@ const router = new Router({
             path: '/home',
             name: 'Home',
             component: Home,
-            hidden: true
         },
         {
             path: '*',
             redirect: '/',
-            hidden: true
         }
     ]
 });

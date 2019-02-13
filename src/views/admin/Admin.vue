@@ -51,7 +51,7 @@
                 <el-menu :default-active="$route.path" :default-openeds="['3']" :router="true"
                          :collapse="this.collapsed" :collapse-transition="false" active-text-color="#FF0000"
                          background-color="#eef1f6">
-                    <template v-for="(item,index) in $router.options.routes" v-if="!item.hidden">
+                    <template v-for="(item,index) in $router.options.routes" v-if="item.path==='/admin'">
                         <el-submenu :index="index+''" v-if="!item.leaf">
                             <template slot="title">
                                 <i :class="item.iconClass"></i>
@@ -92,7 +92,7 @@
 
 <script lang="ts">
   import { Vue, Component } from 'vue-property-decorator'
-  import { setToken, getToken, delToken } from 'utils/token.ts'
+  import { getToken, delToken } from 'utils/token.ts'
   import Guide from './Guide.vue'
 
   @Component({

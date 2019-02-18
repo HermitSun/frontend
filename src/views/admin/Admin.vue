@@ -57,8 +57,8 @@
                                 <i :class="item.iconClass"></i>
                                 <span slot="title" style="font-size: medium">{{item.name}}</span>
                             </template>
-                            <el-menu-item v-for="child in item.children" :index="child.path" :key="child.path"
-                                          v-if="!child.hidden">{{child.name}}
+                            <el-menu-item v-for="child in item.children" :index="child.path" :key="child.path">
+                                {{child.name}}
                             </el-menu-item>
                         </el-submenu>
                         <el-menu-item v-else :index="item.children[0].path" class="leaf">

@@ -33,7 +33,6 @@
         this.promptContent = content
       })
       bus.$on('simplified', (content) => {
-        console.log(content)
         this.promptSimplifiedCharacters = content
       })
     }

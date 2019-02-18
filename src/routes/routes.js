@@ -52,8 +52,8 @@ const router = new Router({
         },
         {
             path: '/admin',
-            component: Admin,
             name: '招生设置',
+            component: Admin,
             iconClass: 'el-icon-date',//图标
             children: [
                 {path: '/admin/start-enroll', component: StartEnrollment, name: '开启本次招生'},

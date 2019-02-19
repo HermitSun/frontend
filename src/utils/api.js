@@ -9,7 +9,7 @@ axios.interceptors.request.use(config => {
             config.headers.Authorization = `Bearer ${token}`;
         }
         config.url = axios.defaults.baseURL + config.url;/*拼接完整请求路径*/
-        console.log(config);
+        // console.log(config);
         return config;
     },
     err => {

@@ -186,7 +186,6 @@
                     .then((res) => {
                         this.total = res.data.total;
                         this.students = res.data.stuList;
-                        console.log(this.students);
                         this.listLoading = false;
                     })
                     .then(() => {
@@ -227,7 +226,7 @@
                 }
                 let allSelectedIds = [];
                 for (let i = 0; i < this.allSelected.length; ++i) {
-                    allSelectedIds.push(this.allSelected[idKey]);
+                    allSelectedIds.push(this.allSelected[i][idKey]);
                 }
                 let currentSelectedIds = [];
                 // 获取当前页选中的id
@@ -245,9 +244,9 @@
                     }
                 }
                 for (let j = 0; j < noSelectIds.length; ++j) {
-                    if (allSelectedIds.indexOf(noSelectIds[i]) >= 0) {
+                    if (allSelectedIds.indexOf(noSelectIds[j]) >= 0) {
                         for (let i = 0; i < this.allSelected.length; i++) {
-                            if (this.allSelected[i][idKey] === noSelectIds[i]) {
+                            if (this.allSelected[i][idKey] === noSelectIds[j]) {
                                 // 如果总选择中有未被选中的，则删除
                                 this.allSelected.splice(i, 1);
                                 break;

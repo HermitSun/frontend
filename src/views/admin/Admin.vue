@@ -232,7 +232,6 @@
 
             .el-aside {
                 flex: 0 0 250px;
-                width: 250px;
 
                 .el-menu {
                     height: 100%;
@@ -251,24 +250,6 @@
                         background-color: #8c939d !important;
                     }
                 }
-
-                .collapsed {
-                    width: 60px;
-
-                    .item {
-                        position: relative;
-                    }
-
-                    .submenu {
-                        position: absolute;
-                        top: 0;
-                        left: 60px;
-                        z-index: 99999;
-                        height: auto;
-                        display: none;
-                    }
-
-                }
             }
 
             .menu-collapsed {
@@ -282,7 +263,6 @@
             }
 
             .content-container {
-                /*background: #f1f2f7;*/
                 flex: 1;
                 overflow-y: scroll;
                 padding: 20px;
@@ -307,6 +287,7 @@
         }
     }
 </style>
+
 <style lang="scss" rel="stylesheet/scss">
     .avatarBadge {
         .el-badge__content {

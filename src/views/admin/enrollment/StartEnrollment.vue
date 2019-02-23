@@ -1,15 +1,24 @@
 <template>
-
+    <el-button type="primary" @click="startEnroll">开启本次招生</el-button>
 </template>
 
 <script lang="ts">
-  import {Vue, Component} from 'vue-property-decorator'
+  import { Vue, Component } from 'vue-property-decorator'
 
   @Component({})
   export default class StartEnrollment extends Vue {
+    startEnroll () {
+      // 开始招生
+    }
   }
 </script>
 
-<style scoped>
-
+<style scoped lang="scss" rel="stylesheet/scss">
+    .el-button {
+        width: 98*3px;
+        height: 40*3px;
+        position: relative;
+        top: 200px;
+        left: 400px;
+    }
 </style>

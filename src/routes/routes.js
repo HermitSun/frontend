@@ -45,6 +45,7 @@ const router = new Router({
             path: '/admin',
             name: '首页',
             component: Admin,
+            leaf: true,
             meta: {
                 icon: '',
                 title: '南京大学台湾免试生管理系统'
@@ -59,7 +60,11 @@ const router = new Router({
                 {path: '/admin/start-enroll', component: StartEnrollment, name: '开启本次招生'},
                 {path: '/admin/set-profess', component: SetProfessions, name: '设置招生专业'},
                 {path: '/admin/end-enroll', component: EndEnrollment, name: '结束本次招生'}
-            ]
+            ],
+            meta: {
+                icon: '',
+                title: '南京大学台湾免试生管理系统'
+            }
         },
         {
             path: '/admin',
@@ -70,7 +75,11 @@ const router = new Router({
                 {path: '/admin/junior-not-pass-stu', component: JuniorFailed, name: '未通过审核'},
                 {path: '/admin/junior-passed-stu', component: JuniorPassed, name: '已通过审核'},
                 {path: '/admin/junior-all-stu', component: JuniorAll, name: '全部审核信息'}
-            ]
+            ],
+            meta: {
+                icon: '',
+                title: '南京大学台湾免试生管理系统'
+            }
         },
         {
             path: '/admin',
@@ -81,18 +90,25 @@ const router = new Router({
                 {path: '/admin/senior-not-pass-stu', component: SeniorFailed, name: '未通过面试'},
                 {path: '/admin/senior-passed-stu', component: SeniorPassed, name: '已通过面试'},
                 {path: '/admin/senior-all-stu', component: SeniorAll, name: '全部面试信息'}
-            ]
+            ],
+            meta: {
+                icon: '',
+                title: '南京大学台湾免试生管理系统'
+            }
         },
         {
             path: '/admin',
             component: Admin,
             name: '发布结果',
             iconClass: 'el-icon-message',
-            // leaf: true,//只有一个节点
             children: [
                 {path: '/admin/edit-msg', component: EditMessage, name: '编辑消息'},
                 {path: '/admin/pub-res', component: PublishResult, name: '发送结果'}
-            ]
+            ],
+            meta: {
+                icon: '',
+                title: '南京大学台湾免试生管理系统'
+            }
         },
         {
             path: '/home',

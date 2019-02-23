@@ -5,14 +5,14 @@
 </template>
 
 <script lang="ts">
-  import {Vue, Component} from 'vue-property-decorator'
+  import { Vue, Component } from 'vue-property-decorator'
 
   @Component({})
   export default class App extends Vue {
   }
 </script>
 
-<style lang="scss">
+<style scoped lang="scss" rel="stylesheet/scss">
     body {
         margin: 0;
         padding: 0;
@@ -24,7 +24,9 @@
     #app {
         position: absolute;
         top: 0;
+        right: 0;
         bottom: 0;
+        left: 0;
         width: 100%;
     }
 
@@ -46,15 +48,5 @@
         .el-form-item {
             margin-bottom: 10px;
         }
-    }
-
-    .fade-enter-active,
-    .fade-leave-active {
-        transition: all .2s ease;
-    }
-
-    .fade-enter,
-    .fade-leave-active {
-        opacity: 0;
     }
 </style>

@@ -61,9 +61,9 @@
                                 {{child.name}}
                             </el-menu-item>
                         </el-submenu>
-                        <el-menu-item v-else :index="item.children[0].path" class="leaf">
+                        <el-menu-item v-else :index="item.path" class="leaf">
                             <i :class="item.iconClass"></i>
-                            <span slot="title" style="font-size: medium">{{item.children[0].name}}</span>
+                            <span slot="title" style="font-size: medium">{{item.name}}</span>
                         </el-menu-item>
                     </template>
                 </el-menu>

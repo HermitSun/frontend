@@ -48,9 +48,8 @@
         <el-col :span="24" class="main">
             <!--侧边栏-->
             <el-aside :class="this.collapsed?'menu-collapsed':'menu-expanded'">
-                <el-menu :default-active="$route.path" :default-openeds="['3']" :router="true"
-                         :collapse="this.collapsed" :collapse-transition="false" active-text-color="#FF0000"
-                         background-color="#eef1f6">
+                <el-menu :default-active="$route.path" router :collapse="this.collapsed"
+                         :collapse-transition="false" active-text-color="#FF0000" background-color="#eef1f6">
                     <template v-for="(item,index) in $router.options.routes" v-if="item.path==='/admin'">
                         <el-submenu :index="index+''" v-if="!item.leaf">
                             <template slot="title">

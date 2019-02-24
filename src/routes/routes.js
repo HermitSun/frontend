@@ -16,7 +16,12 @@ import SeniorPassed from '@/views/admin/check/SeniorPassed.vue'
 import EditMessage from '@/views/admin/publish/EditMessage.vue'
 import PublishResult from '@/views/admin/publish/PublishResult.vue'
 import EndEnrollment from '@/views/admin/enrollment/EndEnrollment.vue'
-import Home from '@/views/home/Home.vue'
+import Application from '@/views/student/apply/Application.vue';
+import UploadAttachment from '@/views/student/apply/UploadAttachment.vue';
+import JuniorCheck from '@/views/student/check/JuniorCheck.vue';
+import JuniorReply from '@/views/student/check/JuniorReply.vue';
+import SeniorCheck from '@/views/student/check/SeniorCheck.vue';
+import Student from '@/views/student/Student.vue';
 
 Vue.use(Router);
 
@@ -45,6 +50,7 @@ const router = new Router({
             path: '/admin',
             name: '首页',
             component: Admin,
+            iconClass: 'el-icon-menu',
             leaf: true,
             meta: {
                 icon: '',
@@ -111,9 +117,43 @@ const router = new Router({
             }
         },
         {
-            path: '/home',
-            name: 'Home',
-            component: Home,
+            path: '/student',
+            name: '首頁',
+            component: Student,
+            iconClass: 'el-icon-menu',
+            leaf: true,
+            meta: {
+                icon: '',
+                title: '南京大學台灣免試生系統'
+            }
+        },
+        {
+            path: '/student',
+            name: '免試申請',
+            component: Student,
+            iconClass: 'el-icon-date',//图标
+            children: [
+                {path: '/student/application', component: Application, name: '填寫申請表'},
+                {path: '/student/upload-attach', component: UploadAttachment, name: '上傳附件'}
+            ],
+            meta: {
+                icon: '',
+                title: '南京大学台湾免试生管理系统'
+            }
+        },
+        {
+            path: '/student',
+            component: Student,
+            name: '結果查看',
+            iconClass: 'el-icon-edit',
+            children: [
+                {path: '/student/junior-check', component: JuniorCheck, name: '初審結果'},
+                {path: '/student/senior-check', component: SeniorCheck, name: '面試結果'}
+            ],
+            meta: {
+                icon: '',
+                title: '南京大学台湾免试生管理系统'
+            }
         },
         {
             path: '*',

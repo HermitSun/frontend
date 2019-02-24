@@ -97,7 +97,7 @@
   @Component({
     components: { Guide }
   })
-  export default class extends Vue {
+  export default class Admin extends Vue {
     systemName: string = '台湾免试生管理系统'
     collapsed: boolean = false//是否折叠（默认否）
     userName: string = ''

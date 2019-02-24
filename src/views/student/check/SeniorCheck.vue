@@ -1,5 +1,5 @@
 <template>
-    
+    <p>senior check</p>
 </template>
 
 <script>

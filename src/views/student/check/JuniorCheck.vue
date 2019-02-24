@@ -1,5 +1,5 @@
 <template>
-    
+    <p>junior check</p>
 </template>
 
 <script>

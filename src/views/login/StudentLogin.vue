@@ -5,10 +5,11 @@
                 <div class="foo">
                     <div class="head clearFix">
                         <img class="leftHead" src="./img/NJULogo.png" @click="straightLogin"/>
-                        <div class="rightHead">台灣免試生系統</div>
+                        <div class="rightHead" @click="straightLoginStudent" style="cursor: pointer">台灣免試生系統</div>
                     </div>
                     <StudentLoginInputs v-show="this.showStudentLogin"></StudentLoginInputs>
                     <AdminLogin v-show="this.showAdminLogin"></AdminLogin>
+                    <Register v-show="this.showRegister"></Register>
                     <LoginPrompt v-show="this.showPrompt"></LoginPrompt>
                 </div>
                 <div class="background"></div>
@@ -25,12 +26,14 @@
   import StudentLoginInputs from './StudentLoginInputs.vue'
   import AdminLogin from './AdminLogin.vue'
   import LoginPrompt from './LoginPrompt.vue'
+  import Register from '../register/Register.vue'
 
   @Component({
     components: {
       StudentLoginInputs,
       AdminLogin,
-      LoginPrompt
+      LoginPrompt,
+      Register
     }
   })
   export default class StudentLogin extends Vue {
@@ -76,6 +79,11 @@
     straightLogin () {
       setToken('TestToken')
       this.$router.push('/admin')
+    }
+
+    straightLoginStudent () {
+      setToken('TestToken')
+      this.$router.push('/student')
     }
   }
 

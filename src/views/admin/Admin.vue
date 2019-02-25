@@ -50,7 +50,7 @@
             <el-aside :class="this.collapsed?'menu-collapsed':'menu-expanded'">
                 <el-menu :default-active="$route.path" router :collapse="this.collapsed"
                          :collapse-transition="false" active-text-color="#FF0000" background-color="#eef1f6">
-                    <template v-for="(item,index) in $router.options.routes" v-if="item.path==='/admin'">
+                    <template v-for="(item,index) in $router.options.routes" v-if="item.path==='/admin'&&!item.hidden">
                         <el-submenu :index="index+''" v-if="!item.leaf">
                             <template slot="title">
                                 <i :class="item.iconClass"></i>
@@ -60,9 +60,9 @@
                                 {{child.name}}
                             </el-menu-item>
                         </el-submenu>
-                        <el-menu-item v-else :index="item.path" class="leaf">
+                        <el-menu-item v-else :index="item.children[0].path" class="leaf">
                             <i :class="item.iconClass"></i>
-                            <span slot="title" style="font-size: medium">{{item.name}}</span>
+                            <span slot="title" style="font-size: medium">{{item.children[0].name}}</span>
                         </el-menu-item>
                     </template>
                 </el-menu>

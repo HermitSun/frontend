@@ -1,15 +1,15 @@
 <template>
     <div class="wrapper">
-        <p>这是导航页</p>
-        <router-link to="/admin/start-enroll">开启本次招生</router-link>
-        <router-link to="/admin/set-profess">设置招生专业</router-link>
-        <router-link to="/admin/end-enroll">结束本次招生</router-link>
-        <router-link to="/admin/not-pass-stu">未通过</router-link>
-        <router-link to="/admin/passed-stu">已通过</router-link>
+        <p>這是導航頁</p>
+        <router-link to="/admin/start-enroll">開啓本次招生</router-link>
+        <router-link to="/admin/set-profess">設置招生專業</router-link>
+        <router-link to="/admin/end-enroll">結束本次招生</router-link>
+        <router-link to="/admin/not-pass-stu">未通過</router-link>
+        <router-link to="/admin/passed-stu">已通過</router-link>
         <router-link to="/admin/all-stu">全部</router-link>
-        <router-link to="/admin/edit-msg">编辑消息</router-link>
-        <router-link to="/admin/edit-email">编辑邮件</router-link>
-        <router-link to="/admin/pub-res">发布结果</router-link>
+        <router-link to="/admin/edit-msg">編輯消息</router-link>
+        <router-link to="/admin/edit-email">編輯郵件</router-link>
+        <router-link to="/admin/pub-res">發佈結果</router-link>
     </div>
 </template>
 

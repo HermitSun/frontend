@@ -1,6 +1,6 @@
 <template>
     <el-row class="container">
-        <!--标题栏-->
+        <!--標題欄-->
         <el-col :span="24" class="header">
             <el-col :span="10" class="logo" :class="this.collapsed?'logo-collapse-width':'logo-width'">
                 <div @click="backToIndex" style="cursor: pointer">
@@ -12,7 +12,7 @@
             <el-col :span="10">
                 <div class="tools" @click.prevent="handleCollapse">
                     <el-tooltip placement="right">
-                        <div slot="content">{{this.collapsed?'打開侧边栏':'收起侧边栏'}}</div>
+                        <div slot="content">{{this.collapsed?'打開側邊欄':'收起側邊欄'}}</div>
                         <i class="el-icon-arrow-right" v-if="this.collapsed"></i>
                         <i class="el-icon-arrow-left" v-else></i>
                     </el-tooltip>
@@ -46,7 +46,7 @@
             </el-col>
         </el-col>
         <el-col :span="24" class="main">
-            <!--侧边栏-->
+            <!--側邊欄-->
             <el-aside :class="this.collapsed?'menu-collapsed':'menu-expanded'">
                 <el-menu :default-active="$route.path" router :collapse="this.collapsed"
                          :collapse-transition="false" active-text-color="#FF0000" background-color="#eef1f6">
@@ -99,7 +99,7 @@
   })
   export default class Student extends Vue {
     systemName: string = '台灣免試生系統'
-    collapsed: boolean = false//是否折叠（默认否）
+    collapsed: boolean = false//是否折疊（默認否）
     userName: string = ''
     userAvatar: string = ''
     //收到的消息
@@ -109,14 +109,14 @@
 
     mounted () {
       this.token = getToken()
-      /*如果cookie不存在，则跳转到登录页*/
+      /*如果cookie不存在，則跳轉到登錄頁*/
       if (this.token == '') {
         this.$router.push('/')
       }
-      //此处还缺少获取用户名称和信息数量的方法
+      //此處還缺少獲取用戶名稱和信息數量的方法
       window.setInterval(() => {
         setTimeout(this.handleNewMessage, 0)
-      }, 30000)//30s查询一次消息
+      }, 30000)//30s查詢一次消息
     }
 
     handleNewMessage () {
@@ -132,7 +132,7 @@
     }
 
     logout () {
-      this.$confirm('确认退出?', '提示', {})
+      this.$confirm('確認退出?', '提示', {})
         .then(() => {
           delToken()
           this.$router.push('/')
@@ -151,7 +151,7 @@
         right: 0;
         bottom: 0;
         left: 0;
-        width: 100%; //确保占满整个屏幕
+        width: 100%; //確保佔滿整個屏幕
 
         .header {
             height: 60px;
@@ -239,7 +239,7 @@
                         font-weight: bold !important;
                     }
 
-                    //利用深选择器修改字体粗细（卑微）
+                    //利用深選擇器修改字體粗細（卑微）
 
                     .el-menu-item:not(.leaf) {
                         background-color: #e4e8f1 !important;

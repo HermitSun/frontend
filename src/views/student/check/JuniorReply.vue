@@ -1,5 +1,5 @@
 <template>
-    <p>junior reply</p>
+    <p>初審結果回復</p>
 </template>
 
 <script>

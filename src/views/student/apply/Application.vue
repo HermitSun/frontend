@@ -22,6 +22,9 @@
                     </el-radio-group>
                 </el-form-item>
 
+                <el-form ref="form":incline="false">
+
+                </el-form>
                <el-form-item label="SEX 性別">
                     <el-select v-model="sex" placeholder="請選擇性別">
                         <el-option label="男" value=1></el-option>
@@ -29,8 +32,13 @@
                     </el-select>
                 </el-form-item>
 
-                <el-form-item label="DATE OF BIRTH 出生日期">
-                    <el-date-picker type="date" placeholder="選擇日期" v-model="form.birthdate" style="width: 100%;"></el-date-picker>
+                <el-form-item label="DATE OF BIRTH 出生日期" >
+                    <el-date-picker type="date" placeholder="選擇日期" v-model="form.birthdate" style="width: 195px;"></el-date-picker>
+                </el-form-item>
+
+                <!--後端少接口-->
+                <el-form-item label="EMAIL ADDRESS 電郵">
+                    <el-input  v-model="form.email" clearable></el-input>
                 </el-form-item>
 
                 <el-form-item label="ID CARD No. 身份證號碼">
@@ -46,7 +54,7 @@
                 </el-form-item>
 
                 <el-form-item label="Graduation Year 畢業年份">
-                    <el-date-picker type="year" placeholder="選擇年份" v-model="form.graduationYear" style="width: 100%;"></el-date-picker>
+                    <el-date-picker type="year" placeholder="選擇年份" v-model="form.graduationYear" style="width: 195px;"></el-date-picker>
                 </el-form-item>
 
 
@@ -72,10 +80,6 @@
                     </el-form-item>
                 </el-form-item>
 
-                <!--後端少接口-->
-                <el-form-item label="EMAIL ADDRESS 電郵">
-                    <el-input  v-model="form.email" clearable></el-input>
-                </el-form-item>
 
 
                 <el-row>
@@ -219,25 +223,25 @@
                 <!--增加嵌套結構-->
                 <el-form v-model="familyParticulars" >
                     <el-form v-model="relationship1" incline="true">
-                        <el-form-item  v-model="relationship"><el-input placeholder="Relationship 關係" ></el-input></el-form-item>
-                        <el-form-item  v-model="name"><el-input placeholder="NAME 姓名" ></el-input></el-form-item>
-                        <el-form-item  v-model="organization"><el-input placeholder="Company 單位名稱" ></el-input></el-form-item>
-                        <el-form-item  v-model="occupation"><el-input placeholder="Occupation 職務" ></el-input></el-form-item>
-                        <el-form-item  v-model="phoneNumber"><el-input placeholder="Mobile 手機"></el-input></el-form-item>
+                        <el-form-item  v-model="relationship"><el-input placeholder="Relationship 關係" style="width: 180px"></el-input></el-form-item>
+                        <el-form-item  v-model="name"><el-input placeholder="NAME 姓名" style="width: 180px"></el-input></el-form-item>
+                        <el-form-item  v-model="organization"><el-input placeholder="Company 單位名稱" style="width: 180px"></el-input></el-form-item>
+                        <el-form-item  v-model="occupation"><el-input placeholder="Occupation 職務" style="width: 180px"></el-input></el-form-item>
+                        <el-form-item  v-model="phoneNumber"><el-input placeholder="Mobile 手機" style="width: 180px"></el-input></el-form-item>
                     </el-form>
                     <el-form v-model="relationship2" incline="true">
-                        <el-form-item  v-model="relationship"><el-input placeholder="Relationship 關係"></el-input></el-form-item>
-                        <el-form-item  v-model="name"><el-input placeholder="NAME 姓名" ></el-input></el-form-item>
-                        <el-form-item  v-model="organization"><el-input placeholder="Company 單位名稱" ></el-input></el-form-item>
-                        <el-form-item  v-model="occupation"><el-input placeholder="Occupation 職務"></el-input></el-form-item>
-                        <el-form-item  v-model="phoneNumber"><el-input placeholder="Mobile 手機"></el-input></el-form-item>
+                        <el-form-item  v-model="relationship"><el-input placeholder="Relationship 關係" style="width: 180px"></el-input></el-form-item>
+                        <el-form-item  v-model="name"><el-input placeholder="NAME 姓名" style="width: 180px"></el-input></el-form-item>
+                        <el-form-item  v-model="organization"><el-input placeholder="Company 單位名稱" style="width: 180px"></el-input></el-form-item>
+                        <el-form-item  v-model="occupation"><el-input placeholder="Occupation 職務" style="width: 180px"></el-input></el-form-item>
+                        <el-form-item  v-model="phoneNumber"><el-input placeholder="Mobile 手機" style="width: 180px"></el-input></el-form-item>
                     </el-form>
                     <el-form v-model="relationship3" incline="true">
-                        <el-form-item  v-model="relationship"><el-input placeholder="Relationship 關係" ></el-input></el-form-item>
-                        <el-form-item  v-model="name"><el-input placeholder="NAME 姓名"></el-input></el-form-item>
-                        <el-form-item  v-model="organization"><el-input placeholder="Company 單位名稱"></el-input></el-form-item>
-                        <el-form-item  v-model="occupation"><el-input placeholder="Occupation 職務" ></el-input></el-form-item>
-                        <el-form-item  v-model="phoneNumber"><el-input placeholder="Mobile 手機"></el-input></el-form-item>
+                        <el-form-item  v-model="relationship"><el-input placeholder="Relationship 關係" style="width: 180px"></el-input></el-form-item>
+                        <el-form-item  v-model="name"><el-input placeholder="NAME 姓名" style="width: 180px"></el-input></el-form-item>
+                        <el-form-item  v-model="organization"><el-input placeholder="Company 單位名稱" style="width: 180px"></el-input></el-form-item>
+                        <el-form-item  v-model="occupation"><el-input placeholder="Occupation 職務" style="width: 180px"></el-input></el-form-item>
+                        <el-form-item  v-model="phoneNumber"><el-input placeholder="Mobile 手機" style="width: 180px"></el-input></el-form-item>
                     </el-form>
                 </el-form>
 

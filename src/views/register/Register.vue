@@ -1,8 +1,22 @@
 <template>
     <div class="wrapper">
-        <p>REGISTER</p>
-        <a class="router2" @click="switchStudent">已有賬號？現在登錄</a>
+        <div class="form">
+            <form class="register-form">
+                <input type="text" placeholder="姓名" class="name"/>
+                <input type="text" placeholder="台胞證號碼" class="id"/>
+                <input type="password" placeholder="密碼" class="password"/>
+                <input type="password" placeholder="請確認您的密碼"  />
+                <input type="text" placeholder="電子郵箱" class="email"/>
+                <input type="text" placeholder="手機號碼" class="tel"/>
+                <input type="text" placeholder="出生日期" class="birthDate"/>
+                <input type="text" placeholder="家庭住址" class="address"/>
+                <input type="text" placeholder="高中" class="highSchool"/>
+                <button>創建用戶</button>
+                <p class="message">已經註冊？ <a href="#">登陸</a></p>
+            </form>
+        </div>
     </div>
+
 </template>
 
 <script lang="ts">
@@ -14,6 +28,20 @@
     private switchStudent () {
       bus.$emit('switch-page', LoginPages.STUDENT)
     }
+      data() {
+          return {
+              form: {
+
+                  phoneNumber:{
+                  },
+                  curriculumChoices:{
+
+                  }
+              }
+          }
+      }
+
+
   }
 
   enum LoginPages {STUDENT = '1', ADMIN = '2', REGISTER = '3', PROMPT = '4'}

@@ -5,7 +5,6 @@ import {getToken} from "utils/token.ts";
 import NotFound from '@/views/404.vue'
 import StudentLogin from '@/views/login/StudentLogin.vue'
 import Admin from '@/views/admin/Admin.vue'
-import StartEnrollment from '@/views/admin/enrollment/StartEnrollment.vue'
 import SetProfessions from '@/views/admin/enrollment/SetProfessions.vue'
 import JuniorAll from '@/views/admin/check/JuniorAll.vue'
 import JuniorFailed from '@/views/admin/check/JuniorFailed.vue'
@@ -14,8 +13,6 @@ import SeniorAll from '@/views/admin/check/SeniorAll.vue'
 import SeniorFailed from '@/views/admin/check/SeniorFailed.vue'
 import SeniorPassed from '@/views/admin/check/SeniorPassed.vue'
 import EditMessage from '@/views/admin/publish/EditMessage.vue'
-import PublishResult from '@/views/admin/publish/PublishResult.vue'
-import EndEnrollment from '@/views/admin/enrollment/EndEnrollment.vue'
 import Application from '@/views/student/apply/Application.vue';
 import UploadAttachment from '@/views/student/apply/UploadAttachment.vue';
 import JuniorCheck from '@/views/student/check/JuniorCheck.vue';
@@ -51,7 +48,7 @@ const router = new Router({
             name: '首页',
             component: Admin,
             iconClass: 'el-icon-menu',
-            leaf: true,
+            hidden: true,
             meta: {
                 icon: '',
                 title: '南京大学台湾免试生管理系统'
@@ -62,10 +59,9 @@ const router = new Router({
             name: '招生设置',
             component: Admin,
             iconClass: 'el-icon-date',//图标
+            leaf: true,
             children: [
-                {path: '/admin/start-enroll', component: StartEnrollment, name: '开启本次招生'},
-                {path: '/admin/set-profess', component: SetProfessions, name: '设置招生专业'},
-                {path: '/admin/end-enroll', component: EndEnrollment, name: '结束本次招生'}
+                {path: '/admin/set-profess', component: SetProfessions, name: '招生专业'}
             ],
             meta: {
                 icon: '',
@@ -105,11 +101,11 @@ const router = new Router({
         {
             path: '/admin',
             component: Admin,
-            name: '发布结果',
+            name: '发布',
             iconClass: 'el-icon-message',
+            leaf: true,
             children: [
-                {path: '/admin/edit-msg', component: EditMessage, name: '编辑消息'},
-                {path: '/admin/pub-res', component: PublishResult, name: '发送结果'}
+                {path: '/admin/edit-msg', component: EditMessage, name: '发布结果'},
             ],
             meta: {
                 icon: '',

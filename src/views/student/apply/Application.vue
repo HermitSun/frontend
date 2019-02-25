@@ -7,16 +7,16 @@
                 </el-row>
 
                 <el-form-item label="FAMILY NAME 姓" >
-                    <el-input placeholder="中文(必須與身份證相同)" v-model="form.firstName" clearable></el-input>
-                    <el-input placeholder="拼音" v-model="form.firstNameAux" clearable></el-input>
+                    <el-input placeholder="中文(必須與身份證相同)" v-model="form.firstName" clearable style="width: 300px;"></el-input>
+                    <el-input placeholder="拼音" v-model="form.firstNameAux" clearable style="width: 300px;"></el-input>
                 </el-form-item>
                 <el-form-item label="GIVEN NAME 名">
-                    <el-input placeholder="中文(必須與身份證相同)" v-model="form.lastName" clearable></el-input>
-                    <el-input placeholder="拼音" v-model="lastNameAux" clearable></el-input>
+                    <el-input placeholder="中文(必須與身份證相同)" v-model="form.lastName" clearable style="width: 300px;"></el-input>
+                    <el-input placeholder="拼音" v-model="lastNameAux" clearable style="width: 300px;"></el-input>
                 </el-form-item>
 
                 <el-form-item label="SIMPLIFICATION 簡體姓名 ">
-                    <el-radio-group v-model="form.needSimplification">
+                    <el-radio-group v-model="form.needSimplification" style="width: 300px;">
                         <el-radio label="與身份證一致" value=false></el-radio>
                         <el-radio label="與身份證有出入" value=true></el-radio>
                     </el-radio-group>
@@ -26,7 +26,7 @@
 
                 </el-form>
                <el-form-item label="SEX 性別">
-                    <el-select v-model="sex" placeholder="請選擇性別">
+                    <el-select v-model="sex" placeholder="請選擇性別" style="width: 195px;">
                         <el-option label="男" value=1></el-option>
                         <el-option label="女" value=0></el-option>
                     </el-select>
@@ -38,19 +38,19 @@
 
                 <!--後端少接口-->
                 <el-form-item label="EMAIL ADDRESS 電郵">
-                    <el-input  v-model="form.email" clearable></el-input>
+                    <el-input  v-model="form.email" clearable style="width: 195px;"></el-input>
                 </el-form-item>
 
                 <el-form-item label="ID CARD No. 身份證號碼">
-                    <el-input  v-model="form.IDCardNumber" clearable></el-input>
+                    <el-input  v-model="form.IDCardNumber" clearable style="width: 195px;"></el-input>
                 </el-form-item>
 
                 <el-form-item label="MTP Number 台胞證號碼">
-                    <el-input  v-model="form.MTPNumber" clearable></el-input>
+                    <el-input  v-model="form.MTPNumber" clearable style="width: 195px;"></el-input>
                 </el-form-item>
 
                 <el-form-item label="HIGH SCHOOL 現就讀學校">
-                    <el-input  v-model="form.highSchool" clearable></el-input>
+                    <el-input  v-model="form.highSchool" clearable style="width: 195px;"></el-input>
                 </el-form-item>
 
                 <el-form-item label="Graduation Year 畢業年份">
@@ -60,23 +60,23 @@
 
 
                 <el-form-item label="ADDRESS 通訊地址">
-                    <el-input  v-model="form.address" clearable></el-input>
+                    <el-input  v-model="form.address" clearable style="width: 195px;"></el-input>
                 </el-form-item>
 
                 <el-form-item label="POSTAL CODE 郵編">
-                    <el-input  v-model="form.postalCode" clearable></el-input>
+                    <el-input  v-model="form.postalCode" clearable style="width: 195px;"></el-input>
                 </el-form-item>
 
-                <el-form-item label="TELEPHONE 電話號碼" v-model="phoneNumber" label-width="160px" >
+                <el-form-item label="TELEPHONE 電話號碼" v-model="phoneNumber" label-width="195px" >
                     <!--區號-->
                     <el-form-item label="Home 住宅" >
-                        <el-input  v-model="form.phoneNumber.home" clearable></el-input>
+                        <el-input  v-model="form.phoneNumber.home" clearable style="width: 195px;"></el-input>
                     </el-form-item>
                     <el-form-item label="Mobile/Other 手機/其他">
-                        <el-input  v-model="form.phoneNumber.mobile" clearable></el-input>
+                        <el-input  v-model="form.phoneNumber.mobile" clearable style="width: 195px;"></el-input>
                     </el-form-item>
                     <el-form-item label="Fax 傳真">
-                        <el-input  v-model="form.phoneNumber.fax" clearable></el-input>
+                        <el-input  v-model="form.phoneNumber.fax" clearable style="width: 195px;"></el-input>
                     </el-form-item>
                 </el-form-item>
 

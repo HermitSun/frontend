@@ -1,4 +1,4 @@
-<template>
+<template xmlns="http://www.w3.org/1999/html">
     <el-card class="wrapper">
             <el-form ref="form" :inline="true" model="form" label-width="115px">
 
@@ -134,35 +134,80 @@
                 </el-row>
 
                 <el-form ref="form1" :inline="true" model="form1" label-width="160px" v-model="schoolAttended">
-                    <el-form-item label="Primary school 小學" v-model="primarySchool" >
-                            <el-input  v-model="name" placeholder="SCHOOL 學校名稱" style="width: 50%;">></el-input>
-                            <el-select v-model="region" placeholder="REGION 地區" style="width: 50%;">
-                                <!--導入台灣地區區名-->
-                                <el-option label="台北市" ></el-option>
-                            </el-select>
-                            <el-date-picker type="date" placeholder="START 開始時間" v-model="startDate" style="width: 50%;"></el-date-picker>
-                            <el-date-picker type="date" placeholder="END 終止時間" v-model="endDate" style="width: 50%;"></el-date-picker>
+                    <el-form-item v-model="primarySchool">
+                        <table>
+                            <tr>
+                                <td width="200px"><div slot="label">Primary school 小學</div></td>
+                                <td width="400px"><el-input v-model="name" placeholder="SCHOOL 學校名稱" style="width: 50%"></el-input></td>
+                            </tr>
+                            <tr>
+                                <td width="200px"></td>
+                                <td width="400px"><el-select v-model="region" placeholder="REGION 地區" style="width: 50%"><!--導入台灣地區區名--><el-option label="台北市"></el-option></el-select></td>
+                            </tr>
+                            <tr>
+                                <td width="200px"></td>
+                                <td width="400px"><el-date-picker type="date" placeholder="START 開始時間" v-model="startDate" style="width: 50%"></el-date-picker>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td width="200px"></td>
+                                <td width="400px"><el-date-picker type="date" placeholder="END 終止時間" v-model="endDate" style="width: 50%"></el-date-picker></td>
+                            </tr>
+                        </table>
                     </el-form-item>
 
-                    <el-form-item label="Junior middle school 初中" v-model="juniorMiddleSchool">
-                        <el-input  v-model="name" placeholder="SCHOOL 學校名稱" style="width: 50%;">></el-input>
-                        <el-select v-model="region" placeholder="REGION 地區" style="width: 50%;">
-                            <!--導入台灣地區區名-->
-                            <el-option label="台北市" ></el-option>
-                        </el-select>
-                        <el-date-picker type="date" placeholder="START 開始時間" v-model="startDate" style="width: 50%;"></el-date-picker>
-                        <el-date-picker type="date" placeholder="END 終止時間" v-model="endDate" style="width: 50%;"></el-date-picker>
+
+                    <el-form-item  v-model="juniorMiddleSchool">
+                        <table>
+                            <tr>
+                                <td width="200px"><div slot="label">Primary school 小學</div></td>
+                                <td width="400px"><el-input v-model="name" placeholder="SCHOOL 學校名稱" style="width: 50%"></el-input></td>
+                            </tr>
+                            <tr>
+                                <td width="200px"></td>
+                                <td width="400px"><el-select v-model="region" placeholder="REGION 地區" style="width: 50%"><!--導入台灣地區區名--><el-option label="台北市"></el-option></el-select></td>
+                            </tr>
+                            <tr>
+                                <td width="200px"></td>
+                                <td width="400px"><el-date-picker type="date" placeholder="START 開始時間" v-model="startDate" style="width: 50%"></el-date-picker>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td width="200px"></td>
+                                <td width="400px"><el-date-picker type="date" placeholder="END 終止時間" v-model="endDate" style="width: 50%"></el-date-picker></td>
+                            </tr>
+                        </table>
                     </el-form-item>
 
-                    <el-form-item label="Senior middle school 高中" v-model="seniorMiddleSchool">
-                        <el-input  v-model="name" placeholder="SCHOOL 學校名稱" style="width: 50%;">></el-input>
-                        <el-select v-model="region" placeholder="REGION 地區" style="width: 50%;">
-                            <!--導入台灣地區區名-->
-                            <el-option label="台北市" ></el-option>
-                        </el-select>
-                        <el-date-picker type="date" placeholder="START 開始時間" v-model="startDate" style="width: 50%;"></el-date-picker>
-                        <el-date-picker type="date" placeholder="END 終止時間" v-model="endDate" style="width: 50%;"></el-date-picker>
+                    <el-form-item  v-model="seniorMiddleSchool">
+                        <table>
+                            <tr>
+                                <td width="200px"><div slot="label">Primary school 小學</div></td>
+                                <td width="400px"><el-input v-model="name" placeholder="SCHOOL 學校名稱" style="width: 50%"></el-input></td>
+                            </tr>
+                            <tr>
+                                <td width="200px"></td>
+                                <td width="400px"><el-select v-model="region" placeholder="REGION 地區" style="width: 50%"><!--導入台灣地區區名--><el-option label="台北市"></el-option></el-select></td>
+                            </tr>
+                            <tr>
+                                <td width="200px"></td>
+                                <td width="400px"><el-date-picker type="date" placeholder="START 開始時間" v-model="startDate" style="width: 50%"></el-date-picker>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td width="200px"></td>
+                                <td width="400px"><el-date-picker type="date" placeholder="END 終止時間" v-model="endDate" style="width: 50%"></el-date-picker></td>
+                            </tr>
+                        </table>
                     </el-form-item>
+                    <!--
+                    <el-input  v-model="name" placeholder="SCHOOL 學校名稱" style="width: 50%;">></el-input>
+                        <el-select v-model="region" placeholder="REGION 地區" style="width: 50%;">
+                    <el-option label="台北市" ></el-option>
+                    </el-select>
+                    <el-date-picker type="date" placeholder="START 開始時間" v-model="startDate" style="width: 50%;"></el-date-picker>
+                    <el-date-picker type="date" placeholder="END 終止時間" v-model="endDate" style="width: 50%;"></el-date-picker>
+                    -->
 
                 </el-form>
 
@@ -202,6 +247,53 @@
                 </el-row>
 
                 <el-form v-model="gsatResult" >
+                    <table>
+                        <tr>
+                            <td>Results <br/>成績</td>
+                            <td><el-form-item  v-model="chinese"><el-input placeholder="CHINESE 國文"></el-input></el-form-item></td>
+                            <td><el-form-item  v-model="math"><el-input placeholder="MATH 數學"></el-input></el-form-item></td>
+                            <td><el-form-item  v-model="english"><el-input placeholder="ENGLISH 英文"></el-input></el-form-item></td>
+                            <td><el-form-item  v-model="socials"><el-input placeholder="SOCIAL 社會" ></el-input></el-form-item></td>
+                            <td><el-form-item  v-model="sciences"><el-input placeholder="SCIENCES 自然"></el-input></el-form-item></td>
+                        </tr>
+                        <tr>
+                            <td>Actual level points <br/>實得級分</td>
+                            <td><el-form-item  v-model="chinese"><el-input placeholder="CHINESE 國文"></el-input></el-form-item></td>
+                            <td><el-form-item  v-model="math"><el-input placeholder="MATH 數學"></el-input></el-form-item></td>
+                            <td><el-form-item  v-model="english"><el-input placeholder="ENGLISH 英文"></el-input></el-form-item></td>
+                            <td><el-form-item  v-model="socials"><el-input placeholder="SOCIAL 社會" ></el-input></el-form-item></td>
+                            <td><el-form-item  v-model="sciences"><el-input placeholder="SCIENCES 自然"></el-input></el-form-item></td>
+                        </tr>
+                        <tr>
+                            <td>Level range <br/>級距</td>
+                            <td><el-form-item  v-model="chinese"><el-input placeholder="CHINESE 國文"></el-input></el-form-item></td>
+                            <td><el-form-item  v-model="math"><el-input placeholder="MATH 數學"></el-input></el-form-item></td>
+                            <td><el-form-item  v-model="english"><el-input placeholder="ENGLISH 英文"></el-input></el-form-item></td>
+                            <td><el-form-item  v-model="socials"><el-input placeholder="SOCIAL 社會" ></el-input></el-form-item></td>
+                            <td><el-form-item  v-model="sciences"><el-input placeholder="SCIENCES 自然"></el-input></el-form-item></td>
+                        </tr>
+                        <tr>
+                            <td>Single subject criteria <br/>單科標準</td>
+                            <td><el-form-item  v-model="chinese"><el-input placeholder="CHINESE 國文"></el-input></el-form-item></td>
+                            <td><el-form-item  v-model="math"><el-input placeholder="MATH 數學"></el-input></el-form-item></td>
+                            <td><el-form-item  v-model="english"><el-input placeholder="ENGLISH 英文"></el-input></el-form-item></td>
+                            <td><el-form-item  v-model="socials"><el-input placeholder="SOCIAL 社會" ></el-input></el-form-item></td>
+                            <td><el-form-item  v-model="sciences"><el-input placeholder="SCIENCES 自然"></el-input></el-form-item></td>
+                        </tr>
+
+                    </table>
+
+                    <table >
+                        <tr>
+                            <td>Total level points 總級分</td>
+                            <td><el-input></el-input></td>
+                            <td>Criteria Level 標級</td>
+                            <td><el-input></el-input></td>
+                        </tr>
+
+                    </table>
+                </el-form>
+                    <!--
                     <el-form  v-model="results"  incline="true" >
                         <el-form-item label="Results 成績"></el-form-item>
                         <el-form-item  v-model="chinese"><el-input placeholder="CHINESE 國文"></el-input></el-form-item>
@@ -234,13 +326,8 @@
                         <el-form-item  v-model="socials"><el-input placeholder="SOCIAL 社會" ></el-input></el-form-item>
                         <el-form-item  v-model="sciences"><el-input placeholder="SCIENCES 自然"></el-input></el-form-item>
                     </el-form>
-                    <el-form  v-model="totalLevelPoints"  incline="true">
-                        <el-form-item label="Total level points 總級分"></el-form-item><el-input></el-input>
-                    </el-form>
-                    <el-form  v-model="criteriaLevel"  incline="true">
-                        <el-form-item label="Criteria Level 標級"></el-form-item><el-input></el-input>
-                    </el-form>
-                </el-form>
+                    -->
+
 
                 <el-row>
                     <el-col :span="24"><div class="title grid-content bg-purple-dark">六. EXTRA-CURRICULAR ACTIVITIES, AND AWARDS 高中階段課外活動及所獲獎項</div></el-col>
@@ -249,12 +336,41 @@
                 </el-row>
 
                 <el-form v-model="familyParticulars" >
-                    <el-form v-model="relationship1" incline="true">
-                        <el-form-item  label="1"></el-form-item>
-                        <el-form-item  v-model="name"><el-input placeholder="Name of organization頒發/主辦單位"></el-input></el-form-item>
-                        <el-form-item  v-model="organization"><el-input placeholder="Name of award/activity獎項/活動名" ></el-input></el-form-item>
-                        <el-form-item  v-model="occupation"><el-input placeholder="Date of issue/participation獲獎/參與日期" ></el-input></el-form-item>
-                    </el-form>
+                    <table align="center">
+                        <tr>
+                            <td width="50px" style="text-align:center;vertical-align:middle;">1</td>
+                            <td width="300px"><el-form-item  v-model="name" ><el-input placeholder="Name of organization頒發/主辦單位" style="width: 145%;"></el-input></el-form-item></td>
+                            <td width="400px"><el-form-item  v-model="organization"><el-input placeholder="Name of award/activity獎項/活動名" style="width: 200%;"></el-input></el-form-item></td>
+                            <td width="300px"><el-form-item  v-model="occupation"><el-input placeholder="Date of issue/participation獲獎/參與日期" style="width:165%;"></el-input></el-form-item></td>
+                        </tr>
+                        <tr>
+                            <td width="50px" style="text-align:center;vertical-align:middle;">2</td>
+                            <td width="300px"><el-form-item  v-model="name" ><el-input placeholder="Name of organization頒發/主辦單位" style="width: 145%;"></el-input></el-form-item></td>
+                            <td width="400px"><el-form-item  v-model="organization"><el-input placeholder="Name of award/activity獎項/活動名" style="width: 200%;"></el-input></el-form-item></td>
+                            <td width="300px"><el-form-item  v-model="occupation"><el-input placeholder="Date of issue/participation獲獎/參與日期" style="width:165%;"></el-input></el-form-item></td>
+                        </tr>
+                        <tr>
+                            <td width="50px" style="text-align:center;vertical-align:middle;">3</td>
+                            <td width="300px"><el-form-item  v-model="name" ><el-input placeholder="Name of organization頒發/主辦單位" style="width: 145%;"></el-input></el-form-item></td>
+                            <td width="400px"><el-form-item  v-model="organization"><el-input placeholder="Name of award/activity獎項/活動名" style="width: 200%;"></el-input></el-form-item></td>
+                            <td width="300px"><el-form-item  v-model="occupation"><el-input placeholder="Date of issue/participation獲獎/參與日期" style="width:165%;"></el-input></el-form-item></td>
+                        </tr>
+                        <tr>
+                            <td width="50px" style="text-align:center;vertical-align:middle;">4</td>
+                            <td width="300px"><el-form-item  v-model="name" ><el-input placeholder="Name of organization頒發/主辦單位" style="width: 145%;"></el-input></el-form-item></td>
+                            <td width="400px"><el-form-item  v-model="organization"><el-input placeholder="Name of award/activity獎項/活動名" style="width: 200%;"></el-input></el-form-item></td>
+                            <td width="300px"><el-form-item  v-model="occupation"><el-input placeholder="Date of issue/participation獲獎/參與日期" style="width:165%;"></el-input></el-form-item></td>
+                        </tr>
+                        <tr>
+                            <td width="50px" style="text-align:center;vertical-align:middle;">5</td>
+                            <td width="300px"><el-form-item  v-model="name" ><el-input placeholder="Name of organization頒發/主辦單位" style="width: 145%;"></el-input></el-form-item></td>
+                            <td width="400px"><el-form-item  v-model="organization"><el-input placeholder="Name of award/activity獎項/活動名" style="width: 200%;"></el-input></el-form-item></td>
+                            <td width="300px"><el-form-item  v-model="occupation"><el-input placeholder="Date of issue/participation獲獎/參與日期" style="width:165%;"></el-input></el-form-item></td>
+                        </tr>
+                    </table>
+
+                </el-form>
+
 
                 </el-form>
 

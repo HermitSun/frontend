@@ -19,7 +19,6 @@ import EndEnrollment from '@/views/admin/enrollment/EndEnrollment.vue'
 import Application from '@/views/student/apply/Application.vue';
 import UploadAttachment from '@/views/student/apply/UploadAttachment.vue';
 import JuniorCheck from '@/views/student/check/JuniorCheck.vue';
-import JuniorReply from '@/views/student/check/JuniorReply.vue';
 import SeniorCheck from '@/views/student/check/SeniorCheck.vue';
 import Student from '@/views/student/Student.vue';
 

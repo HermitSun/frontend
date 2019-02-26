@@ -1,7 +1,7 @@
 import axios from 'axios';
 import {getToken} from "./token.ts";
 
-axios.defaults.baseURL = 'http://localhost:8080';
+axios.defaults.baseURL = 'http://localhost:3141';
 axios.defaults.retry = 4;
 axios.defaults.retryDelay = 1000;
 
@@ -57,8 +57,8 @@ export const verifyCode = params => {
     return axios.get(`/email/verification`, {params: params});
 };
 
-export const sendEmail = params => {
-    return axios.post(`/email/send-verification-email`, params);
+export const sendVerifyEmail = () => {
+    return axios.get(`/email/captchaDelivery`);
 };
 
 export const registerUser = params => {

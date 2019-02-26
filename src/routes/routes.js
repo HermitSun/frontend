@@ -3,6 +3,7 @@ import Router from 'vue-router'
 import {getToken} from "utils/token.ts";
 // 加载模板文件
 import NotFound from '@/views/404.vue'
+import MobilePrompt from '@/views/MobilePrompt.vue'
 import StudentLogin from '@/views/login/StudentLogin.vue'
 import Register from '@/views/register/Register.vue'
 import ForgetPassword from '@/views/login/ForgetPassword.vue'
@@ -51,6 +52,15 @@ const router = new Router({
             meta: {
                 icon: '',
                 title: '忘記密碼'
+            }
+        },
+        {
+            path: '/cannot-reach',
+            name: 'CannotReach',
+            component: MobilePrompt,
+            meta: {
+                icon: '',
+                title: '無法訪問'
             }
         },
         {
@@ -186,7 +196,13 @@ router.beforeEach((to, from, next) => {
     if (to.meta.title) {
         document.title = to.meta.title
     }
-    next();
+    if (window.screen.width <= 600) {
+        next({
+            name: 'CannotReach'
+        })
+    } else {
+        next();
+    }
     // if (!token && to.name !== LOGIN_PAGE_NAME) {
     //     // 未登录且要跳转的页面不是登录页
     //     next({

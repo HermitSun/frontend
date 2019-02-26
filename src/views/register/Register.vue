@@ -63,7 +63,7 @@
       name: [
         { required: true, message: '請輸入姓名', trigger: 'change' }
       ],
-      IDCardNumber: [
+      idCardNumber: [
         {
           required: true,
           validator: (rule, value, callback) => {
@@ -95,58 +95,69 @@
         }
       ],
       email: [
-        { required: true, message: '', trigger: 'change' }
+        {
+          required: true,
+          validator: (rule, value, callback) => {
+            if (value === '') {
+              callback(new Error('請輸入郵箱'))
+            } else if (!/^[A-Za-z\d]+([-_.][A-Za-z\d]+)*@([A-Za-z\d]+[-.])+[A-Za-z\d]{2,4}$/.test(value)) {
+              callback(new Error('郵箱格式錯誤'))
+            } else {
+              callback()
+            }
+          },
+          trigger: 'blur'
+        }
       ]
     }
     registerFormWidth: string = '120px'
 
     registerStudent () {
-      // this.$refs['registerForm'].validate((valid) => {
-      //   if (valid) {
-      //     registerUser(this.registerForm)
-      //       .then((res) => {
-      //         alert(res.data.succeed)
-      //         alert(res.data.msg)
-      //       })
-      //       .catch((err) => {
-      //         alert(err)
-      //       })
-      //   } else {
-      //     this.$message.error('註冊失敗')
-      //     this.$refs.registerForm.resetFields()
-      //     return false
-      //   }
-      // })
       let form: any = this.$refs.registerForm
-      registerUser({
-        name: this.registerForm.name,
-        IDCardNumber: this.registerForm.IDCardNumber,
-        password: this.registerForm.password,
-        email: this.registerForm.email,
-        tel: this.registerForm.tel,
-        birthDate: this.registerForm.birthDate,
-        address: this.registerForm.address,
-        highSchool: this.registerForm.highSchool
-      }).then((res) => {
-        if (res.data.succeed) {
-          this.$message({
-            message: '註冊成功',
-            type: 'success'
+      form.validate((valid) => {
+        if (valid) {
+          registerUser({
+            name: this.registerForm.name,
+            IDCardNumber: this.registerForm.IDCardNumber,
+            password: this.registerForm.password,
+            email: this.registerForm.email,
+            tel: this.registerForm.tel,
+            birthDate: this.registerForm.birthDate,
+            address: this.registerForm.address,
+            highSchool: this.registerForm.highSchool
+          }).then((res) => {
+            if (res.data.succeed) {
+              this.$message({
+                message: '註冊成功',
+                type: 'success'
+              })
+              this.$router.push('/')
+            } else {
+              this.$message({
+                message: res.data.msg,
+                type: 'error'
+              })
+              this.$nextTick(() => {
+                form.resetFields()
+              })
+            }
+          }).catch((err) => {
+            this.$message({
+              message: err,
+              type: 'error'
+            })
           })
-          this.$router.push('/')
         } else {
           this.$message({
-            message: res.data.msg,
+            message: '內容有誤，請重新填寫',
             type: 'error'
           })
-          form.resetFields()
+          this.$nextTick(() => {
+            form.resetFields()
+          })
         }
-      }).catch((err) => {
-        this.$message({
-          message: err,
-          type: 'error'
-        })
       })
+
     }
   }
 </script>

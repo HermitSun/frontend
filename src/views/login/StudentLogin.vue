@@ -116,7 +116,7 @@
     }
 
     .total {
-        height: 433px;
+        height: 390px;
         position: absolute;
         top: 25%;
         left: 0;
@@ -127,7 +127,7 @@
 
         .background {
             width: 459px;
-            height: 433px;
+            height: 390px;
             position: absolute;
             top: 0;
             right: 0;

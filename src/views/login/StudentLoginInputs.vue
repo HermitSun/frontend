@@ -15,13 +15,6 @@
                             <i></i>
                         </p>
                     </el-tooltip>
-                    <el-tooltip :disabled="this.captchaPrompt" content="請輸入驗證碼" placement="right">
-                        <p class="verify">
-                            <input type="text" placeholder="驗證碼 Verification code" v-model="captcha"/>
-                            <!--<img class="codeImg" :src="decodeURI(this.captchaImage)" alt="驗證碼" width="61" height="21"-->
-                            <!--@click="getCaptcha"/>-->
-                        </p>
-                    </el-tooltip>
                     <p>
                         <button class="loginButton" @click="checkAndLogin()">登 錄</button>
                     </p>
@@ -48,23 +41,14 @@
     showPrompt: boolean = false
     promptContent: string = ''
     emailAddress: string = ''
-    username: string = ''
     password: string = ''
-    captcha: string = ''
-    captchaImage: string = ''
     token: string = ''
 
     emailPrompt: boolean = true
     passwordPrompt: boolean = true
-    captchaPrompt: boolean = true
 
     mounted () {
       this.token = getToken()
-      getCaptcha().then(res => {
-        this.captchaImage = res.data
-      }).catch((err) => {
-        alert(err)
-      })
     }
 
     @Watch('emailAddress')
@@ -85,28 +69,16 @@
       }
     }
 
-    @Watch('captcha')
-    onCaptchaChange (newVal: string, oldVal: string) {
-      if (newVal !== '' && oldVal === '') {
-        this.captchaPrompt = true
-      } else if (newVal === '' && oldVal !== '') {
-        this.captchaPrompt = false
-      }
-    }
-
     private checkAndLogin () {
       if (this.emailAddress === '') {
         this.emailPrompt = false
       } else if (this.password === '') {
         this.passwordPrompt = false
-      } else if (this.captcha === '') {
-        this.captchaPrompt = false
       } else {
         /*接口请求*/
         login({
           'username': this.emailAddress,
-          'password': this.password,
-          'captcha': this.captcha
+          'password': this.password
         }).then((response) => {
           if (response.data.token) {
             this.showPrompt = false
@@ -122,10 +94,6 @@
             } else if (response.data.msg == LoginErrors.PASSWORD_WRONG) {
               this.promptContent = "密碼錯誤"
               this.showPrompt = true
-            } else if (response.data.msg == LoginErrors.CAPTCHA_WRONG) {
-              this.promptContent = "驗證碼錯誤"
-              this.showPrompt = true
-              this.getCaptcha()
             } else if (response.data.msg == LoginErrors.OTHERS) {
               this.promptContent = "登錄失敗"
               this.showPrompt = true
@@ -134,7 +102,6 @@
           if (this.showPrompt) {
             this.emailAddress = ''
             this.password = ''
-            this.captcha = ''
             bus.$emit('switch-page', LoginPages.PROMPT)
             bus.$emit('prompt-content', this.promptContent)
             bus.$emit('simplified', false)
@@ -145,18 +112,9 @@
       }
     }
 
-    private getCaptcha () {
-      getCaptcha()
-        .then((response) => {
-          console.log(response)
-          this.captchaImage = response.data
-        })
-        .catch((error) => {
-          console.log((error))
-        })
-    }
-
     private switchAdmin () {
+      this.emailAddress = ''
+      this.password = ''
       bus.$emit('switch-page', LoginPages.ADMIN)
     }
   }
@@ -204,7 +162,7 @@
     .login {
         float: none;
         width: 364px;
-        margin: 0 auto;
+        margin: 10px auto;
 
         .inputs {
             margin-left: 12px;
@@ -289,6 +247,7 @@
         display: inline-block;
         width: 88%;
         line-height: 25px;
+        margin-top: 10px;
 
         a {
             float: left;

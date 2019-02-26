@@ -15,12 +15,6 @@
                             <i></i>
                         </p>
                     </el-tooltip>
-                    <el-tooltip :disabled="this.captchaPrompt" content="请输入验证码" placement="right">
-                        <p class="verify">
-                            <input type="text" placeholder="验证码 Verification code" v-model="captcha"/>
-                            <img class="codeImg" :src="encodeURI(this.captcha)" alt="验证码" width="61" height="21"/>
-                        </p>
-                    </el-tooltip>
                     <p>
                         <button class="loginButton" @click="checkAndLogin()">登 录</button>
                     </p>
@@ -29,7 +23,7 @@
         </div>
         <div class="footer">
             <router-link to="#" class="router1">忘记密码</router-link>
-            <a href="#" class="router3" @click="switchStudent">學生入口</a>
+            <a href="javascript:void(0)" class="router3" @click="switchStudent">學生入口</a>
         </div>
     </div>
 </template>
@@ -47,12 +41,10 @@
     promptContent: string = ''
     username: string = ''
     password: string = ''
-    captcha: string = ''
     token: string = ''
 
     usernamePrompt: boolean = true
     passwordPrompt: boolean = true
-    captchaPrompt: boolean = true
 
     mounted () {
       this.token = getToken()
@@ -76,27 +68,15 @@
       }
     }
 
-    @Watch('captcha')
-    onCaptchaChange (newVal: string, oldVal: string) {
-      if (newVal !== '' && oldVal === '') {
-        this.captchaPrompt = true
-      } else if (newVal === '' && oldVal !== '') {
-        this.captchaPrompt = false
-      }
-    }
-
     private checkAndLogin () {
       if (this.username === '') {
         alert("请输入账号")
       } else if (this.password === '') {
         alert("请输入密码")
-      } else if (this.captcha === '') {
-        alert("请输入验证码")
       } else {
         login({
           'username': this.username,
-          'password': this.password,
-          'captcha': this.captcha
+          'password': this.password
         }).then((response) => {
           if (response.data.token) {
             this.showPrompt = false
@@ -111,16 +91,11 @@
             } else if (response.data.msg === LoginErrors.PASSWORD_WRONG) {
               this.promptContent = "密码错误"
               this.showPrompt = true
-            } else if (response.data.msg === LoginErrors.CAPTCHA_WRONG) {
-              this.promptContent = "验证码错误"
-              this.showPrompt = true
-              this.getCaptcha()
             }
           }
           if (this.showPrompt) {
             this.username = ''
             this.password = ''
-            this.captcha = ''
             bus.$emit('switch-page', LoginPages.PROMPT)
             bus.$emit('prompt-content', this.promptContent)
             bus.$emit('simplified', true)
@@ -131,17 +106,9 @@
       }
     }
 
-    private getCaptcha () {
-      getCaptcha()
-        .then((response) => {
-          this.captcha = response.data.captchaImage
-        })
-        .catch((error) => {
-          console.log((error))
-        })
-    }
-
     private switchStudent () {
+      this.username = ''
+      this.password = ''
       bus.$emit('switch-page', LoginPages.STUDENT)
     }
   }
@@ -272,6 +239,7 @@
         display: inline-block;
         width: 88%;
         line-height: 25px;
+        margin-top: 10px;
     }
 
     .footer a {

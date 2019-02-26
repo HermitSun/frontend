@@ -1,32 +1,54 @@
 <template>
     <div class="wrapper">
-        <div class="form">
-            <form class="register-form">
-                <input type="text" placeholder="姓名" v-model="form.name"/>
-                <input type="text" placeholder="台胞證號碼" v-model="form.id"/>
-                <input type="password" placeholder="密碼" v-model="form.password"/>
-                <input type="password" placeholder="請確認您的密碼" v-model="form.confirmPassword"/>
-                <input type="text" placeholder="電子郵箱" v-model="form.email"/>
-                <input type="text" placeholder="手機號碼" v-model="form.tel"/>
-                <input type="text" placeholder="出生日期" v-model="form.birthDate"/>
-                <input type="text" placeholder="家庭住址" v-model="form.address"/>
-                <input type="text" placeholder="高中" v-model="form.highSchool"/>
-                <button @click="registerStudent">創建用戶</button>
-                <p class="message">已經註冊？ <a href="#">登陸</a></p>
-            </form>
-        </div>
+        <el-card>
+            <div slot="header">
+                <span class="bold">註冊</span>
+            </div>
+            <el-form :model="registerForm" :rules="registerRules">
+                <el-form-item label="郵箱" :label-width="this.registerFormWidth" prop="email">
+                    <el-input type="email" placeholder="請輸入郵箱" v-model="registerForm.email"></el-input>
+                </el-form-item>
+                <el-form-item label="台灣身份證號" :label-width="this.registerFormWidth" prop="id">
+                    <el-input placeholder="請輸入身份證號" v-model="registerForm.id"></el-input>
+                </el-form-item>
+                <el-form-item label="密碼" :label-width="this.registerFormWidth" prop="password">
+                    <el-input type="password" placeholder="請確認密碼" v-model="registerForm.password"></el-input>
+                </el-form-item>
+                <el-form-item label="確認密碼" :label-width="this.registerFormWidth" prop="confirmPassword">
+                    <el-input type="password" placeholder="請確認密碼" v-model="registerForm.confirmPassword"></el-input>
+                </el-form-item>
+                <el-form-item label="姓名" :label-width="this.registerFormWidth" prop="name">
+                    <el-input placeholder="請輸入姓名" v-model="registerForm.name"></el-input>
+                </el-form-item>
+                <el-form-item label="出生日期" :label-width="this.registerFormWidth">
+                    <el-date-picker v-model="registerForm.birthDate" type="date" placeholder="可選"></el-date-picker>
+                </el-form-item>
+                <el-form-item label="聯繫電話" :label-width="this.registerFormWidth">
+                    <el-input placeholder="可選" v-model="registerForm.tel"></el-input>
+                </el-form-item>
+                <el-form-item label="家庭地址" :label-width="this.registerFormWidth">
+                    <el-input placeholder="可選" v-model="registerForm.address"></el-input>
+                </el-form-item>
+                <el-form-item label="就讀高中" :label-width="this.registerFormWidth">
+                    <el-input placeholder="可選" v-model="registerForm.highSchool"></el-input>
+                </el-form-item>
+                <el-form-item class="footer">
+                    <el-button @click="$router.push('/')">返回登錄</el-button>
+                    <el-button type="primary" @click="registerStudent">立即註冊</el-button>
+                </el-form-item>
+            </el-form>
+        </el-card>
     </div>
 
 </template>
 
 <script lang="ts">
   import { Vue, Component } from 'vue-property-decorator'
-  import { bus } from '@/views/login/bus.ts'
   import { registerUser } from 'utils/api'
 
   @Component({})
   export default class Register extends Vue {
-    form: any = {
+    registerForm: any = {
       name: '',
       id: '',
       password: '',
@@ -37,166 +59,77 @@
       address: '',
       highSchool: ''
     }
+    registerRules: any = {
+      name: [
+        { required: true, message: '請輸入姓名', trigger: 'change' }
+      ],
+      id: [
+        {
+          required: true,
+          validator: (rule, value, callback) => {
+            if (value === '') {
+              callback(new Error('請輸入身份證號'))
+            } else if (!/^[A-Z][0-9]{9}$/.test(value)) {
+              callback(new Error('請檢查身份證是否正確'))
+            } else {
+              callback()
+            }
+          }, trigger: 'blur'
+        }
+      ],
+      password: [
+        { required: true, message: '請輸入密碼', trigger: 'change' }
+      ],
+      confirmPassword: [
+        {
+          required: true,
+          validator: (rule, value, callback) => {
+            if (value === '') {
+              callback(new Error('請再次輸入密碼'))
+            } else if (value !== this.registerForm.password) {
+              callback(new Error('兩次輸入密碼不一致'))
+            } else {
+              callback()
+            }
+          }, trigger: 'blur'
+        }
+      ],
+      email: [
+        { required: true, message: '', trigger: 'change' }
+      ]
+    }
+    registerFormWidth: string = '120px'
 
     registerStudent () {
-      registerUser((<any> Object).assign({}, this.form))
+      registerUser(this.registerForm)
         .then((res) => {
           alert(res.data.succeed)
+          alert(res.data.msg)
         })
         .catch((err) => {
           alert(err)
         })
     }
-
-    private switchStudent () {
-      bus.$emit('switch-page', LoginPages.STUDENT)
-    }
   }
-
-  enum LoginPages {STUDENT = '1', ADMIN = '2', REGISTER = '3', PROMPT = '4'}
 </script>
 
 <style scoped lang="scss" rel="stylesheet/scss">
-    a, a:hover {
-        text-decoration: none;
-    }
+    .wrapper {
+        .el-card {
+            width: 600px;
+            position: relative;
+            top: 60px;
+            left: 420px;
 
-    a {
-        color: #fff;
-        transition: all 0.4s ease-in-out;
-        cursor: pointer;
-    }
-
-    a:hover {
-        color: #00a65a;
-    }
-
-    body, input, button {
-        font: 12px arial;
-        color: #333333;
-        outline: 0;
-        vertical-align: middle;
-    }
-
-    body {
-        background-color: #fff;
-
-        p {
-            font-family: "Microsoft Yahei", serif;
-        }
-    }
-
-    .login {
-        float: none;
-        width: 364px;
-        margin: 0 auto;
-
-        .inputs {
-            margin-left: 12px;
-            line-height: 36px;
-
-            p {
-                margin-bottom: 15px;
-                position: relative;
-                width: 100%;
-                background: #fff;
-                text-align: left;
-                border-radius: 4px;
-
-                /*i {*/
-                /*display: inline-block;*/
-                /*width: 28px;*/
-                /*height: 28px;*/
-                /*background: url(./img/LoginIcons.png) no-repeat;*/
-                /*position: absolute;*/
-                /*right: 6px;*/
-                /*top: 7px;*/
-                /*z-index: 1000;*/
-                /*}*/
-            }
-
-            input {
-                width: 85%;
-                height: 40px;
-                line-height: 40px;
-                margin-left: 16px;
-                font-family: "Microsoft Yahei", serif;
-                border: 0;
-                font-size: 14px;
-                color: #878787;
-            }
-
-            a {
-                color: #b70e0e;
-            }
-
-            .verify .codeImg {
-                width: 70px;
-                height: 30px;
-                vertical-align: top;
-                position: absolute;
-                right: 4px;
-                top: 6px;
-                z-index: 1000;
-            }
-
-            .loginButton {
-                height: 40px;
-                line-height: 40px;
-                width: 100%;
-                padding: 0;
-                margin-left: 0;
-                background: #90138b;
-                border: 0;
-                color: #fff;
+            .bold {
                 font-size: 18px;
-                cursor: pointer;
-                border-radius: 4px;
+                font-weight: bold;
             }
 
-            .loginButton:hover {
-                opacity: .9;
-                filter: Alpha(opacity=90);
+            .footer {
+                float: right;
+                margin-right: 10px;
             }
-        }
-
-    }
-
-    .emailAddress i {
-        background-position: 7px 6px !important;
-    }
-
-    .password i {
-        background-position: 7px -50px !important;
-    }
-
-    .footer {
-        display: inline-block;
-        width: 88%;
-        line-height: 25px;
-
-        a {
-            float: left;
-            font-size: 14px;
-            color: #fff;
-        }
-
-        a:hover {
-            color: #ccc;
-        }
-
-        .router1 {
-            text-align: left;
-            width: 30%
-        }
-
-        .router2 {
-            width: 40%;
-        }
-
-        .router3 {
-            text-align: right;
-            width: 30%
         }
     }
 </style>

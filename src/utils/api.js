@@ -54,7 +54,7 @@ export const login = (params) => {
 };
 
 export const getCaptcha = () => {
-    return axios.get(`/login/captcha`);
+    return axios.get('/captcha');
 };
 
 export const verifyCode = params => {

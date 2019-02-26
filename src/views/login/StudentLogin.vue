@@ -9,7 +9,6 @@
                     </div>
                     <StudentLoginInputs v-show="this.showStudentLogin"></StudentLoginInputs>
                     <AdminLogin v-show="this.showAdminLogin"></AdminLogin>
-                    <Register v-show="this.showRegister"></Register>
                     <LoginPrompt v-show="this.showPrompt"></LoginPrompt>
                 </div>
                 <div class="background"></div>
@@ -26,20 +25,17 @@
   import StudentLoginInputs from './StudentLoginInputs.vue'
   import AdminLogin from './AdminLogin.vue'
   import LoginPrompt from './LoginPrompt.vue'
-  import Register from '../register/Register.vue'
 
   @Component({
     components: {
       StudentLoginInputs,
       AdminLogin,
-      LoginPrompt,
-      Register
+      LoginPrompt
     }
   })
   export default class StudentLogin extends Vue {
 
     showStudentLogin: boolean = true
-    showRegister: boolean = false
     showAdminLogin: boolean = false
     showPrompt: boolean = false
 
@@ -47,23 +43,15 @@
       bus.$on('switch-page', (page) => {
         if (page === LoginPages.STUDENT) {
           this.showStudentLogin = true
-          this.showRegister = false
           this.showAdminLogin = false
           this.showPrompt = false
         } else if (page === LoginPages.ADMIN) {
           this.showAdminLogin = true
           this.showStudentLogin = false
-          this.showRegister = false
-          this.showPrompt = false
-        } else if (page === LoginPages.REGISTER) {
-          this.showRegister = true
-          this.showStudentLogin = false
-          this.showAdminLogin = false
           this.showPrompt = false
         } else if (page === LoginPages.PROMPT) {
           this.showPrompt = true
           this.showStudentLogin = false
-          this.showRegister = false
           this.showAdminLogin = false
         }
       })

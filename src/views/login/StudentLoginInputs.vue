@@ -18,7 +18,8 @@
                     <el-tooltip :disabled="this.captchaPrompt" content="請輸入驗證碼" placement="right">
                         <p class="verify">
                             <input type="text" placeholder="驗證碼 Verification code" v-model="captcha"/>
-                            <img class="codeImg" :src="encodeURI(this.captcha)" alt="驗證碼" width="61" height="21"/>
+                            <!--<img class="codeImg" :src="decodeURI(this.captchaImage)" alt="驗證碼" width="61" height="21"-->
+                            <!--@click="getCaptcha"/>-->
                         </p>
                     </el-tooltip>
                     <p>
@@ -28,8 +29,8 @@
             </div>
         </div>
         <div class="footer">
-            <router-link to="#" class="router1">忘記密碼</router-link>
-            <a class="router2" @click="switchRegister">沒有賬號？現在註冊</a>
+            <router-link to="/" class="router1">忘記密碼</router-link>
+            <router-link to="/register" class="router2">沒有賬號？現在註冊</router-link>
             <a class="router3" @click="switchAdmin">管理员入口</a>
         </div>
     </div>
@@ -50,6 +51,7 @@
     username: string = ''
     password: string = ''
     captcha: string = ''
+    captchaImage: string = ''
     token: string = ''
 
     emailPrompt: boolean = true
@@ -58,6 +60,11 @@
 
     mounted () {
       this.token = getToken()
+      getCaptcha().then(res => {
+        this.captchaImage = res.data
+      }).catch((err) => {
+        alert(err)
+      })
     }
 
     @Watch('emailAddress')
@@ -141,15 +148,12 @@
     private getCaptcha () {
       getCaptcha()
         .then((response) => {
-          this.captcha = response.data.captchaImage
+          console.log(response)
+          this.captchaImage = response.data
         })
         .catch((error) => {
           console.log((error))
         })
-    }
-
-    private switchRegister () {
-      bus.$emit('switch-page', LoginPages.REGISTER)
     }
 
     private switchAdmin () {

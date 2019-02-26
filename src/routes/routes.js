@@ -4,6 +4,7 @@ import {getToken} from "utils/token.ts";
 // 加载模板文件
 import NotFound from '@/views/404.vue'
 import StudentLogin from '@/views/login/StudentLogin.vue'
+import Register from '@/views/register/Register.vue'
 import Admin from '@/views/admin/Admin.vue'
 import SetProfessions from '@/views/admin/enrollment/SetProfessions.vue'
 import JuniorAll from '@/views/admin/check/JuniorAll.vue'
@@ -22,7 +23,7 @@ import Student from '@/views/student/Student.vue';
 Vue.use(Router);
 
 const router = new Router({
-    modes: 'history',
+    mode: 'history',
     routes: [
         {
             path: '/',
@@ -31,6 +32,15 @@ const router = new Router({
             meta: {
                 icon: '',
                 title: '登錄'
+            }
+        },
+        {
+            path: '/register',
+            name: 'Register',
+            component: Register,
+            meta: {
+                icon: '',
+                title: '註冊'
             }
         },
         {
@@ -166,26 +176,27 @@ router.beforeEach((to, from, next) => {
     if (to.meta.title) {
         document.title = to.meta.title
     }
-    if (!token && to.name !== LOGIN_PAGE_NAME) {
-        // 未登录且要跳转的页面不是登录页
-        next({
-            name: LOGIN_PAGE_NAME // 跳转到登录页
-        });
-    } else if (!token && to.name === LOGIN_PAGE_NAME) {
-        // 未登陆且要跳转的页面是登录页
-        next(); // 跳转
-    } else if (token && to.name === LOGIN_PAGE_NAME) {
-        // 已登录且要跳转的页面是登录页
-        next();// 跳转
-    } else {
-        if (token) {
-            next(); // 跳转
-        } else {
-            next({
-                name: LOGIN_PAGE_NAME
-            });
-        }
-    }
+    next();
+    // if (!token && to.name !== LOGIN_PAGE_NAME) {
+    //     // 未登录且要跳转的页面不是登录页
+    //     next({
+    //         name: LOGIN_PAGE_NAME // 跳转到登录页
+    //     });
+    // } else if (!token && to.name === LOGIN_PAGE_NAME) {
+    //     // 未登陆且要跳转的页面是登录页
+    //     next(); // 跳转
+    // } else if (token && to.name === LOGIN_PAGE_NAME) {
+    //     // 已登录且要跳转的页面是登录页
+    //     next();// 跳转
+    // } else {
+    //     if (token) {
+    //         next(); // 跳转
+    //     } else {
+    //         next({
+    //             name: LOGIN_PAGE_NAME
+    //         });
+    //     }
+    // }
 });
 
 // 跳转之后

@@ -49,12 +49,8 @@ axios.interceptors.request.use(config => {
         return Promise.reject(err);
     });
 
-export const adminLogin = (params) => {
-    return axios.post('/login/admin', params);
-};
-
-export const studentLogin = (params) => {
-    return axios.post('/login/student', params);
+export const login = (params) => {
+    return axios.post('/auth', params);
 };
 
 export const getCaptcha = () => {
@@ -71,6 +67,10 @@ export const sendEmail = params => {
 
 export const registerUser = params => {
     return axios.post(`/register/student`, params);
+};
+
+export const getBasicInfo = () => {
+    return axios.get('/application/basicInfo');
 };
 
 export const checkStuList = params => {

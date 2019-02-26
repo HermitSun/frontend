@@ -2,16 +2,16 @@
     <div class="wrapper">
         <div class="form">
             <form class="register-form">
-                <input type="text" placeholder="姓名" class="name"/>
-                <input type="text" placeholder="台胞證號碼" class="id"/>
-                <input type="password" placeholder="密碼" class="password"/>
-                <input type="password" placeholder="請確認您的密碼"  />
-                <input type="text" placeholder="電子郵箱" class="email"/>
-                <input type="text" placeholder="手機號碼" class="tel"/>
-                <input type="text" placeholder="出生日期" class="birthDate"/>
-                <input type="text" placeholder="家庭住址" class="address"/>
-                <input type="text" placeholder="高中" class="highSchool"/>
-                <button>創建用戶</button>
+                <input type="text" placeholder="姓名" v-model="form.name"/>
+                <input type="text" placeholder="台胞證號碼" v-model="form.id"/>
+                <input type="password" placeholder="密碼" v-model="form.password"/>
+                <input type="password" placeholder="請確認您的密碼" v-model="form.confirmPassword"/>
+                <input type="text" placeholder="電子郵箱" v-model="form.email"/>
+                <input type="text" placeholder="手機號碼" v-model="form.tel"/>
+                <input type="text" placeholder="出生日期" v-model="form.birthDate"/>
+                <input type="text" placeholder="家庭住址" v-model="form.address"/>
+                <input type="text" placeholder="高中" v-model="form.highSchool"/>
+                <button @click="registerStudent">創建用戶</button>
                 <p class="message">已經註冊？ <a href="#">登陸</a></p>
             </form>
         </div>
@@ -22,26 +22,35 @@
 <script lang="ts">
   import { Vue, Component } from 'vue-property-decorator'
   import { bus } from '@/views/login/bus.ts'
+  import { registerUser } from 'utils/api'
 
   @Component({})
   export default class Register extends Vue {
+    form: any = {
+      name: '',
+      id: '',
+      password: '',
+      confirmPassword: '',
+      email: '',
+      tel: '',
+      birthDate: '',
+      address: '',
+      highSchool: ''
+    }
+
+    registerStudent () {
+      registerUser((<any> Object).assign({}, this.form))
+        .then((res) => {
+          alert(res.data.succeed)
+        })
+        .catch((err) => {
+          alert(err)
+        })
+    }
+
     private switchStudent () {
       bus.$emit('switch-page', LoginPages.STUDENT)
     }
-      data() {
-          return {
-              form: {
-
-                  phoneNumber:{
-                  },
-                  curriculumChoices:{
-
-                  }
-              }
-          }
-      }
-
-
   }
 
   enum LoginPages {STUDENT = '1', ADMIN = '2', REGISTER = '3', PROMPT = '4'}

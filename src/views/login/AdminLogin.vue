@@ -37,7 +37,7 @@
 <script lang="ts">
   import { Vue, Component, Watch } from 'vue-property-decorator'
   import { setToken, getToken } from 'utils/token.ts'
-  import { adminLogin, getCaptcha } from 'utils/api'
+  import { login, getCaptcha } from 'utils/api'
   import { bus } from './bus.ts'
 
   @Component({})
@@ -93,8 +93,7 @@
       } else if (this.captcha === '') {
         alert("请输入验证码")
       } else {
-        /*接口请求*/
-        adminLogin({
+        login({
           'username': this.username,
           'password': this.password,
           'captcha': this.captcha
@@ -106,13 +105,13 @@
               this.$router.push('/admin')
             }.bind(this), 1000)
           } else {
-            if (response.data.information === LoginErrors.USER_NOT_EXIST) {
-              this.promptContent = "用户不存在"
+            if (response.data.msg === LoginErrors.OTHERS) {
+              this.promptContent = "登录失败"
               this.showPrompt = true
-            } else if (response.data.information === LoginErrors.PASSWORD_WRONG) {
+            } else if (response.data.msg === LoginErrors.PASSWORD_WRONG) {
               this.promptContent = "密码错误"
               this.showPrompt = true
-            } else if (response.data.information === LoginErrors.CAPTCHA_WRONG) {
+            } else if (response.data.msg === LoginErrors.CAPTCHA_WRONG) {
               this.promptContent = "验证码错误"
               this.showPrompt = true
               this.getCaptcha()
@@ -147,7 +146,11 @@
     }
   }
 
-  enum LoginErrors {USER_NOT_EXIST = '-2', PASSWORD_WRONG = '-1', CAPTCHA_WRONG = '0'}
+  enum LoginErrors {
+    PASSWORD_WRONG = '密码错误',
+    CAPTCHA_WRONG = '验证码错误',
+    OTHERS = '登录失败'
+  }
 
   enum LoginPages {STUDENT = '1', ADMIN = '2', REGISTER = '3', PROMPT = '4'}
 </script>

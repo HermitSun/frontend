@@ -38,7 +38,7 @@
 <script lang="ts">
   import { Vue, Component, Watch } from 'vue-property-decorator'
   import { setToken, getToken } from 'utils/token.ts'
-  import { getCaptcha, studentLogin } from 'utils/api'
+  import { getCaptcha, login } from 'utils/api'
   import { bus } from './bus.ts'
 
   @Component({})
@@ -96,8 +96,8 @@
         this.captchaPrompt = false
       } else {
         /*接口请求*/
-        studentLogin({
-          'emailAddress': this.emailAddress,
+        login({
+          'username': this.emailAddress,
           'password': this.password,
           'captcha': this.captcha
         }).then((response) => {
@@ -105,19 +105,23 @@
             this.showPrompt = false
             setToken(response.data.token)
             setTimeout(function () {
-              this.$router.push('/home')
+              this.$router.push('/student')
             }.bind(this), 1000)
           } else {
-            if (response.data.information == LoginErrors.USER_NOT_EXIST) {
-              this.promptContent = "用戶不存在"
+            console.log(response.data.msg)
+            if (response.data.msg == LoginErrors.USER_DISABLED) {
+              this.promptContent = "用戶被禁用"
               this.showPrompt = true
-            } else if (response.data.information == LoginErrors.PASSWORD_WRONG) {
+            } else if (response.data.msg == LoginErrors.PASSWORD_WRONG) {
               this.promptContent = "密碼錯誤"
               this.showPrompt = true
-            } else if (response.data.information == LoginErrors.CAPTCHA_WRONG) {
+            } else if (response.data.msg == LoginErrors.CAPTCHA_WRONG) {
               this.promptContent = "驗證碼錯誤"
               this.showPrompt = true
               this.getCaptcha()
+            } else if (response.data.msg == LoginErrors.OTHERS) {
+              this.promptContent = "登錄失敗"
+              this.showPrompt = true
             }
           }
           if (this.showPrompt) {
@@ -129,7 +133,7 @@
             bus.$emit('simplified', false)
           }
         }).catch((error) => {
-          console.log(error)
+          alert(error)
         })
       }
     }
@@ -153,7 +157,12 @@
     }
   }
 
-  enum LoginErrors {USER_NOT_EXIST = '-2', PASSWORD_WRONG = '-1', CAPTCHA_WRONG = '0'}
+  enum LoginErrors {
+    PASSWORD_WRONG = '密码错误',
+    CAPTCHA_WRONG = '验证码错误',
+    USER_DISABLED = '用户已被禁用',
+    OTHERS = '登录失败'
+  }
 
   enum LoginPages {STUDENT = '1', ADMIN = '2', REGISTER = '3', PROMPT = '4'}
 </script>

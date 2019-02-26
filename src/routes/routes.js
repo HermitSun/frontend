@@ -5,6 +5,7 @@ import {getToken} from "utils/token.ts";
 import NotFound from '@/views/404.vue'
 import StudentLogin from '@/views/login/StudentLogin.vue'
 import Register from '@/views/register/Register.vue'
+import ForgetPassword from '@/views/login/ForgetPassword.vue'
 import Admin from '@/views/admin/Admin.vue'
 import SetProfessions from '@/views/admin/enrollment/SetProfessions.vue'
 import JuniorAll from '@/views/admin/check/JuniorAll.vue'
@@ -41,6 +42,15 @@ const router = new Router({
             meta: {
                 icon: '',
                 title: '註冊'
+            }
+        },
+        {
+            path: '/forget-password',
+            name: 'ForgetPassword',
+            component: ForgetPassword,
+            meta: {
+                icon: '',
+                title: '忘記密碼'
             }
         },
         {

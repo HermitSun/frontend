@@ -22,7 +22,7 @@
             </div>
         </div>
         <div class="footer">
-            <router-link to="/" class="router1">忘記密碼</router-link>
+            <router-link to="/forget-password" class="router1">忘記密碼</router-link>
             <router-link to="/register" class="router2">沒有賬號？現在註冊</router-link>
             <a class="router3" @click="switchAdmin">管理员入口</a>
         </div>
@@ -32,7 +32,7 @@
 <script lang="ts">
   import { Vue, Component, Watch } from 'vue-property-decorator'
   import { setToken, getToken } from 'utils/token.ts'
-  import { getCaptcha, login } from 'utils/api'
+  import { login } from 'utils/api'
   import { bus } from './bus.ts'
 
   @Component({})

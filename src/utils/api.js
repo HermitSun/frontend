@@ -53,10 +53,6 @@ export const login = (params) => {
     return axios.post('/auth', params);
 };
 
-export const getCaptcha = () => {
-    return axios.get('/captcha');
-};
-
 export const verifyCode = params => {
     return axios.get(`/email/verification`, {params: params});
 };

@@ -22,7 +22,6 @@
             </div>
         </div>
         <div class="footer">
-            <router-link to="#" class="router1">忘记密码</router-link>
             <a href="javascript:void(0)" class="router3" @click="switchStudent">學生入口</a>
         </div>
     </div>
@@ -31,7 +30,7 @@
 <script lang="ts">
   import { Vue, Component, Watch } from 'vue-property-decorator'
   import { setToken, getToken } from 'utils/token.ts'
-  import { login, getCaptcha } from 'utils/api'
+  import { login} from 'utils/api'
   import { bus } from './bus.ts'
 
   @Component({})

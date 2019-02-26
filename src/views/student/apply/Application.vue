@@ -1,25 +1,24 @@
 <template>
     <el-card class="wrapper">
-        <el-form ref="form" :inline="true" :model="form" label-width="115px">
-
+        <el-form ref="form" :inline="true" :model="appForm" label-width="115px">
             <el-row>
                 <el-col :span="24">
                     <div class="title grid-content bg-purple-dark">一. PERSONAL PARTICULARS 個人基本情況</div>
                 </el-col>
             </el-row>
-
             <el-form-item label="FAMILY NAME 姓">
-                <el-input placeholder="中文(必須與身份證相同)" v-model="form.firstName" clearable
+                <el-input placeholder="中文(必須與身份證相同)" v-model="appForm.firstName" clearable
                           style="width: 300px;"></el-input>
-                <el-input placeholder="拼音" v-model="form.firstNameAux" clearable style="width: 300px;"></el-input>
+                <el-input placeholder="拼音" v-model="appForm.firstNameAux" clearable style="width: 300px;"></el-input>
             </el-form-item>
             <el-form-item label="GIVEN NAME 名">
-                <el-input placeholder="中文(必須與身份證相同)" v-model="form.lastName" clearable style="width: 300px;"></el-input>
-                <el-input placeholder="拼音" v-model="lastNameAux" clearable style="width: 300px;"></el-input>
+                <el-input placeholder="中文(必須與身份證相同)" v-model="appForm.lastName" clearable
+                          style="width: 300px;"></el-input>
+                <el-input placeholder="拼音" v-model="appForm.lastNameAux" clearable style="width: 300px;"></el-input>
             </el-form-item>
 
             <el-form-item label="SIMPLIFICATION 簡體姓名 ">
-                <el-radio-group v-model="form.needSimplification" style="width: 300px;">
+                <el-radio-group v-model="appForm.needSimplification" style="width: 300px;">
                     <el-radio label="與身份證一致" value=false></el-radio>
                     <el-radio label="與身份證有出入" value=true></el-radio>
                 </el-radio-group>
@@ -29,58 +28,58 @@
 
             </el-form>
             <el-form-item label="SEX 性別">
-                <el-select v-model="sex" placeholder="請選擇性別" style="width: 195px;">
-                    <el-option label="男" value=1></el-option>
-                    <el-option label="女" value=0></el-option>
+                <el-select v-model="appForm.sex" placeholder="請選擇性別" style="width: 195px;">
+                    <el-option label="男" :value="1"></el-option>
+                    <el-option label="女" :value="0"></el-option>
                 </el-select>
             </el-form-item>
 
             <el-form-item label="DATE OF BIRTH 出生日期">
-                <el-date-picker type="date" placeholder="選擇日期" v-model="form.birthdate"
+                <el-date-picker type="date" placeholder="選擇日期" v-model="appForm.birthDate"
                                 style="width: 195px;"></el-date-picker>
             </el-form-item>
 
             <!--後端少接口-->
             <el-form-item label="EMAIL ADDRESS 電郵">
-                <el-input v-model="form.email" clearable style="width: 195px;"></el-input>
+                <el-input v-model="appForm.email" clearable style="width: 195px;"></el-input>
             </el-form-item>
 
             <el-form-item label="ID CARD No. 身份證號碼">
-                <el-input v-model="form.IDCardNumber" clearable style="width: 195px;"></el-input>
+                <el-input v-model="appForm.IDCardNumber" clearable style="width: 195px;"></el-input>
             </el-form-item>
 
             <el-form-item label="MTP Number 台胞證號碼">
-                <el-input v-model="form.MTPNumber" clearable style="width: 195px;"></el-input>
+                <el-input v-model="appForm.MTPNumber" clearable style="width: 195px;"></el-input>
             </el-form-item>
 
             <el-form-item label="HIGH SCHOOL 現就讀學校">
-                <el-input v-model="form.highSchool" clearable style="width: 195px;"></el-input>
+                <el-input v-model="appForm.highSchool" clearable style="width: 195px;"></el-input>
             </el-form-item>
 
             <el-form-item label="Graduation Year 畢業年份">
-                <el-date-picker type="year" placeholder="選擇年份" v-model="form.graduationYear"
+                <el-date-picker type="year" placeholder="選擇年份" v-model="appForm.graduationYear"
                                 style="width: 195px;"></el-date-picker>
             </el-form-item>
 
 
             <el-form-item label="ADDRESS 通訊地址">
-                <el-input v-model="form.address" clearable style="width: 195px;"></el-input>
+                <el-input v-model="appForm.address" clearable style="width: 195px;"></el-input>
             </el-form-item>
 
             <el-form-item label="POSTAL CODE 郵編">
-                <el-input v-model="form.postalCode" clearable style="width: 195px;"></el-input>
+                <el-input v-model="appForm.postalCode" clearable style="width: 195px;"></el-input>
             </el-form-item>
 
-            <el-form-item label="TELEPHONE 電話號碼" v-model="phoneNumber" label-width="195px">
+            <el-form-item label="TELEPHONE 電話號碼" v-model="appForm.phoneNumber" label-width="195px">
                 <!--區號-->
                 <el-form-item label="Home 住宅">
-                    <el-input v-model="form.phoneNumber.home" clearable style="width: 195px;"></el-input>
+                    <el-input v-model="appForm.phoneNumber.home" clearable style="width: 195px;"></el-input>
                 </el-form-item>
                 <el-form-item label="Mobile/Other 手機/其他">
-                    <el-input v-model="form.phoneNumber.mobile" clearable style="width: 195px;"></el-input>
+                    <el-input v-model="appForm.phoneNumber.mobile" clearable style="width: 195px;"></el-input>
                 </el-form-item>
                 <el-form-item label="Fax 傳真">
-                    <el-input v-model="form.phoneNumber.fax" clearable style="width: 195px;"></el-input>
+                    <el-input v-model="appForm.phoneNumber.fax" clearable style="width: 195px;"></el-input>
                 </el-form-item>
             </el-form-item>
 
@@ -91,30 +90,30 @@
                 </el-col>
             </el-row>
 
-            <el-form ref="form1" :model="form1" label-width="150px" v-model="curriculumChoices">
+            <el-form ref="form1" :model="appForm.curriculumChoices" label-width="150px">
                 <el-form-item label="1st choice 第一志願">
                     <!--接口文檔first拼錯-->
-                    <el-select v-model="firstChoice" placeholder="請選擇第一志願">
+                    <el-select v-model="appForm.curriculumChoices.firstChoice" placeholder="請選擇第一志願">
                         <el-option label="軟件工程"></el-option>
                         <el-option label="經濟管理實驗班"></el-option>
                     </el-select>
                 </el-form-item>
                 <el-form-item label="2st choice 第二志願">
-                    <el-select v-model="secondChoice" placeholder="請選擇第二志願">
+                    <el-select v-model="appForm.curriculumChoices.secondChoice" placeholder="請選擇第二志願">
                         <el-option label="軟件工程"></el-option>
                         <el-option label="經濟管理實驗班"></el-option>
                         <el-option label=""></el-option>
                     </el-select>
                 </el-form-item>
                 <el-form-item label="3st choice 第三志願">
-                    <el-select v-model="thirdChoice" placeholder="請選擇第三志願">
+                    <el-select v-model="appForm.curriculumChoices.thirdChoice" placeholder="請選擇第三志願">
                         <el-option label="軟件工程"></el-option>
                         <el-option label="經濟管理實驗班"></el-option>
                         <el-option label=""></el-option>
                     </el-select>
                 </el-form-item>
                 <el-form-item label="4st choice 第四志願">
-                    <el-select v-model="fourthChoice" placeholder="請選擇第四志願">
+                    <el-select v-model="appForm.curriculumChoices.fourthChoice" placeholder="請選擇第四志願">
                         <el-option label="軟件工程"></el-option>
                         <el-option label="經濟管理實驗班"></el-option>
                         <el-option label=""></el-option>
@@ -123,18 +122,18 @@
             </el-form>
 
             <el-form-item label="You are 您屬於">
-                <el-radio-group v-model="form.artOrSci">
-                    <el-radio label="Arts 文史類" value=0></el-radio>
-                    <el-radio label="Science 理工農醫類" value=1></el-radio>
+                <el-radio-group v-model="appForm.artOrSci">
+                    <el-radio label="Arts 文史類" :value="0"></el-radio>
+                    <el-radio label="Science 理工農醫類" :value="1"></el-radio>
                 </el-radio-group>
             </el-form-item>
 
             <br>If you are not offered for any of the above preferred programmes, will you accept other programmes
             assigned by NJU?本人是否願意被錄取到其他專業（類）？<br/>
             <el-form-item label="ASSIGNMENT 調劑 ">
-                <el-radio-group v-model="form.acceptAssignment">
-                    <el-radio label="Yes 願意" value=true></el-radio>
-                    <el-radio label="No 不願意" value=false></el-radio>
+                <el-radio-group v-model="appForm.acceptAssignment">
+                    <el-radio label="Yes 願意" :value="true"></el-radio>
+                    <el-radio label="No 不願意" :value="false"></el-radio>
                 </el-radio-group>
             </el-form-item>
 
@@ -146,22 +145,24 @@
                 located. 中文填寫就讀學校。
             </el-row>
 
-            <el-form ref="form1" :inline="true" model="form1" label-width="160px" v-model="schoolAttended">
+            <el-form ref="form1" :inline="true" model="form1" label-width="160px">
 
-                <el-form-item v-model="primarySchool">
+                <el-form-item v-model="appForm.primarySchool">
                     <table>
                         <tr>
                             <td width="200px">
                                 <div slot="label">Primary school 小學</div>
                             </td>
                             <td width="400px">
-                                <el-input v-model="name" placeholder="SCHOOL 學校名稱" style="width: 200px"></el-input>
+                                <el-input v-model="appForm.primarySchool.name" placeholder="SCHOOL 學校名稱"
+                                          style="width: 200px"></el-input>
                             </td>
                         </tr>
                         <tr>
                             <td width="200px"></td>
                             <td width="400px">
-                                <el-select v-model="region" placeholder="REGION 地區" style="width: 200px"><!--導入台灣地區區名-->
+                                <el-select v-model="appForm.primarySchool.region" placeholder="REGION 地區"
+                                           style="width: 200px"><!--導入台灣地區區名-->
                                     <el-option label="台北市"></el-option>
                                 </el-select>
                             </td>
@@ -169,14 +170,16 @@
                         <tr>
                             <td width="200px"></td>
                             <td width="400px">
-                                <el-date-picker type="date" placeholder="START 開始時間" v-model="startDate"
+                                <el-date-picker type="date" placeholder="START 開始時間"
+                                                v-model="appForm.primarySchool.startDate"
                                                 style="width: 200px"></el-date-picker>
                             </td>
                         </tr>
                         <tr>
                             <td width="200px"></td>
                             <td width="400px">
-                                <el-date-picker type="date" placeholder="END 終止時間" v-model="endDate"
+                                <el-date-picker type="date" placeholder="END 終止時間"
+                                                v-model="appForm.primarySchool.endDate"
                                                 style="width: 200px"></el-date-picker>
                             </td>
                         </tr>
@@ -184,20 +187,22 @@
                 </el-form-item>
 
 
-                <el-form-item v-model="juniorMiddleSchool">
+                <el-form-item v-model="appForm.juniorSchool">
                     <table>
                         <tr>
                             <td width="200px">
                                 <div slot="label">Junior middle school 初中</div>
                             </td>
                             <td width="400px">
-                                <el-input v-model="name" placeholder="SCHOOL 學校名稱" style="width: 200px"></el-input>
+                                <el-input v-model="appForm.juniorSchool.name" placeholder="SCHOOL 學校名稱"
+                                          style="width: 200px"></el-input>
                             </td>
                         </tr>
                         <tr>
                             <td width="200px"></td>
                             <td width="400px">
-                                <el-select v-model="region" placeholder="REGION 地區" style="width: 200px"><!--導入台灣地區區名-->
+                                <el-select v-model="appForm.juniorSchool.region" placeholder="REGION 地區"
+                                           style="width: 200px"><!--導入台灣地區區名-->
                                     <el-option label="台北市"></el-option>
                                 </el-select>
                             </td>
@@ -205,34 +210,38 @@
                         <tr>
                             <td width="200px"></td>
                             <td width="400px">
-                                <el-date-picker type="date" placeholder="START 開始時間" v-model="startDate"
+                                <el-date-picker type="date" placeholder="START 開始時間"
+                                                v-model="appForm.juniorSchool.startDate"
                                                 style="width: 200px"></el-date-picker>
                             </td>
                         </tr>
                         <tr>
                             <td width="200px"></td>
                             <td width="400px">
-                                <el-date-picker type="date" placeholder="END 終止時間" v-model="endDate"
+                                <el-date-picker type="date" placeholder="END 終止時間"
+                                                v-model="appForm.juniorSchool.endDate"
                                                 style="width: 200px"></el-date-picker>
                             </td>
                         </tr>
                     </table>
                 </el-form-item>
 
-                <el-form-item v-model="seniorMiddleSchool">
+                <el-form-item v-model="appForm.seniorSchool">
                     <table>
                         <tr>
                             <td width="200px">
                                 <div slot="label">Senior middle school 高中</div>
                             </td>
                             <td width="400px">
-                                <el-input v-model="name" placeholder="SCHOOL 學校名稱" style="width: 200px"></el-input>
+                                <el-input v-model="appForm.seniorSchool.name" placeholder="SCHOOL 學校名稱"
+                                          style="width: 200px"></el-input>
                             </td>
                         </tr>
                         <tr>
                             <td width="200px"></td>
                             <td width="400px">
-                                <el-select v-model="region" placeholder="REGION 地區" style="width: 200px"><!--導入台灣地區區名-->
+                                <el-select v-model="appForm.seniorSchool.region" placeholder="REGION 地區"
+                                           style="width: 200px"><!--導入台灣地區區名-->
                                     <el-option label="台北市"></el-option>
                                 </el-select>
                             </td>
@@ -240,14 +249,16 @@
                         <tr>
                             <td width="200px"></td>
                             <td width="400px">
-                                <el-date-picker type="date" placeholder="START 開始時間" v-model="startDate"
+                                <el-date-picker type="date" placeholder="START 開始時間"
+                                                v-model="appForm.seniorSchool.startDate"
                                                 style="width: 200px"></el-date-picker>
                             </td>
                         </tr>
                         <tr>
                             <td width="200px"></td>
                             <td width="400px">
-                                <el-date-picker type="date" placeholder="END 終止時間" v-model="endDate"
+                                <el-date-picker type="date" placeholder="END 終止時間"
+                                                v-model="appForm.seniorSchool.endDate"
                                                 style="width: 200px"></el-date-picker>
                             </td>
                         </tr>
@@ -271,55 +282,55 @@
             </el-row>
 
             <!--增加嵌套結構-->
-            <el-form v-model="familyParticulars">
-                <el-form v-model="relationship1" incline="true">
-                    <el-form-item v-model="relationship">
+            <el-form>
+                <el-form v-model="appForm.familyMember1" incline="true">
+                    <el-form-item v-model="appForm.familyMember1.relationship">
                         <el-input placeholder="Relationship 關係" style="width: 180px"></el-input>
                     </el-form-item>
-                    <el-form-item v-model="name">
+                    <el-form-item v-model="appForm.familyMember1.name">
                         <el-input placeholder="NAME 姓名" style="width: 180px"></el-input>
                     </el-form-item>
-                    <el-form-item v-model="organization">
+                    <el-form-item v-model="appForm.familyMember1.organization">
                         <el-input placeholder="Company 單位名稱" style="width: 180px"></el-input>
                     </el-form-item>
-                    <el-form-item v-model="occupation">
+                    <el-form-item v-model="appForm.familyMember1.occupation">
                         <el-input placeholder="Occupation 職務" style="width: 180px"></el-input>
                     </el-form-item>
-                    <el-form-item v-model="phoneNumber">
+                    <el-form-item v-model="appForm.familyMember1.phoneNumber">
                         <el-input placeholder="Mobile 手機" style="width: 180px"></el-input>
                     </el-form-item>
                 </el-form>
-                <el-form v-model="relationship2" incline="true">
-                    <el-form-item v-model="relationship">
+                <el-form v-model="appForm.familyMember2" incline="true">
+                    <el-form-item v-model="appForm.familyMember2.relationship">
                         <el-input placeholder="Relationship 關係" style="width: 180px"></el-input>
                     </el-form-item>
-                    <el-form-item v-model="name">
+                    <el-form-item v-model="appForm.familyMember2.name">
                         <el-input placeholder="NAME 姓名" style="width: 180px"></el-input>
                     </el-form-item>
-                    <el-form-item v-model="organization">
+                    <el-form-item v-model="appForm.familyMember2.organization">
                         <el-input placeholder="Company 單位名稱" style="width: 180px"></el-input>
                     </el-form-item>
-                    <el-form-item v-model="occupation">
+                    <el-form-item v-model="appForm.familyMember2.occupation">
                         <el-input placeholder="Occupation 職務" style="width: 180px"></el-input>
                     </el-form-item>
-                    <el-form-item v-model="phoneNumber">
+                    <el-form-item v-model="appForm.familyMember2.phoneNumber">
                         <el-input placeholder="Mobile 手機" style="width: 180px"></el-input>
                     </el-form-item>
                 </el-form>
-                <el-form v-model="relationship3" incline="true">
-                    <el-form-item v-model="relationship">
+                <el-form v-model="appForm.familyMember3" incline="true">
+                    <el-form-item v-model="appForm.familyMember3.relationship">
                         <el-input placeholder="Relationship 關係" style="width: 180px"></el-input>
                     </el-form-item>
-                    <el-form-item v-model="name">
+                    <el-form-item v-model="appForm.familyMember3.name">
                         <el-input placeholder="NAME 姓名" style="width: 180px"></el-input>
                     </el-form-item>
-                    <el-form-item v-model="organization">
+                    <el-form-item v-model="appForm.familyMember3.organization">
                         <el-input placeholder="Company 單位名稱" style="width: 180px"></el-input>
                     </el-form-item>
-                    <el-form-item v-model="occupation">
+                    <el-form-item v-model="appForm.familyMember3.occupation">
                         <el-input placeholder="Occupation 職務" style="width: 180px"></el-input>
                     </el-form-item>
-                    <el-form-item v-model="phoneNumber">
+                    <el-form-item v-model="appForm.familyMember3.phoneNumber">
                         <el-input placeholder="Mobile 手機" style="width: 180px"></el-input>
                     </el-form-item>
                 </el-form>
@@ -449,7 +460,6 @@
                             </el-form-item>
                         </td>
                     </tr>
-
                 </table>
 
                 <table>
@@ -463,7 +473,6 @@
                             <el-input></el-input>
                         </td>
                     </tr>
-
                 </table>
             </el-form>
             <!--
@@ -657,9 +666,11 @@
 
   @Component({})
   export default class Application extends Vue {
-    form: any = {
+    appForm: any = {
       firstName: '',
+      firstNameAux: '',
       lastName: '',
+      lastNameAux: '',
       sex: 0,
       birthDate: '',
       MTPNumber: '',
@@ -730,15 +741,15 @@
         organization: '',
         award: '',
         attendingDate: ''
-      }
+      },
+      needSimplification: false,
+      acceptAssignment: false
     }
-    needSimplification: boolean = false
-    acceptAssignment: boolean = false
 
     mounted () {
       this.$nextTick(() => {
         getBasicInfo().then((res) => {
-          this.form = (<any> Object).assign({}, res.data.form)
+          this.appForm = (<any> Object).assign({}, res.data.form)
         }).catch((err) => {
           alert(err)
         })
@@ -747,16 +758,16 @@
 
     submitApplication () {
       sendApplication({
-        firstName: this.form.firstName,
-        lastName: this.form.lastName,
-        sex: this.form.sex,
-        birthDate: this.form.birthDate,
-        MTPNumber: this.form.MTPNumber,
-        IDCardNumber: this.form.IDCardNumber,
-        highSchool: this.form.highSchool,
-        graduationYear: this.form.graduationYear,
-        address: this.form.address,
-        postalCode: this.form.postalCode,
+        firstName: this.appForm.firstName,
+        lastName: this.appForm.lastName,
+        sex: this.appForm.sex,
+        birthDate: this.appForm.birthDate,
+        MTPNumber: this.appForm.MTPNumber,
+        IDCardNumber: this.appForm.IDCardNumber,
+        highSchool: this.appForm.highSchool,
+        graduationYear: this.appForm.graduationYear,
+        address: this.appForm.address,
+        postalCode: this.appForm.postalCode,
       }).then((res) => {
         this.$message({
           message: '提交成功',

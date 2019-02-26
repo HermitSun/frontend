@@ -642,8 +642,10 @@
                 <i class="el-icon-info"></i>
                 <span>點擊保存可暫存</span>
             </div>
-            <el-button type="primary" icon="el-icon-document" class="confirmUpload">提交</el-button>
-            <el-button type="primary" icon="el-icon-document" class="saveEmail">保存</el-button>
+            <el-button type="primary" icon="el-icon-document" class="confirmUpload" @click="submitApplication">提交
+            </el-button>
+            <el-button type="primary" icon="el-icon-document" class="saveEmail" @click="tempSaveApplication">保存
+            </el-button>
         </el-col>
     </el-card>
 </template>
@@ -651,7 +653,7 @@
 
 <script lang="ts">
   import { Vue, Component } from 'vue-property-decorator'
-  import { getBasicInfo } from 'utils/api'
+  import { getBasicInfo, sendApplication } from 'utils/api'
 
   @Component({})
   export default class Application extends Vue {
@@ -716,6 +718,18 @@
         organization: '',
         occupation: '',
         phoneNumber: ''
+      },
+      gsatResult: {
+        chinese: '',
+        math: '',
+        english: '',
+        socials: '',
+        sciences: ''
+      },
+      activities: {
+        organization: '',
+        award: '',
+        attendingDate: ''
       }
     }
     needSimplification: boolean = false
@@ -724,10 +738,37 @@
     mounted () {
       this.$nextTick(() => {
         getBasicInfo().then((res) => {
-
+          this.form = (<any> Object).assign({}, res.data.form)
+        }).catch((err) => {
+          alert(err)
         })
       })
+    }
 
+    submitApplication () {
+      sendApplication({
+        firstName: this.form.firstName,
+        lastName: this.form.lastName,
+        sex: this.form.sex,
+        birthDate: this.form.birthDate,
+        MTPNumber: this.form.MTPNumber,
+        IDCardNumber: this.form.IDCardNumber,
+        highSchool: this.form.highSchool,
+        graduationYear: this.form.graduationYear,
+        address: this.form.address,
+        postalCode: this.form.postalCode,
+      }).then((res) => {
+        this.$message({
+          message: '提交成功',
+          type: 'success'
+        })
+      }).catch((err) => {
+        this.$message.error('提交失败')
+      })
+    }
+
+    tempSaveApplication () {
+      // 暂存
     }
   }
 </script>

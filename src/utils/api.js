@@ -66,11 +66,15 @@ export const sendEmail = params => {
 };
 
 export const registerUser = params => {
-    return axios.post(`/register/student`, params);
+    return axios.post(`/register/registration`, params);
 };
 
 export const getBasicInfo = () => {
     return axios.get('/application/basicInfo');
+};
+
+export const sendApplication = (params) => {
+    return axios.post('/application/form', params);
 };
 
 export const checkStuList = params => {

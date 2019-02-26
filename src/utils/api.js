@@ -1,7 +1,7 @@
 import axios from 'axios';
 import {getToken} from "./token.ts";
 
-axios.defaults.baseURL = 'http://localhost:3141';
+axios.defaults.baseURL = 'http://localhost:8080';
 axios.defaults.retry = 4;
 axios.defaults.retryDelay = 1000;
 
@@ -62,7 +62,7 @@ export const sendEmail = params => {
 };
 
 export const registerUser = params => {
-    return axios.post(`/register/registration`, params);
+    return axios.post(`/register/`, params);
 };
 
 export const getBasicInfo = () => {

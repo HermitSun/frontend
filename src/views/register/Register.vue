@@ -4,12 +4,12 @@
             <div slot="header">
                 <span class="bold">註冊</span>
             </div>
-            <el-form :model="registerForm" :rules="registerRules">
+            <el-form :model="registerForm" :rules="registerRules" ref="registerForm">
                 <el-form-item label="郵箱" :label-width="this.registerFormWidth" prop="email">
                     <el-input type="email" placeholder="請輸入郵箱" v-model="registerForm.email"></el-input>
                 </el-form-item>
-                <el-form-item label="台灣身份證號" :label-width="this.registerFormWidth" prop="id">
-                    <el-input placeholder="請輸入身份證號" v-model="registerForm.id"></el-input>
+                <el-form-item label="台灣身份證號" :label-width="this.registerFormWidth" prop="idCardNumber">
+                    <el-input placeholder="請輸入身份證號" v-model="registerForm.idCardNumber"></el-input>
                 </el-form-item>
                 <el-form-item label="密碼" :label-width="this.registerFormWidth" prop="password">
                     <el-input type="password" placeholder="請確認密碼" v-model="registerForm.password"></el-input>
@@ -50,7 +50,7 @@
   export default class Register extends Vue {
     registerForm: any = {
       name: '',
-      id: '',
+      idCardNumber: '',
       password: '',
       confirmPassword: '',
       email: '',
@@ -63,7 +63,7 @@
       name: [
         { required: true, message: '請輸入姓名', trigger: 'change' }
       ],
-      id: [
+      IDCardNumber: [
         {
           required: true,
           validator: (rule, value, callback) => {
@@ -101,14 +101,52 @@
     registerFormWidth: string = '120px'
 
     registerStudent () {
-      registerUser(this.registerForm)
-        .then((res) => {
-          alert(res.data.succeed)
-          alert(res.data.msg)
+      // this.$refs['registerForm'].validate((valid) => {
+      //   if (valid) {
+      //     registerUser(this.registerForm)
+      //       .then((res) => {
+      //         alert(res.data.succeed)
+      //         alert(res.data.msg)
+      //       })
+      //       .catch((err) => {
+      //         alert(err)
+      //       })
+      //   } else {
+      //     this.$message.error('註冊失敗')
+      //     this.$refs.registerForm.resetFields()
+      //     return false
+      //   }
+      // })
+      let form: any = this.$refs.registerForm
+      registerUser({
+        name: this.registerForm.name,
+        IDCardNumber: this.registerForm.IDCardNumber,
+        password: this.registerForm.password,
+        email: this.registerForm.email,
+        tel: this.registerForm.tel,
+        birthDate: this.registerForm.birthDate,
+        address: this.registerForm.address,
+        highSchool: this.registerForm.highSchool
+      }).then((res) => {
+        if (res.data.succeed) {
+          this.$message({
+            message: '註冊成功',
+            type: 'success'
+          })
+          this.$router.push('/')
+        } else {
+          this.$message({
+            message: res.data.msg,
+            type: 'error'
+          })
+          form.resetFields()
+        }
+      }).catch((err) => {
+        this.$message({
+          message: err,
+          type: 'error'
         })
-        .catch((err) => {
-          alert(err)
-        })
+      })
     }
   }
 </script>

@@ -172,7 +172,7 @@ const router = new Router({
             ],
             meta: {
                 icon: '',
-                title: '南京大学台湾免试生管理系统'
+                title: '南京大學台灣免試生系統'
             }
         },
         {
@@ -186,7 +186,7 @@ const router = new Router({
             ],
             meta: {
                 icon: '',
-                title: '南京大学台湾免试生管理系统'
+                title: '南京大學台灣免試生系統'
             }
         },
         {

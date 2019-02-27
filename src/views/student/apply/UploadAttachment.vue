@@ -8,29 +8,93 @@
             <el-step title="其他材料"></el-step>
         </el-steps>
         <!--檢查申請表-->
-        <div class="checkApplication">
-            <p>請檢查申請表是否填寫完整，確認後點擊進入下一步。</p>
+        <div class="checkApplication" v-show="active===0">
+            <p v-if="hasFinishedUpload" style="color: #67C23A">您已完成附件上傳。</p>
+            <p v-else>請檢查申請表是否填寫完整，確認後點擊進入下一步。</p>
             <div class="footer">
-                <el-button @click="$router.push('/student/application')">返回檢查</el-button>
-                <el-button type="primary" @click="checkApplication">下一步</el-button>
+                <el-button @click="$router.push('/student/application')" v-if="!hasFinishedUpload">返回檢查</el-button>
+                <el-button type="primary" @click="checkApplication">
+                    {{hasFinishedUpload?'檢查已上傳附件':'下一步'}}
+                </el-button>
             </div>
         </div>
         <!--身份證明-->
+        <div class="identity" v-show="active===1">
+            <p>請在此上傳在台灣居住的有效身份證明和《台灣居民來往大陸通行證》。</p>
+            <el-upload class="upload" action="https://jsonplaceholder.typicode.com/posts/" drag multiple>
+                <i class="el-icon-upload"></i>
+                <div>將文件拖到此處，或
+                    <b style="color: #409EFF">點擊上傳</b>
+                </div>
+                <div slot="tip" style="color: #909399">只能上傳PDF文件，且不超過20M</div>
+            </el-upload>
+            <div class="footer">
+                <el-button @click="--active">上一步</el-button>
+                <el-button type="primary" @click="checkIdentity">下一步</el-button>
+            </div>
+        </div>
         <!--學測成績單-->
+        <div class="transcript" v-show="active===2">
+            <p>請在此上傳2019年學測成績單。</p>
+            <div class="footer">
+                <el-button @click="--active">上一步</el-button>
+                <el-button type="primary" @click="checkTranscript">下一步</el-button>
+            </div>
+        </div>
         <!--教師推薦信-->
+        <div class="recommend" v-show="active===3">
+            <p>請在此上傳由兩位熟悉本人的中學資深教師出具的推薦信。</p>
+            <div class="footer">
+                <el-button @click="--active">上一步</el-button>
+                <el-button type="primary" @click="checkRecommend">下一步</el-button>
+            </div>
+        </div>
         <!--其他材料-->
+        <div class="others" v-show="active===4">
+            <p>請在此上傳其他相關材料。</p>
+            <div class="footer">
+                <el-button @click="--active">上一步</el-button>
+                <el-button type="primary" @click="finishUpload">完成</el-button>
+            </div>
+        </div>
     </el-card>
 </template>
 
 <script lang="ts">
-  import { Vue, Component } from 'vue-property-decorator'
+  import { Vue, Component, Inject } from 'vue-property-decorator'
 
   @Component({})
   export default class UploadAttachment extends Vue {
     active: number = 0
+    hasFinishedUpload: boolean = false
+
+    mounted () {
+      // 獲取相應的內容
+    }
 
     checkApplication () {
+      ++this.active
+    }
 
+    checkIdentity () {
+      ++this.active
+    }
+
+    checkTranscript () {
+      ++this.active
+    }
+
+    checkRecommend () {
+      ++this.active
+    }
+
+    finishUpload () {
+      this.$message({
+        message: '附件上傳完成',
+        type: 'success'
+      })
+      this.hasFinishedUpload = true
+      this.active = 0
     }
   }
 </script>
@@ -44,8 +108,17 @@
             margin-top: 30px;
         }
 
+        .identity {
+            margin-top: 30px;
+        }
+
+        .transcript {
+            margin-top: 30px;
+        }
+
         .footer {
             float: right;
+            margin-top: 20px;
             margin-bottom: 20px;
         }
     }

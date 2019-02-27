@@ -1,141 +1,52 @@
 <template>
     <el-card class="wrapper">
-        <el-row>
-            <el-col :span="1">
-                <div class="title">主题</div>
-            </el-col>
-            <el-col :span="23">
-                <el-input placeholder="请输入主题" v-model="emailSubject"></el-input>
-            </el-col>
-        </el-row>
-        <el-row>
-            <el-col :span="1">
-                <div class="title">附件</div>
-            </el-col>
-            <el-col :span="23" class="toolbar">
-                <el-upload class="upload" action="http://localhost:3000/message/attachment"
-                           :on-preview="handleUploadPreview" :on-remove="handleUploadRemove" :multiple="true"
-                           :before-remove="beforeUploadRemove" :before-upload="beforeUpload" :limit="3"
-                           :on-exceed="handleUploadExceed" :file-list="fileList">
-                    <el-button type="primary" size="mini" icon="el-icon-upload2">添加附件</el-button>
-                    <span slot="tip" class="el-upload-tip">最多添加3个附件，且附件总大小不能超过 1M</span>
-                </el-upload>
-            </el-col>
-        </el-row>
-        <el-row>
-            <el-col :span="1">
-                <div class="title">正文</div>
-            </el-col>
-            <el-col :span="23">
-                <el-input type="textarea" placeholder="请输入内容" v-model="emailContent" class="emailContent"
-                          :clearable="true"></el-input>
-            </el-col>
-        </el-row>
-        <el-col :span="24">
-            <div class="prompt">
-                <i class="el-icon-info"></i>
-                <span>点击保存可暂存</span>
+        <el-steps :active="active" finish-status="success">
+            <el-step title="檢查申請表"></el-step>
+            <el-step title="身份證明"></el-step>
+            <el-step title="學測成績單"></el-step>
+            <el-step title="教師推薦信"></el-step>
+            <el-step title="其他材料"></el-step>
+        </el-steps>
+        <!--檢查申請表-->
+        <div class="checkApplication">
+            <p>請檢查申請表是否填寫完整，確認後點擊進入下一步。</p>
+            <div class="footer">
+                <el-button @click="$router.push('/student/application')">返回檢查</el-button>
+                <el-button type="primary" @click="checkApplication">下一步</el-button>
             </div>
-            <el-button type="primary" icon="el-icon-document" class="confirmUpload">提交</el-button>
-            <el-button type="primary" icon="el-icon-document" class="saveEmail">保存</el-button>
-        </el-col>
+        </div>
+        <!--身份證明-->
+        <!--學測成績單-->
+        <!--教師推薦信-->
+        <!--其他材料-->
     </el-card>
 </template>
 
 <script lang="ts">
-    import {Vue, Component} from 'vue-property-decorator'
+  import { Vue, Component } from 'vue-property-decorator'
 
-    @Component({})
-    export default class EditEmail extends Vue {
-        emailSubject: string = '';
-        fileSize: number = 0;
-        emailContent: string = '';
+  @Component({})
+  export default class UploadAttachment extends Vue {
+    active: number = 0
 
-        mounted () {
-            this.fileSize = 0
-        }
+    checkApplication () {
 
-        handleUploadRemove (file, fileList) {
-            console.log(file, fileList)
-        }
-
-        handleUploadPreview (file) {
-            console.log(file)
-        }
-
-        handleUploadExceed (files, fileList) {
-            this.$message.warning(`不能超过 3 个文件`)
-        }
-
-        beforeUpload (file) {
-            this.fileSize += file.size / 1024 / 1024
-            let exceed = this.fileSize > 1
-            if (exceed) {
-                this.$message({
-                    message: '附件总大小不能超过1M!',
-                    type: 'warning'
-                })
-            }
-            return exceed
-        }
-
-        beforeUploadRemove (file, fileList) {
-            return this.$confirm(`确定移除 ${file.name}？`)
-        }
     }
+  }
 </script>
 
 <style scoped lang="scss" rel="stylesheet/scss">
     .wrapper {
-        margin: 25px 20px;
+        margin: 25px 80px;
+        width: 1000px;
 
-        .el-row {
-            margin: 10px auto;
+        .checkApplication {
+            margin-top: 30px;
         }
 
-        .title {
-            padding-top: 10px;
-            font-weight: bold;
-        }
-
-        .toolbar {
-            margin: 0;
-            padding: 8px 5px;
-            border-radius: 4px;
-            background: white;
-
-            .el-upload-tip {
-                margin-left: 10px;
-                color: #a6a9ad;
-            }
-        }
-
-        .saveEmail {
+        .footer {
             float: right;
-            margin-top: -25px;
-            margin-bottom: 10px;
+            margin-bottom: 20px;
         }
-
-        .confirmUpload {
-            float: right;
-            margin-top: -25px;
-            margin-left: 10px;
-            margin-bottom: 10px;
-        }
-        .prompt {
-            margin-top: 8px;
-            margin-left: 20px;
-            color: #a6a9ad;
-        }
-
-
-    }
-</style>
-
-<style>
-    .el-textarea__inner {
-        resize: none !important;
-        width: 100%;
-        height: 390px;
     }
 </style>

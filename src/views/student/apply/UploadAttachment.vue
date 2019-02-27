@@ -21,7 +21,10 @@
         <!--身份證明-->
         <div class="identity" v-show="active===1">
             <p>請在此上傳在台灣居住的有效身份證明和《台灣居民來往大陸通行證》。</p>
-            <el-upload class="upload" action="https://jsonplaceholder.typicode.com/posts/" drag multiple>
+            <el-upload class="upload" action="https://jsonplaceholder.typicode.com/posts/" drag multiple
+                       :file-list="identityList" :limit="2" :disabled="identityDisabled"
+                       :before-upload="beforeFileUpload"
+                       :on-remove="handleFileRemove" :on-exceed="this.identityDisabled=true">
                 <i class="el-icon-upload"></i>
                 <div>將文件拖到此處，或
                     <b style="color: #409EFF">點擊上傳</b>
@@ -68,8 +71,35 @@
     active: number = 0
     hasFinishedUpload: boolean = false
 
+    identityList: any = [
+      { name: 'test1.pdf', url: 'null' }
+    ]
+    identityDisabled: boolean = false
+
     mounted () {
       // 獲取相應的內容
+    }
+
+    beforeFileUpload () {
+
+    }
+
+    handleFileRemove (file, fileList) {
+      this.$confirm('將刪除該文件，是否繼續?', '提示', {
+        confirmButtonText: '確定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(() => {
+        this.$message({
+          type: 'success',
+          message: '已刪除'
+        });
+      }).catch(() => {
+        this.$message({
+          type: 'info',
+          message: '已取消'
+        });
+      });
     }
 
     checkApplication () {

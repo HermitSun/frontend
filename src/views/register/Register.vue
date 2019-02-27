@@ -21,7 +21,8 @@
                     <el-input placeholder="請輸入姓名" v-model="registerForm.name"></el-input>
                 </el-form-item>
                 <el-form-item label="出生日期" :label-width="this.registerFormWidth">
-                    <el-date-picker v-model="registerForm.birthDate" type="date" placeholder="可選"></el-date-picker>
+                    <el-date-picker v-model="registerForm.birthDate" type="date" value-format="yyyy-MM-dd"
+                                    placeholder="可選"></el-date-picker>
                 </el-form-item>
                 <el-form-item label="聯繫電話" :label-width="this.registerFormWidth">
                     <el-input placeholder="可選" v-model="registerForm.tel"></el-input>
@@ -30,7 +31,9 @@
                     <el-input placeholder="可選" v-model="registerForm.address"></el-input>
                 </el-form-item>
                 <el-form-item label="就讀高中" :label-width="this.registerFormWidth">
-                    <el-input placeholder="可選" v-model="registerForm.highSchool"></el-input>
+                    <el-cascader expand-trigger="hover" :options="schoolOptions" v-model="registerForm.highSchool"
+                                 placeholder="可選" filterable clearable>
+                    </el-cascader>
                 </el-form-item>
                 <el-form-item class="footer">
                     <el-button @click="$router.push('/')">返回登錄</el-button>
@@ -45,9 +48,11 @@
 <script lang="ts">
   import { Vue, Component } from 'vue-property-decorator'
   import { registerUser } from 'utils/api'
+  import highSchools from '@/views/student/apply/highSchools.ts'
 
   @Component({})
   export default class Register extends Vue {
+    schoolOptions: any = highSchools
     registerForm: any = {
       name: '',
       idCardNumber: '',
@@ -57,7 +62,7 @@
       tel: '',
       birthDate: '',
       address: '',
-      highSchool: ''
+      highSchool: []
     }
     registerRules: any = {
       name: [
@@ -116,37 +121,34 @@
       let form: any = this.$refs.registerForm
       form.validate((valid) => {
         if (valid) {
-          registerUser({
-            name: this.registerForm.name,
-            IDCardNumber: this.registerForm.IDCardNumber,
-            password: this.registerForm.password,
-            email: this.registerForm.email,
-            tel: this.registerForm.tel,
-            birthDate: this.registerForm.birthDate,
-            address: this.registerForm.address,
-            highSchool: this.registerForm.highSchool
-          }).then((res) => {
-            if (res.data.succeed) {
+          let form: any = (<any> Object).assign({}, this.registerForm)
+          form.birthDate = this.registerForm.birthDate.toString()
+          form.highSchool = this.registerForm.highSchool.toString()
+          console.log(form)
+          registerUser(form)
+            .then((res) => {
+              if (res.data.succeed) {
+                this.$message({
+                  message: '註冊成功',
+                  type: 'success'
+                })
+                this.$router.push('/')
+              } else {
+                this.$message({
+                  message: res.data.msg,
+                  type: 'error'
+                })
+                // this.$nextTick(() => {
+                //   form.resetFields()
+                // })
+              }
+            })
+            .catch((err) => {
               this.$message({
-                message: '註冊成功',
-                type: 'success'
-              })
-              this.$router.push('/')
-            } else {
-              this.$message({
-                message: res.data.msg,
+                message: err,
                 type: 'error'
               })
-              this.$nextTick(() => {
-                form.resetFields()
-              })
-            }
-          }).catch((err) => {
-            this.$message({
-              message: err,
-              type: 'error'
             })
-          })
         } else {
           this.$message({
             message: '內容有誤，請重新填寫',

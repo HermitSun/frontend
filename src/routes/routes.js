@@ -201,7 +201,7 @@ const LOGIN_PAGE_NAME = 'StudentLogin';
 
 // 跳转之前
 router.beforeEach((to, from, next) => {
-    const token = getToken();
+    // const token = getToken();
     if (to.meta.title) {
         document.title = to.meta.title
     }

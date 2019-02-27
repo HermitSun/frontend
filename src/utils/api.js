@@ -37,10 +37,10 @@ axios.interceptors.response.use(undefined, function axiosRetryInterceptor(err) {
 });
 
 axios.interceptors.request.use(config => {
-        let token = getToken();
-        if (token) {  // 判断是否存在token，如果存在的话，则每个http header都加上token
-            config.headers.Authorization = `Bearer ${token}`;
-        }
+        // let token = getToken();
+        // if (token) {  // 判断是否存在token，如果存在的话，则每个http header都加上token
+        //     config.headers.Authorization = `Bearer ${token}`;
+        // }
         config.url = axios.defaults.baseURL + config.url;/*拼接完整请求路径*/
         // console.log(config);
         return config;
@@ -49,54 +49,53 @@ axios.interceptors.request.use(config => {
         return Promise.reject(err);
     });
 
+// 登錄註冊
 export const login = (params) => {
     return axios.post('/auth', params);
 };
-
 export const verifyCode = params => {
     return axios.get(`/email/verification`, {params: params});
 };
-
 export const sendVerifyEmail = () => {
     return axios.get(`/email/captchaDelivery`);
 };
-
 export const registerUser = params => {
     return axios.post(`/register/`, params);
 };
 
+// 申請表
 export const getBasicInfo = () => {
     return axios.get('/application/basicInfo');
 };
-
 export const sendApplication = (params) => {
     return axios.post('/application/form', params);
 };
+export const saveApplication = (params) => {
+    return axios.post('', params);
+};
+export const getApplication = (params) => {
+    return axios.get('', params);
+};
 
+// 管理員
 export const checkStuList = params => {
     return axios.get(`/list/getlist`, {params: params});
 };
-
 export const checkStuDetail = () => {
     return axios.get(`/list/detail`);
 };
-
 export const setMessage = params => {
     return axios.post(`/message/set`, params);
 };
-
 export const getMessage = () => {
     return axios.get(`/message/get`);
 };
-
 export const remind = () => {
     return axios.post(`/email/remind`);
 };
-
 export const modifyStuInfo = (params) => {
     return axios.post(`/list/save`, params);
 };
-
 export const exportSelected = (params) => {
     return axios({
         method: 'post',
@@ -105,7 +104,6 @@ export const exportSelected = (params) => {
         responseType: 'blob'
     });
 };
-
 export const modifyStuStatus = (params) => {
     return axios.post(`/list/save`, params);
 };

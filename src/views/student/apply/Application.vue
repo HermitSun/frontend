@@ -666,7 +666,7 @@
         },
         methods: {
             removeMember(item) {
-                var index = this.familyParticulars.members.indexOf(item)
+                let index = this.familyParticulars.members.indexOf(item);
                 if (index !== -1) {
                     this.familyParticulars.members.splice(index, 1)
                 }
@@ -682,7 +682,7 @@
                 });
             },
             removeActivity(item) {
-                var index = this.activities.activity.indexOf(item)
+                let index = this.activities.activity.indexOf(item);
                 if (index !== -1) {
                     this.activities.activity.splice(index, 1)
                 }

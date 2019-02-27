@@ -161,14 +161,14 @@
                         </el-row>
 
                         <el-form ref="form1" :inline="true" model="form1" label-width="160px">
-                            <el-form-item v-model="primarySchool" prop="postalCode">
+                            <el-form-item v-model="primarySchool" prop="primarySchool">
                                 <table>
                                     <tr>
                                         <td width="200px">
                                             <div slot="label">Primary school 小學</div>
                                         </td>
                                         <td width="400px">
-                                            <el-input v-model="form.primarySchool.name" placeholder="SCHOOL 學校名稱"
+                                            <el-input v-model="name" placeholder="SCHOOL 學校名稱"
                                                       style="width: 200px"></el-input>
                                         </td>
                                     </tr>

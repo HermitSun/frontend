@@ -77,7 +77,8 @@
                             <el-input v-model="form.postalCode" clearable style="width: 195px;"></el-input>
                         </el-form-item>
 
-                        <el-form-item label="TELEPHONE 電話號碼" label-width="195px">
+
+                        <el-form-item label="TELEPHONE 電話號碼" label-width="195px" :rules="rules">
                             <!--區號-->
                             <el-form-item label="Home 住宅" >
                                 <el-input v-model="form.phoneNumber.home" placeholder="" clearable
@@ -92,6 +93,7 @@
                                 <el-input v-model="form.phoneNumber.fax" clearable style="width: 195px;"></el-input>
                             </el-form-item>
                         </el-form-item>
+
                     </div>
                 </el-collapse-item>
                 <el-collapse-item title="第二部分">
@@ -196,12 +198,6 @@
                                     <el-option label="金門縣" value="金門縣"></el-option>
                                     <el-option label="基隆市" value="基隆市"></el-option>
                                     <el-option label="其他" value="其他"></el-option>
-
-
-
-
-
-
                                 </el-select>
                             </el-form-item>
                             <el-form-item prop="startDate">
@@ -1776,10 +1772,7 @@
                     endDate: [
                         {required: true, message:'請選擇終止時間',trigger: 'blur'}
                     ],
-                    personalStatement: [
-                        {required: true, message:"請填寫",trigger: 'blur'},
-                        {max:500,message:"字數不得超過500字", trigger: 'blur'}
-                    ],
+
                     chinese: [
                         {required: true, message:"請填寫國文成績",trigger: 'blur'},
                     ],
@@ -1788,7 +1781,11 @@
                     ],
                     english: [
                         {required: true, message:"請填寫英文成績",trigger: 'blur'},
-                    ]
+                    ],
+                    personalStatement: [
+                        {required: true, message:"請填寫",trigger: 'blur'},
+                        {max:500,message:"字數不得超過500字", trigger: 'blur'}
+                    ],
 
 
                 },

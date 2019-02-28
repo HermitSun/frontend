@@ -36,16 +36,17 @@ axios.interceptors.response.use(undefined, function axiosRetryInterceptor(err) {
     });
 });
 
-axios.interceptors.request.use(config => {
+axios.interceptors.request.use((config) => {
         // let token = getToken();
         // if (token) {  // 判断是否存在token，如果存在的话，则每个http header都加上token
         //     config.headers.Authorization = `Bearer ${token}`;
         // }
-        config.url = axios.defaults.baseURL + config.url;/*拼接完整请求路径*/
+        config.headers['Access-Control-Allow-Origin'] = '*';
+        // config.url = axios.defaults.baseURL + config.url;/*拼接完整请求路径*/
         // console.log(config);
         return config;
     },
-    err => {
+    (err) => {
         return Promise.reject(err);
     });
 

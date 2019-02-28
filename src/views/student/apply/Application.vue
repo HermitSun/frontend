@@ -1,6 +1,6 @@
 <template>
     <el-card class="wrapper">
-        <el-form :model="form" :rules="rules" ref="form" label-width="130px" :inline=true>
+        <el-form :model="form" :rules="rules" ref="form" label-width="130px" :inline="true">
             <el-collapse accordion>
                 <el-collapse-item title="第一部分">
                     <div class="part1">
@@ -79,7 +79,7 @@
 
 
                         <el-form :model="form.phoneNumber" :rules="rules" ref="form.phoneNumber" label-width="130px"
-                                 :inline=true>
+                                 :inline="true">
                             <el-form-item label="TELEPHONE 電話號碼" label-width="195px" :rules="rules">
                                 <!--區號-->
                                 <el-form-item label="Home 住宅">
@@ -108,7 +108,7 @@
                         </el-row>
 
                         <el-form :model="form.curriculumChoices" :rules="rules" ref="form.curriculumChoices"
-                                 label-width="130px" :inline=true>
+                                 label-width="130px" :inline="true">
 
                             <el-form-item>
                                 <el-form-item label="1st choice 第一志願" prop="firstChoice" label-width="155px">
@@ -175,7 +175,7 @@
                             located. 中文填寫就讀學校。
                         </el-row>
                         <el-form :model="form.primarySchool" :rules="rules" ref="from.primarySchool" label-width="130px"
-                                 :inline=true>
+                                 :inline="true">
                             <el-form-item label="Primary School 小學" label-width="150px">
                                 <el-form-item prop="name">
                                     <!--接口文檔first拼錯-->
@@ -224,7 +224,7 @@
                         </el-form>
                         <el-form :model="form.juniorMiddleSchool" :rules="rules" ref="form.juniorMiddleSchool"
                                  label-width="130px"
-                                 :inline=true>
+                                 :inline="true">
 
                             <el-form-item label="Junior middle school 初中" label-width="180px">
                                 <el-form-item prop="name">
@@ -276,7 +276,7 @@
                         </el-form>
                         <el-form :model="form.seniorMiddleSchool" :rules="rules" ref="form.seniorMiddleSchool"
                                  label-width="130px"
-                                 inline=true>
+                                 :inline="true">
                             <el-form-item label="Senior middle school 高中" label-width="182px">
                                 <el-form-item prop="name">
                                     <!--接口文檔first拼錯-->
@@ -375,7 +375,7 @@
                                 </div>
                             </el-col>
                         </el-row>
-                        <el-form :model="form.results" :rules="rules" label-width="130px" :inline=true>
+                        <el-form :model="form.results" :rules="rules" label-width="130px" :inline="true">
                             <el-form-item label="Results 成績" label-width="110px">
                                 <el-form-item prop="chinese">
                                     <el-input v-model="form.results.chinese" placeholder="CHINESE 國文"
@@ -399,7 +399,7 @@
                                 </el-form-item>
                             </el-form-item>
                         </el-form>
-                        <el-form :model="form.actualLevelPoints" :rules="rules" label-width="130px" :inline=true>
+                        <el-form :model="form.actualLevelPoints" :rules="rules" label-width="130px" :inline="true">
 
                             <el-form-item label="Actual level points 實得級分" label-width="202px">
                                 <el-form-item prop="chinese">
@@ -424,7 +424,7 @@
                                 </el-form-item>
                             </el-form-item>
                         </el-form>
-                        <el-form :model="form.levelRange" :rules="rules" :inline=true>
+                        <el-form :model="form.levelRange" :rules="rules" :inline="true">
                             <el-form-item label="Level range 級距" label-width="132px">
                                 <el-form-item prop="chinese">
                                     <el-input v-model="form.levelRange.chinese" placeholder="CHINESE 國文"
@@ -448,7 +448,7 @@
                                 </el-form-item>
                             </el-form-item>
                         </el-form>
-                        <el-form :model="form.singleSubjectCriteria" :rules="rules" :inline=true>
+                        <el-form :model="form.singleSubjectCriteria" :rules="rules" :inline="true">
                             <el-form-item label="Single subject criteria 單科標準" label-width="222px">
                                 <el-form-item prop="chinese">
                                     <el-input v-model="form.singleSubjectCriteria.chinese" placeholder="CHINESE 國文"

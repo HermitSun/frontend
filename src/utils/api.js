@@ -1,8 +1,7 @@
 import axios from 'axios';
-import vueAxios from 'vue-axios';
 import {getToken} from "./token.ts";
 
-const BASE_URL = 'http://localhost:3000';
+const BASE_URL = 'http://localhost:3141';
 
 axios.defaults.baseURL = BASE_URL;
 axios.defaults.retry = 4;

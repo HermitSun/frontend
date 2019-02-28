@@ -8,13 +8,7 @@
         methods: {
             open() {
                 this.$alert('面试结果尚未发布', '面试结果', {
-                    confirmButtonText: '确定',
-                    callback: action => {
-                        this.$message({
-                            type: 'info',
-                            message: `action: ${ action }`
-                        });
-                    }
+                    confirmButtonText: '确定'
                 });
             }
         }

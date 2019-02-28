@@ -61,8 +61,11 @@
                             </el-menu-item>
                         </el-submenu>
                         <el-menu-item v-else :index="item.path" class="leaf">
-                            <i :class="item.iconClass"></i>
-                            <span slot="title" style="font-size: medium">{{item.name}}</span>
+                            <div slot="title">
+                                <i :class="item.iconClass"></i>
+                                <span style="font-size: medium">{{item.name}}</span>
+                                <el-badge :value="hasNewMessage?'new':''"></el-badge>
+                            </div>
                         </el-menu-item>
                     </template>
                 </el-menu>

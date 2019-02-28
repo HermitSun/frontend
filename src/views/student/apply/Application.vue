@@ -569,7 +569,7 @@
 </template>
 
 <script>
-    import {getBasicInfo, getApplication, saveApplication, sendApplication} from "utils/api";
+    import {getBasicInfo, sendApplication, getMajors} from "utils/api";
     import highSchools from 'utils/highSchools.ts';
 
     export default {
@@ -742,6 +742,9 @@
         mounted() {
             this.$nextTick(() => {
                 this.getApplicationInfo();
+                getMajors().then((res) => {
+                    console.log(res);
+                });
             })
         },
         methods: {
@@ -780,13 +783,20 @@
                 information.highSchool = this.form.highSchool.toString();
                 information.familyParticulars = this.familyParticulars.members;
                 information.activities = this.activities.activity;
-                // console.log(information);
+                console.log(information);
                 sendApplication(information)
                     .then((res) => {
-                        this.$message({
-                            message: '提交成功',
-                            type: 'success'
-                        })
+                        if (res.data.succeed) {
+                            this.$message({
+                                message: '提交成功',
+                                type: 'success'
+                            })
+                        } else {
+                            this.$message({
+                                message: res.data.msg,
+                                type: 'error'
+                            })
+                        }
                     })
                     .catch((err) => {
                         this.$message({
@@ -813,9 +823,9 @@
                         this.form.address = info.address;
                         // return _this;
                     })
-                    .then(() => {
-                        _this.getTempSavedApplication();
-                    })
+                    // .then(() => {
+                    //     _this.getTempSavedApplication();
+                    // })
                     .catch((err) => {
                         this.$message({
                             message: err,

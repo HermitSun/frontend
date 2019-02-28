@@ -107,7 +107,7 @@
             bus.$emit('simplified', false)
           }
         }).catch((error) => {
-          alert(error)
+          this.$message.error(error)
         })
       }
     }

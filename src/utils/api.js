@@ -1,11 +1,13 @@
 import axios from 'axios';
+import vueAxios from 'vue-axios';
 import {getToken} from "./token.ts";
 
-axios.defaults.baseURL = 'http://localhost:8080';
+const BASE_URL = 'http://localhost:3000';
+
+axios.defaults.baseURL = BASE_URL;
 axios.defaults.retry = 4;
 axios.defaults.retryDelay = 1000;
 
-//在API文件中
 axios.interceptors.response.use(undefined, function axiosRetryInterceptor(err) {
     let config = err.config;
     // If config does not exist or the retry option is not set, reject
@@ -37,12 +39,11 @@ axios.interceptors.response.use(undefined, function axiosRetryInterceptor(err) {
 });
 
 axios.interceptors.request.use((config) => {
-        // let token = getToken();
-        // if (token) {  // 判断是否存在token，如果存在的话，则每个http header都加上token
-        //     config.headers.Authorization = `Bearer ${token}`;
-        // }
-        // config.url = axios.defaults.baseURL + config.url;/*拼接完整请求路径*/
-        // console.log(config);
+        let token = getToken();
+        if (token) {  // 判断是否存在token，如果存在的话，则每个http header都加上token
+            config.headers.Authorization = `Bearer ${token}`;
+        }
+        console.log(config.headers);
         return config;
     },
     (err) => {
@@ -65,16 +66,13 @@ export const registerUser = params => {
 
 // 申請表
 export const getBasicInfo = () => {
-    return axios.get('/application/basicInfo');
+    return axios.get('/application/basic_info');
 };
 export const sendApplication = (params) => {
     return axios.post('/application/form', params);
 };
-export const saveApplication = (params) => {
-    return axios.post('', params);
-};
-export const getApplication = (params) => {
-    return axios.get('', params);
+export const getMajors = () => {
+    return axios.get('/majorSetting/majorGetting');
 };
 
 // 管理員

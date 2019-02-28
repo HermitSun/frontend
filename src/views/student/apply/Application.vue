@@ -582,6 +582,7 @@
                     needSimplification: false,
                     sex: '',
                     birthDate: '',
+                    email: '',
                     mtpNumber: '',
                     idCardNumber: '',
                     highSchool: [],
@@ -740,21 +741,7 @@
         },
         mounted() {
             this.$nextTick(() => {
-                getBasicInfo().then((res) => {
-                    let info = this.res.data;
-                    this.form.firstName = info.firstName;
-                    this.form.lastName = info.lastName;
-                    this.form.highSchool = info.highSchool.split(',');
-                    this.form.idCardNumber = info.idCardNumber;
-                    this.form.birthDate = info.birthDate;
-                    this.form.address = info.address;
-                    this.getTempSavedApplication();
-                }).catch((err) => {
-                    this.$message({
-                        message: err,
-                        type: 'error'
-                    })
-                })
+                this.getApplicationInfo();
             })
         },
         methods: {
@@ -808,7 +795,34 @@
                         })
                     })
             },
-
+            getApplicationInfo() {
+                let _this = this;
+                getBasicInfo()
+                    .then((res) => {
+                        let info = res.data;
+                        this.form.firstName = info.firstName;
+                        this.form.lastName = info.lastName;
+                        this.form.idCardNumber = info.idCardNumber;
+                        this.form.email = info.email;
+                        if (info.highSchool !== '') {
+                            this.form.highSchool = info.highSchool.split(',');
+                        }
+                        if (info.birthDate !== null) {
+                            this.form.birthDate = info.birthDate;
+                        }
+                        this.form.address = info.address;
+                        // return _this;
+                    })
+                    .then(() => {
+                        _this.getTempSavedApplication();
+                    })
+                    .catch((err) => {
+                        this.$message({
+                            message: err,
+                            type: 'error'
+                        })
+                    })
+            },
             tempSaveApplication() {
                 // 暂存
                 let storage = window.localStorage;
@@ -839,9 +853,8 @@
                     }
                 }
             }
-        }
+        },
     }
-
 </script>
 
 <style scoped lang="scss" rel="stylesheet/scss">

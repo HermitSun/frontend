@@ -137,7 +137,8 @@
           delToken()
           this.$router.push('/')
         })
-        .catch(() => {
+        .catch((err) => {
+          this.$message.error(err)
         })
     }
   }

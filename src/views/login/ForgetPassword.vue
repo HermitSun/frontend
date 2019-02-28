@@ -45,7 +45,7 @@
             <!--重置密碼-->
             <el-form :model="resetForm" :rules="resetRules" ref="resetForm" v-if="active===2">
                 <el-form-item label="新密碼" :label-width="this.resetFormWidth" prop="password">
-                    <el-input type="password" v-model="resetForm.email" placeholder="密碼"></el-input>
+                    <el-input type="password" v-model="resetForm.password" placeholder="密碼"></el-input>
                 </el-form-item>
                 <el-form-item label="確認密碼" :label-width="this.resetFormWidth" prop="confirmPassword">
                     <el-input type="password" v-model="resetForm.confirmPassword" placeholder="確認密碼"></el-input>

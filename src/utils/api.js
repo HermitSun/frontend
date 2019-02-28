@@ -74,6 +74,10 @@ export const getMajors = () => {
 };
 
 // 管理員
+export const setAdminEmail = (params) => {
+    //{emailAddress:string, admission:string};
+    return axios.post('/email/adminEmailSet', params)
+};
 export const checkStuList = params => {
     return axios.get(`/list/getlist`, {params: params});
 };

@@ -21,16 +21,16 @@
 
                         <el-form-item label="SIMPLIFICATION 簡體姓名 " prop="needSimplification">
                             <el-radio-group v-model="form.needSimplification" style="width: 800px;">
-                                <el-radio label="與身份證一致" value=false></el-radio>
-                                <el-radio label="與身份證有出入" value=true></el-radio>
+                                <el-radio :label="false">與身份證一致</el-radio>
+                                <el-radio :label="true">與身份證有出入</el-radio>
                             </el-radio-group>
                         </el-form-item>
 
 
                         <el-form-item label="SEX 性別" prop="sex">
                             <el-select v-model="form.sex" placeholder="請選擇性別" style="width: 195px;">
-                                <el-option label="男" value="1"></el-option>
-                                <el-option label="女" value="0"></el-option>
+                                <el-option label="男" :value="1"></el-option>
+                                <el-option label="女" :value="0"></el-option>
                             </el-select>
                         </el-form-item>
 
@@ -65,7 +65,7 @@
 
                         <el-form-item label="Graduation Year 畢業年份" prop="graduationYear">
                             <el-date-picker type="year" placeholder="選擇年份" v-model="form.graduationYear"
-                                            value-format="yyyy-MM-dd" style="width: 195px;"></el-date-picker>
+                                            value-format="yyyy" style="width: 195px;"></el-date-picker>
                         </el-form-item>
 
 
@@ -114,33 +114,37 @@
                                 <el-form-item label="1st choice 第一志願" prop="firstChoice" label-width="155px">
                                     <!--接口文檔first拼錯-->
                                     <el-select v-model="form.curriculumChoices.firstChoice" placeholder="請選擇第一志願"
-                                               style="width: 300px;">
-                                        <el-option label="軟件工程" value="1"></el-option>
-                                        <el-option label="經濟管理實驗班" value="2"></el-option>
+                                               style="width: 300px;" clearable filterable>
+                                        <template v-for="major of this.majors">
+                                            <el-option :label="major.label" :value="major.value"></el-option>
+                                        </template>
                                     </el-select>
                                 </el-form-item>
                                 <el-form-item label="2st choice 第二志願" prop="secondChoice" label-width="155px">
                                     <el-select v-model="form.curriculumChoices.secondChoice" placeholder="請選擇第二志願"
                                                style="width: 300px;">
-                                        <el-option label="軟件工程" value="1"></el-option>
-                                        <el-option label="經濟管理實驗班" value="2"></el-option>
-                                        <el-option label="" value="1"></el-option>
+                                        <template
+                                                v-for="major of this.majors.filter((selected)=>{return selected.value!==form.curriculumChoices.firstChoice})">
+                                            <el-option :label="major.label" :value="major.value"></el-option>
+                                        </template>
                                     </el-select>
                                 </el-form-item>
                                 <el-form-item label="3st choice 第三志願" label-width="155px">
                                     <el-select v-model="form.curriculumChoices.thirdChoice" placeholder="請選擇第三志願"
                                                style="width: 300px;">
-                                        <el-option label="軟件工程" value=""></el-option>
-                                        <el-option label="經濟管理實驗班" value=""></el-option>
-                                        <el-option label="" value=""></el-option>
+                                        <template
+                                                v-for="major of this.majors.filter((selected)=>{return selected.value!==form.curriculumChoices.firstChoice&&selected.value!==form.curriculumChoices.thirdChoice})">
+                                            <el-option :label="major.label" :value="major.value"></el-option>
+                                        </template>
                                     </el-select>
                                 </el-form-item>
                                 <el-form-item label="4st choice 第四志願" label-width="155px">
                                     <el-select v-model="form.curriculumChoices.fourthChoice" placeholder="請選擇第四志願"
                                                style="width: 300px;">
-                                        <el-option label="軟件工程" value=""></el-option>
-                                        <el-option label="經濟管理實驗班" value=""></el-option>
-                                        <el-option label="" value=""></el-option>
+                                        <template
+                                                v-for="major of this.majors.filter((selected)=>{return selected.value!==form.curriculumChoices.firstChoice&&selected.value!==form.curriculumChoices.thirdChoice&&selected.value!==form.curriculumChoices.fourthChoice})">
+                                            <el-option :label="major.label" :value="major.value"></el-option>
+                                        </template>
                                     </el-select>
                                 </el-form-item>
                             </el-form-item>
@@ -148,8 +152,8 @@
 
                         <el-form-item label="You are 您屬於" prop="artOrSci">
                             <el-radio-group v-model="form.artOrSci">
-                                <el-radio label="Arts 文史類" :value="0"></el-radio>
-                                <el-radio label="Science 理工農醫類" :value="1"></el-radio>
+                                <el-radio :label="0">Arts 文史類</el-radio>
+                                <el-radio :label="1">Science 理工農醫類</el-radio>
                             </el-radio-group>
                         </el-form-item>
 
@@ -158,8 +162,8 @@
                         assigned by NJU?本人是否願意被錄取到其他專業（類）？<br/>
                         <el-form-item label="ASSIGNMENT 調劑 " prop="acceptAssignment">
                             <el-radio-group v-model="form.acceptAssignment">
-                                <el-radio label="Yes 願意" :value="true"></el-radio>
-                                <el-radio label="No 不願意" :value="false"></el-radio>
+                                <el-radio :label="true">Yes 願意</el-radio>
+                                <el-radio :label="false">No 不願意</el-radio>
                             </el-radio-group>
                         </el-form-item>
                     </div>
@@ -348,11 +352,11 @@
                                 <el-input v-model="member.relationship" placeholder="Relationship 關係"
                                           style="width: 180px"></el-input>
                                 <el-input v-model="member.name" placeholder="NAME 姓名" style="width: 180px"></el-input>
-                                <el-input v-model="member.organization" placeholder="Company 單位名稱"
+                                <el-input v-model="member.companyName" placeholder="Company 單位名稱"
                                           style="width: 180px"></el-input>
                                 <el-input v-model="member.occupation" placeholder="Occupation 職務"
                                           style="width: 180px"></el-input>
-                                <el-input v-model="member.phoneNumber" placeholder="Mobile 手機"
+                                <el-input v-model="member.mobilePhoneNumber" placeholder="Mobile 手機"
                                           style="width: 180px"></el-input>
                                 <el-button @click.prevent="removeMember(member)">刪除</el-button>
                             </el-form-item>
@@ -451,24 +455,44 @@
                         <el-form :model="form.singleSubjectCriteria" :rules="rules" :inline="true">
                             <el-form-item label="Single subject criteria 單科標準" label-width="222px">
                                 <el-form-item prop="chinese">
-                                    <el-input v-model="form.singleSubjectCriteria.chinese" placeholder="CHINESE 國文"
-                                              style="width:180px"></el-input>
+                                    <el-select v-model="form.singleSubjectCriteria.chinese" placeholder="CHINESE 國文"
+                                               style="width:180px">
+                                        <template v-for="item of getSubjectCriteria()">
+                                            <el-option :label="item.label" :value="item.value"></el-option>
+                                        </template>
+                                    </el-select>
                                 </el-form-item>
                                 <el-form-item prop="math">
-                                    <el-input v-model="form.singleSubjectCriteria.math" placeholder="MATH 數學"
-                                              style="width:180px"></el-input>
+                                    <el-select v-model="form.singleSubjectCriteria.math" placeholder="MATH 數學"
+                                               style="width:180px">
+                                        <template v-for="item of getSubjectCriteria()">
+                                            <el-option :label="item.label" :value="item.value"></el-option>
+                                        </template>
+                                    </el-select>
                                 </el-form-item>
                                 <el-form-item prop="english">
-                                    <el-input v-model="form.singleSubjectCriteria.english" placeholder="ENGLISH 英文"
-                                              style="width:180px"></el-input>
+                                    <el-select v-model="form.singleSubjectCriteria.english" placeholder="ENGLISH 英文"
+                                               style="width:180px">
+                                        <template v-for="item of getSubjectCriteria()">
+                                            <el-option :label="item.label" :value="item.value"></el-option>
+                                        </template>
+                                    </el-select>
                                 </el-form-item>
                                 <el-form-item>
-                                    <el-input v-model="form.singleSubjectCriteria.socials" placeholder="SOCIAL 社會"
-                                              style="width:180px"></el-input>
+                                    <el-select v-model="form.singleSubjectCriteria.socials" placeholder="SOCIAL 社會"
+                                               style="width:180px">
+                                        <template v-for="item of getSubjectCriteria()">
+                                            <el-option :label="item.label" :value="item.value"></el-option>
+                                        </template>
+                                    </el-select>
                                 </el-form-item>
                                 <el-form-item>
-                                    <el-input v-model="form.singleSubjectCriteria.sciences" placeholder="SCIENCES 自然"
-                                              style="width:180px"></el-input>
+                                    <el-select v-model="form.singleSubjectCriteria.sciences" placeholder="SCIENCES 自然"
+                                               style="width:180px">
+                                        <template v-for="item of getSubjectCriteria()">
+                                            <el-option :label="item.label" :value="item.value"></el-option>
+                                        </template>
+                                    </el-select>
                                 </el-form-item>
                             </el-form-item>
                         </el-form>
@@ -482,7 +506,11 @@
                                 </td>
                                 <td>
                                     <el-form-item label="Criteria Level 標級" label-width="180px">
-                                        <el-input v-model="form.criteriaLevel"></el-input>
+                                        <el-select v-model="form.criteriaLevel" style="width:180px" placeholder="標級">
+                                            <template v-for="item of getSubjectCriteria()">
+                                                <el-option :label="item.label" :value="item.value"></el-option>
+                                            </template>
+                                        </el-select>
                                     </el-form-item>
                                 </td>
                             </tr>
@@ -580,7 +608,7 @@
                     firstName: '',
                     lastName: '',
                     needSimplification: false,
-                    sex: '',
+                    sex: 1,
                     birthDate: '',
                     email: '',
                     mtpNumber: '',
@@ -621,25 +649,25 @@
                         endDate: ''
                     },
                     results: {
-                        chinese: '',
-                        math: '',
-                        english: '',
-                        socials: '',
-                        sciences: ''
+                        chinese: 0,
+                        math: 0,
+                        english: 0,
+                        socials: 0,
+                        sciences: 0
                     },
                     actualLevelPoints: {
-                        chinese: '',
-                        math: '',
-                        english: '',
-                        socials: '',
-                        sciences: ''
+                        chinese: 0,
+                        math: 0,
+                        english: 0,
+                        socials: 0,
+                        sciences: 0
                     },
                     levelRange: {
-                        chinese: '',
-                        math: '',
-                        english: '',
-                        socials: '',
-                        sciences: ''
+                        chinese: 0,
+                        math: 0,
+                        english: 0,
+                        socials: 0,
+                        sciences: 0
                     },
                     singleSubjectCriteria: {
                         chinese: '',
@@ -648,7 +676,7 @@
                         socials: '',
                         sciences: ''
                     },
-                    totalLevelPoints: '',
+                    totalLevelPoints: 0,
                     criteriaLevel: '',
                     personalStatement: ''
                 },
@@ -657,7 +685,7 @@
                         {
                             relationship: '',
                             name: '',
-                            organization: '',
+                            companyName: '',
                             occupation: '',
                             phoneNumber: ''
                         }
@@ -722,29 +750,26 @@
                         {required: true, message: '請選擇終止時間', trigger: 'blur'}
                     ],
                     chinese: [
-                        {required: true, message: "請填寫國文成績", trigger: 'blur'},
+                        {required: true, message: "請填寫國文成績", trigger: 'change'},
                     ],
                     math: [
-                        {required: true, message: "請填寫數學成績", trigger: 'blur'},
+                        {required: true, message: "請填寫數學成績", trigger: 'change'},
                     ],
                     english: [
-                        {required: true, message: "請填寫英文成績", trigger: 'blur'},
+                        {required: true, message: "請填寫英文成績", trigger: 'change'},
                     ],
                     personalStatement: [
                         {required: true, message: "請填寫", trigger: 'blur'},
                         {max: 500, message: "字數不得超過500字", trigger: 'blur'}
                     ],
-
-
-                }
+                },
+                majors: []
             };
         },
         mounted() {
             this.$nextTick(() => {
                 this.getApplicationInfo();
-                getMajors().then((res) => {
-                    console.log(res);
-                });
+                this.getMajors();
             })
         },
         methods: {
@@ -758,9 +783,9 @@
                 this.familyParticulars.members.push({
                     relationship: '',
                     name: '',
-                    organization: '',
+                    companyName: '',
                     occupation: '',
-                    phoneNumber: '',
+                    mobilePhoneNumber: '',
                     // key: Date.now()
                 });
             },
@@ -783,6 +808,9 @@
                 information.highSchool = this.form.highSchool.toString();
                 information.familyParticulars = this.familyParticulars.members;
                 information.activities = this.activities.activity;
+                if (information.birthDate.indexOf('T') >= 0) {
+                    information.birthDate = information.birthDate.substring(0, information.birthDate.indexOf('T'))
+                }
                 console.log(information);
                 sendApplication(information)
                     .then((res) => {
@@ -792,10 +820,17 @@
                                 type: 'success'
                             })
                         } else {
-                            this.$message({
-                                message: res.data.msg,
-                                type: 'error'
-                            })
+                            if (res.data.msg === '更新失败') {
+                                this.$message({
+                                    message: '提交失敗，請檢查表單內容',
+                                    type: 'error'
+                                })
+                            } else {
+                                this.$message({
+                                    message: res.data.msg,
+                                    type: 'error'
+                                })
+                            }
                         }
                     })
                     .catch((err) => {
@@ -862,8 +897,45 @@
                         this.form[key] = storage.getItem(key);
                     }
                 }
+            },
+            getSubjectCriteria() {
+                return [{
+                    value: 'TOP_CRITERIA',
+                    label: '頂標'
+                }, {
+                    value: 'HEAD_CRITERIA',
+                    label: '前標'
+                }, {
+                    value: 'AVERAGE_CRITERIA',
+                    label: '均標'
+                }, {
+                    value: 'BACK_CRITERIA',
+                    label: '後標'
+                }, {
+                    value: 'BOTTOM_CRITERIA',
+                    label: '底標'
+                }];
+            },
+            getMajors() {
+                let majors = [];
+                getMajors()
+                    .then((res) => {
+                        res.data.forEach((major) => {
+                            majors.push({
+                                label: major.name,
+                                value: major.name
+                            });
+                        })
+                    })
+                    .catch((err) => {
+                        this.$message({
+                            message: err,
+                            type: 'error'
+                        })
+                    });
+                this.majors = majors;
             }
-        },
+        }
     }
 </script>
 

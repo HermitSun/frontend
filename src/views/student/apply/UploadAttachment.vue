@@ -22,12 +22,11 @@
         <div class="identity" v-show="active===1">
             <p>請在此上傳在台灣居住的有效身份證明和《台灣居民來往大陸通行證》。</p>
             <el-upload class="upload" action="https://jsonplaceholder.typicode.com/posts/" drag multiple
-                       :file-list="identityList" :limit="2" :disabled="identityDisabled"
-                       :before-upload="beforeFileUpload"
-                       :on-remove="handleFileRemove" :on-exceed="this.identityDisabled=true">
+                       :file-list="identityList" :limit="2" :disabled="this.identityDisabled"
+                       :before-upload="beforeFileUpload" :on-remove="handleFileRemove" :on-exceed="handleFileExceed">
                 <i class="el-icon-upload"></i>
-                <div>將文件拖到此處，或
-                    <b style="color: #409EFF">點擊上傳</b>
+                <div :style="this.identityDisabled?'color: #909399':''">將文件拖到此處，或
+                    <b :style="this.identityDisabled?'color: #909399':'color: #409EFF'">點擊上傳</b>
                 </div>
                 <div slot="tip" style="color: #909399">只能上傳PDF文件，且不超過20M</div>
             </el-upload>
@@ -72,9 +71,10 @@
     hasFinishedUpload: boolean = false
 
     identityList: any = [
-      { name: 'test1.pdf', url: 'null' }
+      { name: 'test1.pdf', url: 'null' },
+      { name: 'test2.pdf', url: 'null' }
     ]
-    identityDisabled: boolean = false
+    identityDisabled: boolean = this.identityList.length >= 2
 
     mounted () {
       // 獲取相應的內容
@@ -90,16 +90,14 @@
         cancelButtonText: '取消',
         type: 'warning'
       }).then(() => {
-        this.$message({
-          type: 'success',
-          message: '已刪除'
-        });
+        this.$message.success('已刪除')
       }).catch(() => {
-        this.$message({
-          type: 'info',
-          message: '已取消'
-        });
-      });
+        this.$message.info('已取消')
+      })
+    }
+
+    handleFileExceed () {
+      this.$message.warning('至多上傳兩個文件')
     }
 
     checkApplication () {
@@ -119,10 +117,7 @@
     }
 
     finishUpload () {
-      this.$message({
-        message: '附件上傳完成',
-        type: 'success'
-      })
+      this.$message.success('附件上傳完成')
       this.hasFinishedUpload = true
       this.active = 0
     }

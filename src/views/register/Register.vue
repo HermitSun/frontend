@@ -128,34 +128,21 @@
           registerUser(form)
             .then((res) => {
               if (res.data.succeed) {
-                this.$message({
-                  message: '註冊成功',
-                  type: 'success'
-                })
+                this.$message.success('註冊成功')
                 this.$router.push('/')
               } else {
-                this.$message({
-                  message: res.data.msg,
-                  type: 'error'
-                })
+                this.$message.error(res.data.msg)
                 form.resetFields()
               }
             })
             .catch((err) => {
-              this.$message({
-                message: err,
-                type: 'error'
-              })
+              this.$message.error(err)
             })
         } else {
-          this.$message({
-            message: '內容不符合要求，請重新填寫',
-            type: 'error'
-          })
+          this.$message.error('內容不符合要求，請重新填寫')
           form.resetFields()
         }
       })
-
     }
   }
 </script>

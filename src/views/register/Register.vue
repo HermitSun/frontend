@@ -48,7 +48,7 @@
 <script lang="ts">
   import { Vue, Component } from 'vue-property-decorator'
   import { registerUser } from 'utils/api'
-  import highSchools from '@/views/student/apply/highSchools.ts'
+  import highSchools from 'utils/highSchools.ts'
 
   @Component({})
   export default class Register extends Vue {

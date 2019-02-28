@@ -29,8 +29,8 @@
 
                         <el-form-item label="SEX 性別" prop="sex">
                             <el-select v-model="form.sex" placeholder="請選擇性別" style="width: 195px;">
-                                <el-option label="男" value=1></el-option>
-                                <el-option label="女" value=0></el-option>
+                                <el-option label="男" value="1"></el-option>
+                                <el-option label="女" value="0"></el-option>
                             </el-select>
                         </el-form-item>
 
@@ -569,8 +569,8 @@
 </template>
 
 <script>
-    import {getBasicInfo, getApplication, saveApplication, sendApplication} from "../../../utils/api";
-    import highSchools from './highSchools.ts';
+    import {getBasicInfo, getApplication, saveApplication, sendApplication} from "utils/api";
+    import highSchools from 'utils/highSchools.ts';
 
     export default {
         data() {
@@ -676,13 +676,13 @@
                         {required: true, message: '請選擇', trigger: 'blur'},
                     ],
                     sex: [
-                        {required: true, message: '請選擇性別', trigger: 'blur'}
+                        {required: true, message: '請選擇性別', trigger: 'change'}
                     ],
                     birthDate: [
                         {required: true, message: '請選擇出生日期', trigger: 'blur'}
                     ],
                     highSchool: [
-                        {required: true, message: '請選擇現就讀學校', trigger: 'blur'}
+                        {required: true, message: '請選擇現就讀學校', trigger: 'change'}
                     ],
                     graduationYear: [
                         {required: true, message: '請選擇畢業年份', trigger: 'blur'}
@@ -697,10 +697,10 @@
                         {required: true, message: '請輸入手機號碼', trigger: 'blur'}
                     ],
                     firstChoice: [
-                        {required: true, message: '請選擇第一志願', trigger: 'blur'}
+                        {required: true, message: '請選擇第一志願', trigger: 'change'}
                     ],
                     secondChoice: [
-                        {required: true, message: '請選擇第二志願', trigger: 'blur'}
+                        {required: true, message: '請選擇第二志願', trigger: 'change'}
                     ],
                     artOrSci: [
                         {required: true, message: '請選擇', trigger: 'blur'}
@@ -712,7 +712,7 @@
                         {required: true, message: '請輸入學校名稱', trigger: 'blur'}
                     ],
                     region: [
-                        {required: true, message: '請選擇地區', trigger: 'blur'}
+                        {required: true, message: '請選擇地區', trigger: 'change'}
                     ],
                     startDate: [
                         {required: true, message: '請選擇開始時間', trigger: 'blur'}

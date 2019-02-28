@@ -1,7 +1,7 @@
 import axios from 'axios';
 import {getToken} from "./token.ts";
 
-axios.defaults.baseURL = 'http://localhost:3141';
+axios.defaults.baseURL = 'http://localhost:8080';
 axios.defaults.retry = 4;
 axios.defaults.retryDelay = 1000;
 
@@ -41,7 +41,6 @@ axios.interceptors.request.use((config) => {
         // if (token) {  // 判断是否存在token，如果存在的话，则每个http header都加上token
         //     config.headers.Authorization = `Bearer ${token}`;
         // }
-        config.headers['Access-Control-Allow-Origin'] = '*';
         // config.url = axios.defaults.baseURL + config.url;/*拼接完整请求路径*/
         // console.log(config);
         return config;

@@ -83,7 +83,8 @@
         }
       ],
       password: [
-        { required: true, message: '請輸入密碼', trigger: 'change' }
+        { required: true, message: '請輸入密碼', trigger: 'change' },
+        { min: 9, message: '長度至少為9位', trigger: 'blur' }
       ],
       confirmPassword: [
         {
@@ -122,7 +123,6 @@
       form.validate((valid) => {
         if (valid) {
           let form: any = (<any> Object).assign({}, this.registerForm)
-          form.birthDate = this.registerForm.birthDate.toString()
           form.highSchool = this.registerForm.highSchool.toString()
           console.log(form)
           registerUser(form)
@@ -138,9 +138,7 @@
                   message: res.data.msg,
                   type: 'error'
                 })
-                // this.$nextTick(() => {
-                //   form.resetFields()
-                // })
+                form.resetFields()
               }
             })
             .catch((err) => {
@@ -151,12 +149,10 @@
             })
         } else {
           this.$message({
-            message: '內容有誤，請重新填寫',
+            message: '內容不符合要求，請重新填寫',
             type: 'error'
           })
-          this.$nextTick(() => {
-            form.resetFields()
-          })
+          form.resetFields()
         }
       })
 

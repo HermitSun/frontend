@@ -79,7 +79,7 @@
                 </div>
                 <div slot="tip" style="color: #909399; font-size: 12px;">
                     只能上傳不超過兩個PDF文件，且大小不超過20M
-                    <span style="color: #F56C6C">
+                    <span style="font-weight:bold; color: #F56C6C;">
                         {{hasFinishedUpload?'；為確保準確，如需修改，請重新上傳':''}}</span>
                 </div>
             </el-upload>
@@ -118,7 +118,7 @@
 <script lang="ts">
   import { Vue, Component } from 'vue-property-decorator'
   import { getToken } from 'utils/token.ts'
-  import { sendAttachment } from 'utils/api'
+  import { checkAttachmentUpload, sendAttachment } from 'utils/api'
   import { isArray } from 'utils/common'
 
   @Component({})
@@ -145,7 +145,20 @@
     hasFinishedOthers: boolean = false
 
     mounted () {
-      // 獲取相應的內容
+      // 获取附件上传状态
+      checkAttachmentUpload()
+        .then((res) => {
+          this.hasFinishedUpload = res.data.hasUploaded
+          if (this.hasFinishedUpload) {
+            this.hasFinishedIdentity = true
+            this.hasFinishedTranscript = true
+            this.hasFinishedRecommend = true
+            this.hasFinishedOthers = true
+          }
+        })
+        .catch((err) => {
+          this.hasFinishedUpload = false
+        })
     }
 
     get tokenHeader () {
@@ -165,7 +178,7 @@
       if (this.identityFileData.getAll('file').length === 0) {
         this.$message.error('請上傳附件')
       } else {
-        this.identityFileData.append('type', 'identity')
+        this.identityFileData.append('type', '身份证明')
         sendAttachment(this.identityFileData, header)
           .then(res => {
             if (res.data.succeed) {
@@ -210,7 +223,7 @@
       if (this.transcriptFileData.getAll('file').length === 0) {
         this.$message.error('請上傳附件')
       } else {
-        this.transcriptFileData.append('type', 'transcript')
+        this.transcriptFileData.append('type', '学测成绩单')
         sendAttachment(this.transcriptFileData, header)
           .then(res => {
             if (res.data.succeed) {
@@ -255,7 +268,7 @@
       if (this.recommendFileData.getAll('file').length === 0) {
         this.$message.error('請上傳附件')
       } else {
-        this.recommendFileData.append('type', 'recommend')
+        this.recommendFileData.append('type', '推荐信')
         sendAttachment(this.recommendFileData, header)
           .then(res => {
             if (res.data.succeed) {
@@ -300,7 +313,7 @@
       if (this.othersFileData.getAll('file').length === 0) {
         this.$message.error('請上傳附件')
       } else {
-        this.othersFileData.append('type', 'others')
+        this.othersFileData.append('type', '其他材料')
         sendAttachment(this.othersFileData, header)
           .then(res => {
             if (res.data.succeed) {

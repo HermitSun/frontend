@@ -187,12 +187,11 @@ const router = new Router({
     ]
 });
 
-// 登陆页面路由 name
-const LOGIN_PAGE_NAME = 'StudentLogin';
+// 不屏蔽页面的路由name
+const PASSES = ['StudentLogin', 'Register', 'ForgetPassword', 'CannotReach', '404'];
 
 // 跳转之前
 router.beforeEach((to, from, next) => {
-    // const token = getToken();
     if (to.meta.title) {
         document.title = to.meta.title
     }
@@ -201,33 +200,14 @@ router.beforeEach((to, from, next) => {
             name: 'CannotReach'
         })
     } else {
+        const token = getToken();
+        if (PASSES.indexOf(to.name) < 0 && !token) {
+            next({
+                name: 'StudentLogin' // 跳转到登录页
+            })
+        }
         next();
     }
-    // if (!token && to.name !== LOGIN_PAGE_NAME) {
-    //     // 未登录且要跳转的页面不是登录页
-    //     next({
-    //         name: LOGIN_PAGE_NAME // 跳转到登录页
-    //     });
-    // } else if (!token && to.name === LOGIN_PAGE_NAME) {
-    //     // 未登陆且要跳转的页面是登录页
-    //     next(); // 跳转
-    // } else if (token && to.name === LOGIN_PAGE_NAME) {
-    //     // 已登录且要跳转的页面是登录页
-    //     next();// 跳转
-    // } else {
-    //     if (token) {
-    //         next(); // 跳转
-    //     } else {
-    //         next({
-    //             name: LOGIN_PAGE_NAME
-    //         });
-    //     }
-    // }
-});
-
-// 跳转之后
-router.afterEach(to => {
-    //
 });
 
 export default router;

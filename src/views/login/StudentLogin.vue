@@ -4,8 +4,8 @@
             <div class="content">
                 <div class="foo">
                     <div class="head clearFix">
-                        <img class="leftHead" src="./img/NJULogo.png" @click="straightLogin"/>
-                        <div class="rightHead" @click="straightLoginStudent" style="cursor: pointer">台灣免試生系統</div>
+                        <img class="leftHead" :src="require('./img/NJULogo.png')" alt="logo"/>
+                        <div class="rightHead" style="cursor: default">台灣免試生系統</div>
                     </div>
                     <StudentLoginInputs v-show="this.showStudentLogin"></StudentLoginInputs>
                     <AdminLogin v-show="this.showAdminLogin"></AdminLogin>
@@ -20,7 +20,7 @@
 
 <script lang="ts">
   import { Vue, Component } from 'vue-property-decorator'
-  import { setToken, getToken } from 'utils/token.ts'
+  import { getToken } from 'utils/token.ts'
   import { bus } from "./bus.ts"
   import StudentLoginInputs from './StudentLoginInputs.vue'
   import AdminLogin from './AdminLogin.vue'
@@ -62,16 +62,6 @@
       if (getToken()) {
         this.$router.push('/home')
       }
-    }
-
-    straightLogin () {
-      setToken('TestToken')
-      this.$router.push('/admin')
-    }
-
-    straightLoginStudent () {
-      setToken('TestToken')
-      this.$router.push('/student')
     }
   }
 

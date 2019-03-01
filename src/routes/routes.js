@@ -64,15 +64,6 @@ const router = new Router({
             }
         },
         {
-            path: '/message',
-            name: 'test',
-            component: () => import('@/views/student/message/Message.vue'),
-            meta: {
-                icon: '',
-                title: '消息'
-            }
-        },
-        {
             path: '/404',
             name: '404',
             component: NotFound,

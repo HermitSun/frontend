@@ -87,7 +87,6 @@
               this.$router.push('/student')
             }.bind(this), 1000)
           } else {
-            console.log(response.data.msg)
             if (response.data.msg == LoginErrors.USER_DISABLED) {
               this.promptContent = "用戶被禁用"
               this.showPrompt = true

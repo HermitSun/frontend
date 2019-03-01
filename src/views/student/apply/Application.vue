@@ -587,7 +587,7 @@
                     <i class="el-icon-info"></i>
                     <span>點擊保存可暫存</span>
                 </div>
-                <el-button type="primary" icon="el-icon-document" class="confirmUpload" @click="submitApplication">提交
+                <el-button type="primary" icon="el-icon-upload2" class="confirmUpload" @click="submitApplication">提交
                 </el-button>
                 <el-button type="primary" icon="el-icon-document" class="saveEmail" @click="tempSaveApplication">保存
                 </el-button>

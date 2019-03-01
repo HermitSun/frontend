@@ -67,7 +67,7 @@ export const resetPassword = (params) => {
 
 // 申請表
 export const getBasicInfo = () => {
-    return axios.get('/application/basic_info');
+    return axios.get('/application/form');
 };
 export const sendApplication = (params) => {
     return axios.post('/application/form', params);

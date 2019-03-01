@@ -81,7 +81,7 @@
                         </el-breadcrumb>
                     </el-col>
                     <el-col :span="24" class="content-wrapper">
-                        <Guide v-show="$route.path==='/student'"></Guide>
+                        <Message v-show="$route.path==='/student'"></Message>
                         <transition name="fade" mode="out-in">
                             <router-view></router-view>
                         </transition>
@@ -95,10 +95,10 @@
 <script lang="ts">
   import { Vue, Component } from 'vue-property-decorator'
   import { getToken, delToken } from 'utils/token.ts'
-  import Guide from './Guide.vue'
+  import Message from './Message.vue'
 
   @Component({
-    components: { Guide }
+    components: { Message }
   })
   export default class Student extends Vue {
     systemName: string = '台灣免試生系統'

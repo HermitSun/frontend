@@ -13,107 +13,337 @@
             <p v-else>請檢查申請表是否填寫完整，確認後點擊進入下一步。</p>
             <div class="footer">
                 <el-button @click="$router.push('/student/application')" v-if="!hasFinishedUpload">返回檢查</el-button>
-                <el-button type="primary" @click="checkApplication">
-                    {{hasFinishedUpload?'檢查已上傳附件':'下一步'}}
+                <el-button type="primary" @click="++active">
+                    {{hasFinishedUpload?'修改已上傳附件':'下一步'}}
                 </el-button>
             </div>
         </div>
         <!--身份證明-->
         <div class="identity" v-show="active===1">
             <p>請在此上傳在台灣居住的有效身份證明和《台灣居民來往大陸通行證》。</p>
-            <el-upload class="upload" action="https://jsonplaceholder.typicode.com/posts/" drag multiple
-                       :file-list="identityList" :limit="2" :disabled="this.identityDisabled"
-                       :before-upload="beforeFileUpload" :on-remove="handleFileRemove" :on-exceed="handleFileExceed">
+            <el-upload class="upload" drag :action="uploadServer" :file-list="identityList" :limit="2"
+                       ref="identityUpload" :auto-upload="false" :headers="tokenHeader" :http-request="uploadIdentity"
+                       :before-upload="beforeFileUpload" :on-exceed="handleFileExceed" :on-success="handleUploadSuccess"
+                       :on-error="handleUploadError" :on-remove="handleIdentityRemove">
                 <i class="el-icon-upload"></i>
-                <div :style="this.identityDisabled?'color: #909399':''">將文件拖到此處，或
-                    <b :style="this.identityDisabled?'color: #909399':'color: #409EFF'">點擊上傳</b>
+                <div style="color: #909399">將文件拖到此處，或
+                    <b style="color: #409EFF">點擊上傳</b>
                 </div>
-                <div slot="tip" style="color: #909399">只能上傳PDF文件，且不超過20M</div>
+                <div slot="tip" style="color: #909399; font-size: 12px;">
+                    只能上傳不超過兩個PDF文件，且大小不超過20M
+                    <span style="font-weight:bold; color: #F56C6C;">
+                        {{hasFinishedUpload?'；為確保準確，如需修改，請重新上傳':''}}</span>
+                </div>
             </el-upload>
             <div class="footer">
+                <el-button type="primary" @click="identityUpload">確認上傳</el-button>
                 <el-button @click="--active">上一步</el-button>
-                <el-button type="primary" @click="checkIdentity">下一步</el-button>
+                <el-button type="primary" @click="++active" :disabled="!hasFinishedIdentity">下一步</el-button>
             </div>
         </div>
         <!--學測成績單-->
         <div class="transcript" v-show="active===2">
             <p>請在此上傳2019年學測成績單。</p>
+            <el-upload class="upload" drag :action="uploadServer" :file-list="transcriptList" :limit="1"
+                       ref="transcriptUpload" :auto-upload="false" :headers="tokenHeader"
+                       :http-request="uploadTranscript"
+                       :before-upload="beforeFileUpload" :on-exceed="handleFileExceed" :on-success="handleUploadSuccess"
+                       :on-error="handleUploadError" :on-remove="handleTranscriptRemove">
+                <i class="el-icon-upload"></i>
+                <div style="color: #909399">將文件拖到此處，或
+                    <b style="color: #409EFF">點擊上傳</b>
+                </div>
+                <div slot="tip" style="color: #909399; font-size: 12px;">
+                    只能上傳一個PDF文件，且大小不超過20M
+                    <span style="font-weight:bold; color: #F56C6C;">
+                        {{hasFinishedUpload?'；為確保準確，如需修改，請重新上傳':''}}</span>
+                </div>
+            </el-upload>
             <div class="footer">
+                <el-button type="primary" @click="transcriptUpload">確認上傳</el-button>
                 <el-button @click="--active">上一步</el-button>
-                <el-button type="primary" @click="checkTranscript">下一步</el-button>
+                <el-button type="primary" @click="++active" :disabled="!hasFinishedTranscript">下一步</el-button>
             </div>
         </div>
         <!--教師推薦信-->
         <div class="recommend" v-show="active===3">
             <p>請在此上傳由兩位熟悉本人的中學資深教師出具的推薦信。</p>
+            <el-upload class="upload" drag :action="uploadServer" :file-list="recommendList" :limit="2"
+                       ref="recommendUpload" :auto-upload="false" :headers="tokenHeader" :http-request="uploadRecommend"
+                       :before-upload="beforeFileUpload" :on-exceed="handleFileExceed" :on-success="handleUploadSuccess"
+                       :on-error="handleUploadError" :on-remove="handleRecommendRemove">
+                <i class="el-icon-upload"></i>
+                <div style="color: #909399">將文件拖到此處，或
+                    <b style="font-weight:bold; color: #F56C6C;">點擊上傳</b>
+                </div>
+                <div slot="tip" style="color: #909399; font-size: 12px;">
+                    只能上傳不超過兩個PDF文件，且大小不超過20M
+                    <span style="color: #F56C6C">
+                        {{hasFinishedUpload?'；為確保準確，如需修改，請重新上傳':''}}</span>
+                </div>
+            </el-upload>
             <div class="footer">
+                <el-button type="primary" @click="recommendUpload">確認上傳</el-button>
                 <el-button @click="--active">上一步</el-button>
-                <el-button type="primary" @click="checkRecommend">下一步</el-button>
+                <el-button type="primary" @click="++active" :disabled="!hasFinishedRecommend">下一步</el-button>
             </div>
         </div>
         <!--其他材料-->
         <div class="others" v-show="active===4">
             <p>請在此上傳其他相關材料。</p>
+            <el-upload class="upload" drag :action="uploadServer" :file-list="othersList" :limit="3"
+                       ref="othersUpload" :auto-upload="false" :headers="tokenHeader" :http-request="uploadOthers"
+                       :before-upload="beforeFileUpload" :on-exceed="handleFileExceed" :on-success="handleUploadSuccess"
+                       :on-error="handleUploadError" :on-remove="handleOthersRemove">
+                <i class="el-icon-upload"></i>
+                <div style="color: #909399">將文件拖到此處，或
+                    <b style="color: #409EFF">點擊上傳</b>
+                </div>
+                <div slot="tip" style="color: #909399; font-size: 12px;">
+                    只能上傳不超過三個PDF文件，且大小不超過20M
+                    <span style="font-weight:bold; color: #F56C6C;">
+                        {{hasFinishedUpload?'；為確保準確，如需修改，請重新上傳':''}}</span>
+                </div>
+            </el-upload>
             <div class="footer">
+                <el-button type="primary" @click="othersUpload">確認上傳</el-button>
                 <el-button @click="--active">上一步</el-button>
-                <el-button type="primary" @click="finishUpload">完成</el-button>
+                <el-button type="primary" @click="finishUpload" :disabled="!hasFinishedOthers">完成</el-button>
             </div>
         </div>
     </el-card>
 </template>
 
 <script lang="ts">
-  import { Vue, Component, Inject } from 'vue-property-decorator'
+  import { Vue, Component } from 'vue-property-decorator'
+  import { getToken } from 'utils/token.ts'
+  import { sendAttachment } from 'utils/api'
+  import { isArray } from 'utils/common'
 
   @Component({})
   export default class UploadAttachment extends Vue {
     active: number = 0
     hasFinishedUpload: boolean = false
 
-    identityList: any = [
-      { name: 'test1.pdf', url: 'null' },
-      { name: 'test2.pdf', url: 'null' }
-    ]
-    identityDisabled: boolean = this.identityList.length >= 2
+    uploadServer: string = 'http://localhost:3141/application/attachment'
+
+    identityList: any = []
+    identityFileData: any = new FormData()
+    hasFinishedIdentity: boolean = false
+
+    transcriptList: any = []
+    transcriptFileData: any = new FormData()
+    hasFinishedTranscript: boolean = false
+
+    recommendList: any = []
+    recommendFileData: any = new FormData()
+    hasFinishedRecommend: boolean = false
+
+    othersList: any = []
+    othersFileData: any = new FormData()
+    hasFinishedOthers: boolean = false
 
     mounted () {
       // 獲取相應的內容
     }
 
-    beforeFileUpload () {
-
+    get tokenHeader () {
+      let token = getToken()
+      return {
+        Authorization: `Bearer ${token}`
+      }
     }
 
-    handleFileRemove (file, fileList) {
-      this.$confirm('將刪除該文件，是否繼續?', '提示', {
-        confirmButtonText: '確定',
-        cancelButtonText: '取消',
-        type: 'warning'
-      }).then(() => {
-        this.$message.success('已刪除')
-      }).catch(() => {
-        this.$message.info('已取消')
-      })
+    // 身份證明
+    identityUpload () {
+      let upload: any = this.$refs.identityUpload
+      upload.submit()
+      let header: any = {
+        headers: { "Content-Type": "multipart/form-data" }
+      }
+      if (this.identityFileData.getAll('file').length === 0) {
+        this.$message.error('請上傳附件')
+      } else {
+        sendAttachment(this.identityFileData, header)
+          .then(res => {
+            if (res.data.succeed) {
+              this.$message.success("上傳成功")
+              this.hasFinishedIdentity = true
+            } else {
+              this.$message.error(res.data.msg)
+            }
+          })
+          .catch(err => {
+            this.$message.error(err)
+          })
+      }
+    }
+
+    uploadIdentity (file) {
+      this.identityFileData.append('file', file.file)
+    }
+
+    handleIdentityRemove (file, fileList) {
+      let uploads = this.identityFileData.getAll('file')
+      if (isArray(uploads)) { // 不止一個文件
+        uploads = uploads.filter(upload => {
+          return upload.uid !== file.uid
+        })
+        this.identityFileData.set('file', uploads)
+      } else {
+        this.identityFileData.delete('file')
+      }
+    }
+
+    // 學測成績單
+    transcriptUpload () {
+      let upload: any = this.$refs.transcriptUpload
+      upload.submit()
+      let header: any = {
+        headers: { "Content-Type": "multipart/form-data" }
+      }
+      if (this.transcriptFileData.getAll('file').length === 0) {
+        this.$message.error('請上傳附件')
+      } else {
+        sendAttachment(this.transcriptFileData, header)
+          .then(res => {
+            if (res.data.succeed) {
+              this.$message.success("上傳成功")
+              this.hasFinishedTranscript = true
+            } else {
+              this.$message.error(res.data.msg)
+            }
+          })
+          .catch(err => {
+            this.$message.error(err)
+          })
+      }
+    }
+
+    uploadTranscript (file) {
+      this.transcriptFileData.append('file', file.file)
+    }
+
+    handleTranscriptRemove (file, fileList) {
+      let uploads = this.transcriptFileData.getAll('file')
+      if (isArray(uploads)) { // 不止一個文件
+        uploads = uploads.filter(upload => {
+          return upload.uid !== file.uid
+        })
+        this.transcriptFileData.set('file', uploads)
+      } else {
+        this.transcriptFileData.delete('file')
+      }
+    }
+
+    // 推薦信
+    recommendUpload () {
+      let upload: any = this.$refs.recommendUpload
+      upload.submit()
+      let header: any = {
+        headers: { "Content-Type": "multipart/form-data" }
+      }
+      if (this.recommendFileData.getAll('file').length === 0) {
+        this.$message.error('請上傳附件')
+      } else {
+        sendAttachment(this.recommendFileData, header)
+          .then(res => {
+            if (res.data.succeed) {
+              this.$message.success("上傳成功")
+              this.hasFinishedRecommend = true
+            } else {
+              this.$message.error(res.data.msg)
+            }
+          })
+          .catch(err => {
+            this.$message.error(err)
+          })
+      }
+    }
+
+    uploadRecommend (file) {
+      this.recommendFileData.append('file', file.file)
+    }
+
+    handleRecommendRemove (file, fileList) {
+      let uploads = this.recommendFileData.getAll('file')
+      if (isArray(uploads)) { // 不止一個文件
+        uploads = uploads.filter(upload => {
+          return upload.uid !== file.uid
+        })
+        this.recommendFileData.set('file', uploads)
+      } else {
+        this.recommendFileData.delete('file')
+      }
+    }
+
+    // 其他材料
+    othersUpload () {
+      let upload: any = this.$refs.othersUpload
+      upload.submit()
+      let header: any = {
+        headers: { "Content-Type": "multipart/form-data" }
+      }
+      if (this.othersFileData.getAll('file').length === 0) {
+        this.$message.error('請上傳附件')
+      } else {
+        sendAttachment(this.othersFileData, header)
+          .then(res => {
+            if (res.data.succeed) {
+              this.$message.success("上傳成功")
+              this.hasFinishedOthers = true
+            } else {
+              this.$message.error(res.data.msg)
+            }
+          })
+          .catch(err => {
+            this.$message.error(err)
+          })
+      }
+    }
+
+    uploadOthers (file) {
+      this.othersFileData.append('file', file.file)
+    }
+
+    handleOthersRemove (file, fileList) {
+      let uploads = this.othersFileData.getAll('file')
+      if (isArray(uploads)) { // 不止一個文件
+        uploads = uploads.filter(upload => {
+          return upload.uid !== file.uid
+        })
+        this.othersFileData.set('file', uploads)
+      } else {
+        this.othersFileData.delete('file')
+      }
+    }
+
+    beforeFileUpload (file) {
+      const isPDF = file.type === 'application/pdf'
+      const underLimit = file.size / 1024 / 1024 <= 20
+      if (!isPDF) {
+        this.$message.error('只能上傳PDF文件')
+      }
+      if (!underLimit) {
+        this.$message.error('文件大小超過限制')
+      }
+      return isPDF && underLimit
     }
 
     handleFileExceed () {
-      this.$message.warning('至多上傳兩個文件')
+      this.$message.warning('文件數量超過限制')
     }
 
-    checkApplication () {
-      ++this.active
+    handleUploadSuccess (response) {
+      if (response.succeed) {
+        this.$message.success('上傳成功')
+      } else {
+        this.$message.error('上傳失敗')
+      }
     }
 
-    checkIdentity () {
-      ++this.active
-    }
-
-    checkTranscript () {
-      ++this.active
-    }
-
-    checkRecommend () {
-      ++this.active
+    handleUploadError (err) {
+      this.$message.error(err)
     }
 
     finishUpload () {
@@ -126,7 +356,7 @@
 
 <style scoped lang="scss" rel="stylesheet/scss">
     .wrapper {
-        margin: 25px 80px;
+        margin: 30px 80px;
         width: 1000px;
 
         .checkApplication {

@@ -6,7 +6,6 @@
             </div>
             <el-steps :active="active" finish-status="success">
                 <el-step title="填寫信息"></el-step>
-                <el-step title="驗證郵箱"></el-step>
                 <el-step title="重置密碼"></el-step>
             </el-steps>
             <!--填寫信息-->
@@ -25,36 +24,35 @@
                     <el-button type="primary" @click="checkInfo">下一步</el-button>
                 </el-form-item>
             </el-form>
-            <!--驗證郵箱-->
-            <el-form :model="verifyForm" :rules="verifyRules" ref="verifyForm" v-else-if="active===1">
-                <el-form-item>
-                    <span>我們已經向您的電子郵箱發送了驗證郵件，請在下方填寫您收到的驗證碼。</span>
-                    <el-button @click="sendVerifyCodeAgain" style="float: right">
-                        <span v-if="hasSendVerifyCode">{{sendCodeInterval}}s後重發</span>
-                        <span v-else>重新發送</span>
-                    </el-button>
-                </el-form-item>
-                <el-form-item label="驗證碼" :label-width="this.verifyFormWidth" prop="emailVerifyCode">
-                    <el-input v-model="emailVerifyCode" placeholder="驗證碼"></el-input>
-                </el-form-item>
-                <el-form-item class="footer">
-                    <el-button @click="$router.push('/')">取消</el-button>
-                    <el-button type="primary" @click="verifyEmail">下一步</el-button>
-                </el-form-item>
-            </el-form>
-            <!--重置密碼-->
-            <el-form :model="resetForm" :rules="resetRules" ref="resetForm" v-if="active===2">
-                <el-form-item label="新密碼" :label-width="this.resetFormWidth" prop="password">
-                    <el-input type="password" v-model="resetForm.password" placeholder="密碼"></el-input>
-                </el-form-item>
-                <el-form-item label="確認密碼" :label-width="this.resetFormWidth" prop="confirmPassword">
-                    <el-input type="password" v-model="resetForm.confirmPassword" placeholder="確認密碼"></el-input>
-                </el-form-item>
-                <el-form-item class="footer">
-                    <el-button @click="$router.push('/')">取消</el-button>
-                    <el-button type="primary" @click="finishReset">完成</el-button>
-                </el-form-item>
-            </el-form>
+
+            <div v-show="active===1">
+                <!--驗證郵箱-->
+                <el-form :model="verifyForm" :rules="verifyRules" ref="verifyForm">
+                    <el-form-item>
+                        <span>我們已經向您的電子郵箱發送了驗證郵件，請在下方填寫您收到的驗證碼。</span>
+                        <el-button @click="sendVerifyCodeAgain" style="float: right">
+                            <span v-if="hasSendVerifyCode">{{sendCodeInterval}}s後重發</span>
+                            <span v-else>重新發送</span>
+                        </el-button>
+                    </el-form-item>
+                    <el-form-item label="驗證碼" :label-width="this.verifyFormWidth" prop="emailVerifyCode">
+                        <el-input v-model="verifyForm.emailVerifyCode" placeholder="驗證碼"></el-input>
+                    </el-form-item>
+                </el-form>
+                <!--重置密碼-->
+                <el-form :model="resetForm" :rules="resetRules" ref="resetForm">
+                    <el-form-item label="新密碼" :label-width="this.resetFormWidth" prop="password">
+                        <el-input type="password" v-model="resetForm.password" placeholder="密碼"></el-input>
+                    </el-form-item>
+                    <el-form-item label="確認密碼" :label-width="this.resetFormWidth" prop="confirmPassword">
+                        <el-input type="password" v-model="resetForm.confirmPassword" placeholder="確認密碼"></el-input>
+                    </el-form-item>
+                    <el-form-item class="footer">
+                        <el-button @click="--active">上一步</el-button>
+                        <el-button type="primary" @click="finishReset">完成</el-button>
+                    </el-form-item>
+                </el-form>
+            </div>
         </el-card>
     </div>
 </template>
@@ -88,6 +86,9 @@
           trigger: 'blur'
         }
       ],
+      emailVerifyCode: [
+        { required: true, message: '請輸入驗證碼', trigger: 'blur' }
+      ],
       idCardNumber: [
         {
           required: true,
@@ -103,7 +104,7 @@
         }
       ],
       name: [
-        { required: true, message: '請輸入姓名', trigger: 'change' }
+        { required: true, message: '請輸入姓名', trigger: 'blur' }
       ]
     }
     infoFormWidth: string = '120px'
@@ -126,7 +127,7 @@
     }
     resetRules: any = {
       password: [
-        { required: true, message: '請輸入密碼', trigger: 'change' }
+        { required: true, message: '請輸入密碼', trigger: 'blur' }
       ],
       confirmPassword: [
         {

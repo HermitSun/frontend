@@ -16,9 +16,6 @@
                 <el-form-item label="台灣身份證號" :label-width="this.infoFormWidth" prop="idCardNumber">
                     <el-input v-model="infoForm.idCardNumber" placeholder="身份證號"></el-input>
                 </el-form-item>
-                <el-form-item label="姓名" :label-width="this.infoFormWidth" prop="name">
-                    <el-input v-model="infoForm.name" placeholder="姓名"></el-input>
-                </el-form-item>
                 <el-form-item class="footer">
                     <el-button @click="$router.push('/')">取消</el-button>
                     <el-button type="primary" @click="checkInfo">下一步</el-button>
@@ -68,7 +65,6 @@
     infoForm: any = {
       email: '',
       idCardNumber: '',
-      name: ''
     }
     infoRules: any = {
       email: [
@@ -102,9 +98,6 @@
             }
           }, trigger: 'blur'
         }
-      ],
-      name: [
-        { required: true, message: '請輸入姓名', trigger: 'blur' }
       ]
     }
     infoFormWidth: string = '120px'

@@ -55,11 +55,14 @@ export const login = (params) => {
 export const verifyCode = params => {
     return axios.get(`/email/verification`, {params: params});
 };
-export const sendVerifyEmail = () => {
-    return axios.get(`/email/captchaDelivery`);
-};
 export const registerUser = params => {
     return axios.post(`/register/`, params);
+};
+export const sendVerifyEmail = (params) => {
+    return axios.post('/email/send-verification-email', params);
+};
+export const resetPassword = (params) => {
+    return axios.post('/email/verification', params)
 };
 
 // 申請表

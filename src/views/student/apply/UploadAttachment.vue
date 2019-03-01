@@ -23,8 +23,8 @@
             <p>請在此上傳在台灣居住的有效身份證明和《台灣居民來往大陸通行證》。</p>
             <el-upload class="upload" drag :action="uploadServer" :file-list="identityList" :limit="2"
                        ref="identityUpload" :auto-upload="false" :headers="tokenHeader" :http-request="uploadIdentity"
-                       :before-upload="beforeFileUpload" :on-exceed="handleFileExceed" :on-success="handleUploadSuccess"
-                       :on-error="handleUploadError" :on-remove="handleIdentityRemove">
+                       :on-exceed="handleFileExceed" :on-success="handleUploadSuccess" :on-error="handleUploadError"
+                       :before-upload="beforeFileUpload" :on-remove="handleIdentityRemove">
                 <i class="el-icon-upload"></i>
                 <div style="color: #909399">將文件拖到此處，或
                     <b style="color: #409EFF">點擊上傳</b>
@@ -46,9 +46,9 @@
             <p>請在此上傳2019年學測成績單。</p>
             <el-upload class="upload" drag :action="uploadServer" :file-list="transcriptList" :limit="1"
                        ref="transcriptUpload" :auto-upload="false" :headers="tokenHeader"
-                       :http-request="uploadTranscript"
-                       :before-upload="beforeFileUpload" :on-exceed="handleFileExceed" :on-success="handleUploadSuccess"
-                       :on-error="handleUploadError" :on-remove="handleTranscriptRemove">
+                       :http-request="uploadTranscript" :on-exceed="handleFileExceed" :on-success="handleUploadSuccess"
+                       :before-upload="beforeFileUpload" :on-error="handleUploadError"
+                       :on-remove="handleTranscriptRemove">
                 <i class="el-icon-upload"></i>
                 <div style="color: #909399">將文件拖到此處，或
                     <b style="color: #409EFF">點擊上傳</b>
@@ -70,11 +70,12 @@
             <p>請在此上傳由兩位熟悉本人的中學資深教師出具的推薦信。</p>
             <el-upload class="upload" drag :action="uploadServer" :file-list="recommendList" :limit="2"
                        ref="recommendUpload" :auto-upload="false" :headers="tokenHeader" :http-request="uploadRecommend"
-                       :before-upload="beforeFileUpload" :on-exceed="handleFileExceed" :on-success="handleUploadSuccess"
-                       :on-error="handleUploadError" :on-remove="handleRecommendRemove">
+                       :on-exceed="handleFileExceed" :on-success="handleUploadSuccess"
+                       :before-upload="beforeFileUpload" :on-error="handleUploadError"
+                       :on-remove="handleRecommendRemove">
                 <i class="el-icon-upload"></i>
                 <div style="color: #909399">將文件拖到此處，或
-                    <b style="font-weight:bold; color: #F56C6C;">點擊上傳</b>
+                    <b style="color: #409EFF">點擊上傳</b>
                 </div>
                 <div slot="tip" style="color: #909399; font-size: 12px;">
                     只能上傳不超過兩個PDF文件，且大小不超過20M
@@ -93,8 +94,8 @@
             <p>請在此上傳其他相關材料。</p>
             <el-upload class="upload" drag :action="uploadServer" :file-list="othersList" :limit="3"
                        ref="othersUpload" :auto-upload="false" :headers="tokenHeader" :http-request="uploadOthers"
-                       :before-upload="beforeFileUpload" :on-exceed="handleFileExceed" :on-success="handleUploadSuccess"
-                       :on-error="handleUploadError" :on-remove="handleOthersRemove">
+                       :on-exceed="handleFileExceed" :on-success="handleUploadSuccess"
+                       :before-upload="beforeFileUpload" :on-error="handleUploadError" :on-remove="handleOthersRemove">
                 <i class="el-icon-upload"></i>
                 <div style="color: #909399">將文件拖到此處，或
                     <b style="color: #409EFF">點擊上傳</b>
@@ -164,6 +165,7 @@
       if (this.identityFileData.getAll('file').length === 0) {
         this.$message.error('請上傳附件')
       } else {
+        this.identityFileData.append('type', 'identity')
         sendAttachment(this.identityFileData, header)
           .then(res => {
             if (res.data.succeed) {
@@ -205,6 +207,7 @@
       if (this.transcriptFileData.getAll('file').length === 0) {
         this.$message.error('請上傳附件')
       } else {
+        this.transcriptFileData.append('type', 'transcript')
         sendAttachment(this.transcriptFileData, header)
           .then(res => {
             if (res.data.succeed) {
@@ -246,6 +249,7 @@
       if (this.recommendFileData.getAll('file').length === 0) {
         this.$message.error('請上傳附件')
       } else {
+        this.recommendFileData.append('type', 'recommend')
         sendAttachment(this.recommendFileData, header)
           .then(res => {
             if (res.data.succeed) {
@@ -287,6 +291,7 @@
       if (this.othersFileData.getAll('file').length === 0) {
         this.$message.error('請上傳附件')
       } else {
+        this.othersFileData.append('type', 'others')
         sendAttachment(this.othersFileData, header)
           .then(res => {
             if (res.data.succeed) {
@@ -350,6 +355,14 @@
       this.$message.success('附件上傳完成')
       this.hasFinishedUpload = true
       this.active = 0
+      this.identityList = []
+      this.identityFileData = new FormData()
+      this.transcriptList = []
+      this.transcriptFileData = new FormData()
+      this.recommendList = []
+      this.recommendFileData = new FormData()
+      this.othersList = []
+      this.othersFileData = new FormData()
     }
   }
 </script>

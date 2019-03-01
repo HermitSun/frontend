@@ -191,7 +191,10 @@
         uploads = uploads.filter(upload => {
           return upload.uid !== file.uid
         })
-        this.identityFileData.set('file', uploads)
+        this.identityFileData.delete('file')
+        uploads.forEach(upload => {
+          this.identityFileData.append('file', upload)
+        })
       } else {
         this.identityFileData.delete('file')
       }
@@ -233,7 +236,10 @@
         uploads = uploads.filter(upload => {
           return upload.uid !== file.uid
         })
-        this.transcriptFileData.set('file', uploads)
+        this.transcriptFileData.delete('file')
+        uploads.forEach(upload => {
+          this.transcriptFileData.append('file', upload)
+        })
       } else {
         this.transcriptFileData.delete('file')
       }
@@ -275,7 +281,10 @@
         uploads = uploads.filter(upload => {
           return upload.uid !== file.uid
         })
-        this.recommendFileData.set('file', uploads)
+        this.recommendFileData.delete('file')
+        uploads.forEach(upload => {
+          this.recommendFileData.append('file', upload)
+        })
       } else {
         this.recommendFileData.delete('file')
       }
@@ -317,7 +326,10 @@
         uploads = uploads.filter(upload => {
           return upload.uid !== file.uid
         })
-        this.othersFileData.set('file', uploads)
+        this.othersFileData.delete('file')
+        uploads.forEach(upload => {
+          this.othersFileData.append('file', upload)
+        })
       } else {
         this.othersFileData.delete('file')
       }

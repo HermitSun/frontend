@@ -36,6 +36,11 @@ export const resetPassword = (params) => {
     return axios.post('/email/verification', params)
 };
 
+// 消息
+export const studentGetMessage = () => {
+    return axios.get('/message/');
+};
+
 // 申請表
 export const getBasicInfo = () => {
     return axios.get('/application/form');
@@ -46,6 +51,11 @@ export const sendApplication = (params) => {
 export const getMajors = () => {
     return axios.get('/majorSetting/majorGetting');
 };
+export const getApplicationStatus = () => {
+    return axios.post('/application/form_check');
+};
+
+// 附件
 export const sendAttachment = (data, header) => {
     return axios.post('/application/attachment', data, header);
 };

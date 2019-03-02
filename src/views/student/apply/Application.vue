@@ -1,5 +1,8 @@
 <template>
     <el-card class="wrapper">
+        <div v-if="hasFinished">
+            <p style="color: #67C23A">您已完成申請表填寫。</p>
+        </div>
         <el-form :model="form" :rules="rules" ref="form" label-width="138px" :inline="true">
             <el-collapse accordion>
                 <el-collapse-item title="第一部分">
@@ -550,11 +553,11 @@
             <el-col :span="24">
                 <div class="prompt">
                     <i class="el-icon-info"></i>
-                    <span>點擊保存可暫存</span>
+                    <span>如果清除頁面緩存，暫存將被刪除，敬請注意</span>
                 </div>
                 <el-button type="primary" icon="el-icon-upload2" class="confirmUpload" @click="submitApplication">提交
                 </el-button>
-                <el-button type="primary" icon="el-icon-document" class="saveEmail" @click="tempSaveApplication">保存
+                <el-button type="primary" icon="el-icon-document" class="saveEmail" @click="tempSaveApplication">暫存
                 </el-button>
             </el-col>
         </el-form>
@@ -562,12 +565,13 @@
 </template>
 
 <script>
-    import {getBasicInfo, sendApplication, getMajors} from "utils/api";
+    import {getBasicInfo, sendApplication, getMajors, getApplicationStatus} from "utils/api";
     import highSchools from 'utils/highSchools.ts';
 
     export default {
         data() {
             return {
+                hasFinished: false,
                 options: highSchools,
                 form: {
                     firstName: '',
@@ -739,8 +743,7 @@
         },
         mounted() {
             this.$nextTick(() => {
-                this.getApplicationInfo();
-                this.getMajors();
+                this.checkApplicationStatus();
             })
         },
         computed: {
@@ -859,7 +862,7 @@
                     }
                 });
 
-            },
+            },//有問題
             getChineseCriteria(point) {
                 let temp = Number(point);
                 if (temp <= 15 && temp >= 13) {
@@ -957,31 +960,75 @@
                 // 暫存
                 let storage = window.localStorage;
                 let information = Object.assign({}, this.form);
+                information.sex = this.form.sex.toString();
                 information.highSchool = this.form.highSchool.toString();
-                information.familyParticulars = this.familyParticulars.members.toString();
-                information.activities = this.activities.activity.toString();
+                information.phoneNumber = JSON.stringify(this.form.phoneNumber);//
+                information.curriculumChoices = JSON.stringify(this.form.curriculumChoices);
+                information.artOrSci = this.form.artOrSci.toString();
+                information.primarySchool = JSON.stringify(this.form.primarySchool);
+                information.juniorMiddleSchool = JSON.stringify(this.form.juniorMiddleSchool);
+                information.seniorMiddleSchool = JSON.stringify(this.form.seniorMiddleSchool);
+                information.results = JSON.stringify(this.form.results);
+                information.actualLevelPoints = JSON.stringify(this.form.actualLevelPoints);
+                information.levelRange = JSON.stringify(this.form.levelRange);
+                information.singleSubjectCriteria = JSON.stringify(this.form.singleSubjectCriteria);
+                let temp = [];
+                this.activities.activity.forEach((activity) => {
+                    temp.push(JSON.stringify(activity) + '`');
+                });
+                information.activities = temp.toString();
+                temp = [];
+                this.familyParticulars.members.forEach((member) => {
+                    temp.push(JSON.stringify(member) + '`');
+                });
+                information.familyParticulars = temp.toString();
                 for (let key in information) {
                     storage.setItem(key, information[key]);
                 }
+                this.$message({
+                    message: '暫存完成',
+                    type: 'success'
+                })
             },
             getTempSavedApplication() {
                 // 讀取暫存
                 let storage = window.localStorage;
-                for (let key in this.form) {
-                    if (key === 'highSchool') {
-                        this.form.highSchool = storage.getItem(key).split(',');
-                    } else if (key === 'familyParticulars') {
-                        this.familyParticulars = {
-                            members: storage.getItem(key).split(',')
-                        }
-                    } else if (key === 'activities') {
-                        this.activities = {
-                            activity: storage.getItem(key).split(',')
-                        }
-                    } else {
-                        this.form[key] = storage.getItem(key);
-                    }
-                }
+                this.form.firstName = storage.getItem('firstName');
+                this.form.lastName = storage.getItem('lastName');
+                this.form.needSimplification = storage.getItem('needSimplification');
+                this.form.sex = Number(storage.getItem('sex'));
+                this.form.birthDate = storage.getItem('birthDate');
+                this.form.email = storage.getItem('email');
+                this.form.mtpNumber = storage.getItem('mtpNumber');
+                this.form.idCardNumber = storage.getItem('idCardNumber');
+                this.form.highSchool = storage.getItem('highSchool').split(',');
+                this.form.graduationYear = storage.getItem('graduationYear');
+                this.form.address = storage.getItem('address');
+                this.form.postalCode = storage.getItem('postalCode');
+                this.form.phoneNumber = JSON.parse(storage.getItem('phoneNumber'));
+                this.form.curriculumChoices = JSON.parse(storage.getItem('curriculumChoices'));
+                this.form.artOrSci = Number(storage.getItem('artOrSci'));
+                this.form.acceptAssignment = storage.getItem('acceptAssignment');
+                this.form.primarySchool = JSON.parse(storage.getItem('primarySchool'));
+                this.form.juniorMiddleSchool = JSON.parse(storage.getItem('juniorMiddleSchool'));
+                this.form.seniorMiddleSchool = JSON.parse(storage.getItem('seniorMiddleSchool'));
+                this.form.results = JSON.parse(storage.getItem('results'));
+                this.form.actualLevelPoints = JSON.parse(storage.getItem('actualLevelPoints'));
+                this.form.levelRange = JSON.parse(storage.getItem('levelRange'));
+                this.form.singleSubjectCriteria = JSON.parse(storage.getItem('singleSubjectCriteria'));
+                this.form.personalStatement = storage.getItem('personalStatement');
+                let temp = storage.getItem('familyParticulars').split('`,');
+                temp[temp.length - 1] = temp[temp.length - 1].substring(0, temp[temp.length - 1].length - 1);
+                this.familyParticulars.members = [];
+                temp.forEach((t) => {
+                    this.familyParticulars.members.push(JSON.parse(t));
+                });
+                temp = storage.getItem('activities').split('`,');
+                temp[temp.length - 1] = temp[temp.length - 1].substring(0, temp[temp.length - 1].length - 1);
+                this.activities.activity = [];
+                temp.forEach((t) => {
+                    this.activities.activity.push(JSON.parse(t));
+                });
             },
             getSubjectCriteria(level) {
                 if (level === '頂標') {
@@ -1014,6 +1061,32 @@
                         })
                     });
                 this.majors = majors;
+            },
+            checkApplicationStatus() {
+                let _this = this;
+                getApplicationStatus()
+                    .then((res) => {
+                        if (res.data.hasUploaded) {
+                            this.hasFinished = true
+                        } else {
+                            this.hasFinished = false;
+                        }
+                        return _this;
+                    })
+                    .then((that) => {
+                        that.getApplicationInfo();
+                        that.getMajors();
+                        return _this;
+                    })
+                    .then((that) => {
+                        that.getTempSavedApplication()
+                    })
+                    .catch((err) => {
+                        this.$message({
+                            message: err,
+                            type: 'error'
+                        });
+                    })
             }
         }
     }
@@ -1096,7 +1169,7 @@
         }
 
         .prompt {
-            margin-top: 8px;
+            margin-top: 15px;
             margin-left: 20px;
             color: #a6a9ad;
         }

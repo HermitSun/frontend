@@ -159,14 +159,13 @@
       }).catch((err) => {
         this.hasFinishedUpload = false
       })
-      getAttachmentNames()
-        .then((res) => {
-          console.log(res.data)
-        })
-        .catch((err) => {
-          this.$message.error(err)
-        })
-
+      // getAttachmentNames()
+      //   .then((res) => {
+      //     console.log(res.data)
+      //   })
+      //   .catch((err) => {
+      //     this.$message.error(err)
+      //   })
     }
 
     get tokenHeader () {

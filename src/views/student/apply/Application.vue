@@ -20,7 +20,7 @@
                                           style="width: 195px;"></el-input>
                             </el-form-item>
 
-                            <el-form-item label="是否与通行证一致" prop="needSimplification">
+                            <el-form-item label="是否與通行證一致" prop="needSimplification">
                                 <el-radio-group v-model="form.needSimplification" style="width: 195px;">
                                     <el-radio label="false">是</el-radio>
                                     <el-radio label="true">否</el-radio>
@@ -80,7 +80,7 @@
                                 <el-form-item label="Mobile/Other 手機/其他" prop="mobile">
                                     <el-input v-model="form.phoneNumber.mobile" clearable style="width: 300px;">
                                         <el-select v-model="form.phoneNumber.areaCode" slot="prepend"
-                                                   placeholder="请选择区号" style="width:120px">
+                                                   placeholder="請選擇區號" style="width:120px">
                                             <el-option label="+86" value="+86"></el-option>
                                             <el-option label="+886" value="+886"></el-option>
                                         </el-select>
@@ -454,7 +454,7 @@
                                               :disabled="true"></el-input>
                                 </el-form-item>
                                 <el-form-item prop="math">
-                                    <el-input v-model="getCriteria2" placeholder="MATH 数学" style="width:180px"
+                                    <el-input v-model="getCriteria2" placeholder="MATH 數學" style="width:180px"
                                               :disabled="true"></el-input>
                                 </el-form-item>
                                 <el-form-item prop="english">
@@ -855,70 +855,70 @@
             getChineseCriteria(point) {
                 let temp = Number(point);
                 if (temp <= 15 && temp >= 13) {
-                    return "顶标"
+                    return "頂標"
                 } else if (temp <= 12 && temp >= 11) {
-                    return "均标"
+                    return "均標"
                 } else if (temp <= 10 && temp >= 9) {
-                    return "后标"
+                    return "後標"
                 } else {
-                    return "底标"
+                    return "底標"
                 }
 
             },
             getMathCriteria(point) {
                 let temp = Number(point);
                 if (temp <= 15 && temp >= 14) {
-                    return "顶标"
+                    return "頂標"
                 } else if (temp <= 13 && temp >= 12) {
-                    return "前标"
+                    return "前標"
                 } else if (temp <= 11 && temp >= 9) {
-                    return "均标"
+                    return "均標"
                 } else if (temp <= 8 && temp >= 5) {
-                    return "后标"
+                    return "後標"
                 } else {
-                    return "底标"
+                    return "底標"
                 }
             },
             getEnglishCriteria(point) {
                 let temp = Number(point);
                 if (temp <= 15 && temp >= 14) {
-                    return "顶标"
+                    return "頂標"
                 } else if (temp === 13) {
-                    return "前标"
+                    return "前標"
                 } else if (temp <= 12 && temp >= 10) {
-                    return "均标"
+                    return "均標"
                 } else if (temp <= 9 && temp >= 5) {
-                    return "后标"
+                    return "後標"
                 } else {
-                    return "底标"
+                    return "底標"
                 }
             },
             getSocialCriteria(point) {
                 let temp = Number(point);
                 if (temp <= 15 && temp >= 13) {
-                    return "顶标"
+                    return "頂標"
                 } else if (temp === 12) {
-                    return "前标"
+                    return "前標"
                 } else if (temp <= 11 && temp >= 10) {
-                    return "均标"
+                    return "均標"
                 } else if (temp === 9) {
-                    return "后标"
+                    return "後標"
                 } else {
-                    return "底标"
+                    return "底標"
                 }
             },
             getScienceCriteria(point) {
                 let temp = Number(point);
                 if (temp <= 15 && temp >= 13) {
-                    return "顶标"
+                    return "頂標"
                 } else if (temp <= 12 && temp >= 11) {
-                    return "前标"
+                    return "前標"
                 } else if (temp <= 10 && temp >= 8) {
-                    return "均标"
+                    return "均標"
                 } else if (temp <= 7 && temp >= 6) {
-                    return "后标"
+                    return "後標"
                 } else {
-                    return "底标"
+                    return "底標"
                 }
             },
             getApplicationInfo() {

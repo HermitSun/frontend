@@ -1101,8 +1101,8 @@ export default [
         label: '市立霧峰農工'
       },
       {
-        value: '市立后綜高中',
-        label: '市立后綜高中'
+        value: '市立後綜高中',
+        label: '市立後綜高中'
       },
       {
         value: '市立大里高中',
@@ -1790,7 +1790,7 @@ export default [
       {
         value: '縣立南平中學',
         label: '縣立南平中學'
-      },      
+      },
       {
         value: '其他',
         label: '其他'
@@ -1912,8 +1912,8 @@ export default [
     label: '雲林縣',
     children: [
       {
-        value: '國立斗六高中',
-        label: '國立斗六高中'
+        value: '國立鬥六高中',
+        label: '國立鬥六高中'
       },
       {
         value: '國立北港高中',
@@ -1932,8 +1932,8 @@ export default [
         label: '國立西螺農工'
       },
       {
-        value: '國立斗六家商',
-        label: '國立斗六家商'
+        value: '國立鬥六家商',
+        label: '國立鬥六家商'
       },
       {
         value: '國立北港農工',
@@ -1984,8 +1984,8 @@ export default [
         label: '私立大德工商'
       },
       {
-        value: '縣立斗南高中',
-        label: '縣立斗南高中'
+        value: '縣立鬥南高中',
+        label: '縣立鬥南高中'
       },
       {
         value: '縣立麥寮高中',

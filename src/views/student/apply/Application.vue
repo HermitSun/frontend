@@ -1066,11 +1066,7 @@
                 let _this = this;
                 getApplicationStatus()
                     .then((res) => {
-                        if (res.data.hasUploaded) {
-                            this.hasFinished = true
-                        } else {
-                            this.hasFinished = false;
-                        }
+                        this.hasFinished = !!res.data.hasUploaded;
                         return _this;
                     })
                     .then((that) => {

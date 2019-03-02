@@ -62,7 +62,12 @@ export default [
       {
         value: '縣立旭光高中',
         label: '縣立旭光高中'
-      }]
+      },
+      {
+        value: '其他',
+        label: '其他'
+      }
+    ]
   }, {
     value: '嘉義市',
     label: '嘉義市',
@@ -118,6 +123,10 @@ export default [
       {
         value: '私立東吳工家',
         label: '私立東吳工家'
+      },
+      {
+        value: '其他',
+        label: '其他'
       }]
   }, {
     value: '嘉義縣',
@@ -162,6 +171,10 @@ export default [
       {
         value: '縣立永慶高中',
         label: '縣立永慶高中'
+      },
+      {
+        value: '其他',
+        label: '其他'
       }]
   }, {
     value: '基隆市',
@@ -214,6 +227,10 @@ export default [
       {
         value: '市立八斗高中',
         label: '市立八斗高中'
+      },
+      {
+        value: '其他',
+        label: '其他'
       }]
   }, {
     value: '宜蘭縣',
@@ -266,6 +283,10 @@ export default [
       {
         value: '縣立慈心華德福實中',
         label: '縣立慈心華德福實中'
+      },
+      {
+        value: '其他',
+        label: '其他'
       }]
   }, {
     value: '屏東縣',
@@ -346,6 +367,10 @@ export default [
       {
         value: '縣立來義高中',
         label: '縣立來義高中'
+      },
+      {
+        value: '其他',
+        label: '其他'
       }]
   }, {
     value: '彰化縣',
@@ -446,6 +471,10 @@ export default [
       {
         value: '縣立成功高中',
         label: '縣立成功高中'
+      },
+      {
+        value: '其他',
+        label: '其他'
       }]
   }, {
     value: '新北市',
@@ -702,6 +731,10 @@ export default [
       {
         value: '私立光華高商進修學校',
         label: '私立光華高商進修學校'
+      },
+      {
+        value: '其他',
+        label: '其他'
       }]
   }, {
     value: '新竹市',
@@ -754,6 +787,10 @@ export default [
       {
         value: '市立建功高中',
         label: '市立建功高中'
+      },
+      {
+        value: '其他',
+        label: '其他'
       }]
   }, {
     value: '新竹縣',
@@ -798,6 +835,10 @@ export default [
       {
         value: '縣立湖口高中',
         label: '縣立湖口高中'
+      },
+      {
+        value: '其他',
+        label: '其他'
       }]
   }, {
     value: '桃園市',
@@ -938,6 +979,10 @@ export default [
       {
         value: '市立大園國際高中',
         label: '市立大園國際高中'
+      },
+      {
+        value: '其他',
+        label: '其他'
       }]
   }, {
     value: '澎湖縣',
@@ -950,6 +995,10 @@ export default [
       {
         value: '國立澎湖海事水產',
         label: '國立澎湖海事水產'
+      },
+      {
+        value: '其他',
+        label: '其他'
       }]
   }, {
     value: '臺中市',
@@ -1158,6 +1207,10 @@ export default [
       {
         value: '市立文華高中',
         label: '市立文華高中'
+      },
+      {
+        value: '其他',
+        label: '其他'
       }]
   }, {
     value: '臺北市',
@@ -1434,6 +1487,10 @@ export default [
       {
         value: '私立南華高中進修學校',
         label: '私立南華高中進修學校'
+      },
+      {
+        value: '其他',
+        label: '其他'
       }]
   }, {
     value: '臺南市',
@@ -1626,6 +1683,9 @@ export default [
       {
         value: '市立土城高中',
         label: '市立土城高中'
+      },{
+        value: '其他',
+        label: '其他'
       }]
   }, {
     value: '臺東縣',
@@ -1670,6 +1730,10 @@ export default [
       {
         value: '縣立蘭嶼高中',
         label: '縣立蘭嶼高中'
+      },
+      {
+        value: '其他',
+        label: '其他'
       }]
   }, {
     value: '花蓮縣',
@@ -1726,6 +1790,10 @@ export default [
       {
         value: '縣立南平中學',
         label: '縣立南平中學'
+      },      
+      {
+        value: '其他',
+        label: '其他'
       }]
   }, {
     value: '苗栗縣',
@@ -1806,6 +1874,10 @@ export default [
       {
         value: '縣立大同高中',
         label: '縣立大同高中'
+      },
+      {
+        value: '其他',
+        label: '其他'
       }]
   }, {
     value: '連江縣',
@@ -1814,6 +1886,10 @@ export default [
       {
         value: '國立馬祖高中',
         label: '國立馬祖高中'
+      },
+      {
+        value: '其他',
+        label: '其他'
       }]
   }, {
     value: '金門縣',
@@ -1826,6 +1902,10 @@ export default [
       {
         value: '國立金門農工',
         label: '國立金門農工'
+      },
+      {
+        value: '其他',
+        label: '其他'
       }]
   }, {
     value: '雲林縣',
@@ -1914,6 +1994,10 @@ export default [
       {
         value: '縣立古坑華德福實驗高級中學',
         label: '縣立古坑華德福實驗高級中學'
+      },
+      {
+        value: '其他',
+        label: '其他'
       }]
   }, {
     value: '高雄市',
@@ -2134,6 +2218,13 @@ export default [
       {
         value: '市立小港高中',
         label: '市立小港高中'
+      },
+      {
+        value: '其他',
+        label: '其他'
       }
     ]
+  }, {
+    value: '其他',
+    label: '其他'
   }]

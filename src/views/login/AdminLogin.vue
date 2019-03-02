@@ -29,8 +29,8 @@
 
 <script lang="ts">
   import { Vue, Component, Watch } from 'vue-property-decorator'
-  import { setToken, getToken } from 'utils/token.ts'
-  import { login} from 'utils/api'
+  import { getAdminToken, setAdminToken } from 'utils/token.ts'
+  import { login } from 'utils/api'
   import { bus } from './bus.ts'
 
   @Component({})
@@ -46,7 +46,7 @@
     passwordPrompt: boolean = true
 
     mounted () {
-      this.token = getToken()
+      this.token = getAdminToken()
     }
 
     @Watch('username')
@@ -79,7 +79,7 @@
         }).then((response) => {
           if (response.data.token) {
             this.showPrompt = false
-            setToken(response.data.token)
+            setAdminToken(response.data.token)
             setTimeout(function () {
               this.$router.push('/admin')
             }.bind(this), 1000)

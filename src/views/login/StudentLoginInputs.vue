@@ -31,7 +31,7 @@
 
 <script lang="ts">
   import { Vue, Component, Watch } from 'vue-property-decorator'
-  import { setToken, getToken } from 'utils/token.ts'
+  import { getStudentToken, setStudentToken } from 'utils/token.ts'
   import { login } from 'utils/api'
   import { bus } from './bus.ts'
 
@@ -48,7 +48,7 @@
     passwordPrompt: boolean = true
 
     mounted () {
-      this.token = getToken()
+      this.token = getStudentToken()
     }
 
     @Watch('emailAddress')
@@ -82,7 +82,7 @@
         }).then((response) => {
           if (response.data.token) {
             this.showPrompt = false
-            setToken(response.data.token)
+            setStudentToken(response.data.token)
             setTimeout(function () {
               this.$router.push('/student')
             }.bind(this), 1000)

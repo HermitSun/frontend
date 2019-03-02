@@ -117,7 +117,7 @@
 
 <script lang="ts">
   import { Vue, Component } from 'vue-property-decorator'
-  import { getToken } from 'utils/token.ts'
+  import { getStudentToken } from 'utils/token.ts'
   import { checkAttachmentUpload, sendAttachment } from 'utils/api'
   import { isArray } from 'utils/common'
 
@@ -146,23 +146,23 @@
 
     mounted () {
       // 获取附件上传状态
-      checkAttachmentUpload()
-        .then((res) => {
-          this.hasFinishedUpload = res.data.hasUploaded
-          if (this.hasFinishedUpload) {
-            this.hasFinishedIdentity = true
-            this.hasFinishedTranscript = true
-            this.hasFinishedRecommend = true
-            this.hasFinishedOthers = true
-          }
-        })
-        .catch((err) => {
-          this.hasFinishedUpload = false
-        })
+      checkAttachmentUpload({
+        types: ['身份证明', '学测成绩单', '推荐信', '其他材料']
+      }).then((res) => {
+        this.hasFinishedUpload = res.data.hasUploaded
+        if (this.hasFinishedUpload) {
+          this.hasFinishedIdentity = true
+          this.hasFinishedTranscript = true
+          this.hasFinishedRecommend = true
+          this.hasFinishedOthers = true
+        }
+      }).catch((err) => {
+        this.hasFinishedUpload = false
+      })
     }
 
     get tokenHeader () {
-      let token = getToken()
+      let token = getStudentToken()
       return {
         Authorization: `Bearer ${token}`
       }

@@ -3,7 +3,7 @@
         <div v-if="hasFinished">
             <p style="color: #67C23A">您已完成申請表填寫。</p>
         </div>
-        <el-form :model="form" :rules="rules" ref="form" label-width="138px" :inline="true">
+        <el-form :model="this.form" :rules="this.rules" ref="form" label-width="138px" :inline="true">
             <el-collapse accordion>
                 <el-collapse-item title="第一部分">
                     <div class="part1">
@@ -997,7 +997,7 @@
                         this.form.seniorMiddleSchool.startDate = info.seniorMiddleSchool.startDate;
                         this.form.seniorMiddleSchool.endDate = info.seniorMiddleSchool.endDate;
 
-                        this.familyParticulars.members=info.familyParticulars;
+                        this.familyParticulars.members = info.familyParticulars;
 
                         this.form.results.chinese = info.results.chinese;
                         this.form.results.math = info.results.math;
@@ -1011,7 +1011,7 @@
                         this.form.actualLevelPoints.socials = info.actualLevelPoints.socials;
                         this.form.actualLevelPoints.sciences = info.actualLevelPoints.sciences;
 
-                        this.activities.activity=info.activities;
+                        this.activities.activity = info.activities;
 
                         this.form.personalStatement = info.personalStatement;
 
@@ -1022,6 +1022,7 @@
                             message: err,
                             type: 'error'
                         })
+                        this.getTempSavedApplication();
                     })
             },
             tempSaveApplication() {
@@ -1030,7 +1031,7 @@
                 let information = Object.assign({}, this.form);
                 information.sex = this.form.sex.toString();
                 information.highSchool = this.form.highSchool.toString();
-                information.phoneNumber = JSON.stringify(this.form.phoneNumber);//
+                information.phoneNumbers = JSON.stringify(this.form.phoneNumbers);//
                 information.curriculumChoices = JSON.stringify(this.form.curriculumChoices);
                 information.artOrSci = this.form.artOrSci.toString();
                 information.primarySchool = JSON.stringify(this.form.primarySchool);
@@ -1073,7 +1074,7 @@
                 this.form.graduationYear = storage.getItem('graduationYear');
                 this.form.address = storage.getItem('address');
                 this.form.postalCode = storage.getItem('postalCode');
-                this.form.phoneNumber = JSON.parse(storage.getItem('phoneNumber'));
+                this.form.phoneNumbers = JSON.parse(storage.getItem('phoneNumbers'));
                 this.form.curriculumChoices = JSON.parse(storage.getItem('curriculumChoices'));
                 this.form.artOrSci = Number(storage.getItem('artOrSci'));
                 this.form.acceptAssignment = storage.getItem('acceptAssignment');
@@ -1143,13 +1144,16 @@
                         return _this;
                     })
                     .then((that) => {
-                        that.getTempSavedApplication()
+                        that.getTempSavedApplication();
                     })
                     .catch((err) => {
                         this.$message({
                             message: err,
                             type: 'error'
                         });
+                        this.getApplicationInfo();
+                        this.getMajors();
+                        this.getTempSavedApplication();
                     })
             }
         }

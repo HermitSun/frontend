@@ -22,6 +22,7 @@
                 </el-form-item>
                 <el-form-item label="出生日期" :label-width="this.registerFormWidth">
                     <el-date-picker v-model="registerForm.birthDate" type="date" value-format="yyyy-MM-dd"
+                                    :default-value="new Date('2000-01-01')"
                                     placeholder="可選"></el-date-picker>
                 </el-form-item>
                 <el-form-item label="聯繫電話" :label-width="this.registerFormWidth">

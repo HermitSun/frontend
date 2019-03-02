@@ -118,7 +118,7 @@
 <script lang="ts">
   import { Vue, Component } from 'vue-property-decorator'
   import { getStudentToken } from 'utils/token.ts'
-  import { checkAttachmentUpload, sendAttachment } from 'utils/api'
+  import { checkAttachmentUpload, getAttachmentNames, sendAttachment } from 'utils/api'
   import { isArray } from 'utils/common'
 
   @Component({})
@@ -159,6 +159,14 @@
       }).catch((err) => {
         this.hasFinishedUpload = false
       })
+      getAttachmentNames()
+        .then((res) => {
+          console.log(res.data)
+        })
+        .catch((err) => {
+          this.$message.error(err)
+        })
+
     }
 
     get tokenHeader () {

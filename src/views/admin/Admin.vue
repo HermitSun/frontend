@@ -67,7 +67,6 @@
                         </el-breadcrumb>
                     </el-col>
                     <el-col :span="24" class="content-wrapper">
-                        <Settings v-if="$route.path==='/admin/settings'"></Settings>
                         <transition name="fade" mode="out-in">
                             <router-view></router-view>
                         </transition>

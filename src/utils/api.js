@@ -52,11 +52,16 @@ export const sendAttachment = (data, header) => {
 export const checkAttachmentUpload = (params) => {
     return axios.post('/application/attachment_check', params);
 };
+export const getAttachmentNames = () => {
+    return axios.get('/application/attachment_names');
+};
 
 // 管理員
 export const setAdminEmail = (params) => {
-    //{emailAddress:string, admission:string};
     return axios.post('/email/adminEmailSet', params)
+};
+export const getAdminEmail = () => {
+    return axios.get('/email/preAdmission')
 };
 export const checkStuList = params => {
     return axios.get(`/list/getlist`, {params: params});

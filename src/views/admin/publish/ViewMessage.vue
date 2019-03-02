@@ -1,4 +1,4 @@
-<template v-if="$router.path==='/admin/view-msg'">
+<template>
     <div class="wrapper">
         <el-table :data="messages" style="width: 100%">
             <el-table-column prop="date" label="日期" width="180"></el-table-column>
@@ -11,6 +11,7 @@
 <script lang="ts">
   import { Vue, Component } from 'vue-property-decorator'
 
+  @Component({})
   export default class ViewMessage extends Vue {
     messages: any = []
   }

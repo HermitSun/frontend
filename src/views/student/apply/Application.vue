@@ -36,7 +36,8 @@
                         </el-form-item>
                         <el-form-item label="DATE OF BIRTH 出生日期" prop="birthDate">
                             <el-date-picker type="date" placeholder="選擇日期" v-model="form.birthDate"
-                                            value-format="yyyy-MM-dd" style="width: 195px;"></el-date-picker>
+                                            value-format="yyyy-MM-dd" style="width: 195px;"
+                                            :default-value="new Date('2000-01-01')"></el-date-picker>
                         </el-form-item>
                         <el-form-item label="EMAIL ADDRESS 電郵" prop="email">
                             <el-input v-model="form.email" clearable style="width: 195px;"></el-input>
@@ -773,7 +774,6 @@
                     companyName: '',
                     occupation: '',
                     mobilePhoneNumber: '',
-                    // key: Date.now()
                 });
             },
             removeActivity(item) {
@@ -787,7 +787,6 @@
                     organization: '',
                     award: '',
                     attendingDate: '',
-                    // key: Date.now()
                 });
             },
             submitApplication() {
@@ -812,45 +811,54 @@
                 information.actualLevelPoints.socials = Number(this.form.actualLevelPoints.socials);
                 information.actualLevelPoints.sciences = Number(this.form.actualLevelPoints.sciences);
 
-                information.singleSubjectCriteria.chinese=this.getChineseCriteria(this.form.actualLevelPoints.chinese);
-                information.singleSubjectCriteria.math=this.getChineseCriteria(this.form.actualLevelPoints.math);
-                information.singleSubjectCriteria.english=this.getChineseCriteria(this.form.actualLevelPoints.english);
-                information.singleSubjectCriteria.socials=this.getChineseCriteria(this.form.actualLevelPoints.socials);
-                information.singleSubjectCriteria.sciences=this.getChineseCriteria(this.form.actualLevelPoints.sciences);
-
-
+                information.singleSubjectCriteria.chinese = this.getChineseCriteria(this.form.actualLevelPoints.chinese);
+                information.singleSubjectCriteria.math = this.getChineseCriteria(this.form.actualLevelPoints.math);
+                information.singleSubjectCriteria.english = this.getChineseCriteria(this.form.actualLevelPoints.english);
+                information.singleSubjectCriteria.socials = this.getChineseCriteria(this.form.actualLevelPoints.socials);
+                information.singleSubjectCriteria.sciences = this.getChineseCriteria(this.form.actualLevelPoints.sciences);
 
                 if (information.birthDate.indexOf('T') >= 0) {
                     information.birthDate = information.birthDate.substring(0, information.birthDate.indexOf('T'))
                 }
                 console.log(information);
-                sendApplication(information)
-                    .then((res) => {
-                        if (res.data.succeed) {
-                            this.$message({
-                                message: '提交成功',
-                                type: 'success'
+                this.$refs.form.validate((valid) => {
+                    if (valid) {
+                        sendApplication(information)
+                            .then((res) => {
+                                if (res.data.succeed) {
+                                    this.$message({
+                                        message: '提交成功',
+                                        type: 'success'
+                                    })
+                                } else {
+                                    if (res.data.msg === '更新失敗') {
+                                        this.$message({
+                                            message: '提交失敗',
+                                            type: 'error'
+                                        })
+                                    } else {
+                                        this.$message({
+                                            message: res.data.msg,
+                                            type: 'error'
+                                        })
+                                    }
+                                }
                             })
-                        } else {
-                            if (res.data.msg === '更新失敗') {
+                            .catch((err) => {
                                 this.$message({
-                                    message: '提交失敗，請檢查表單內容',
+                                    message: err,
                                     type: 'error'
                                 })
-                            } else {
-                                this.$message({
-                                    message: res.data.msg,
-                                    type: 'error'
-                                })
-                            }
-                        }
-                    })
-                    .catch((err) => {
+                            })
+                    } else {
                         this.$message({
-                            message: '提交失敗',
+                            message: '提交失敗，請檢查表單內容',
                             type: 'error'
-                        })
-                    })
+                        });
+                        return false;
+                    }
+                });
+
             },
             getChineseCriteria(point) {
                 let temp = Number(point);
@@ -937,11 +945,7 @@
                             this.form.birthDate = info.birthDate;
                         }
                         this.form.address = info.address;
-                        // return _this;
                     })
-                    // .then(() => {
-                    //     _this.getTempSavedApplication();
-                    // })
                     .catch((err) => {
                         this.$message({
                             message: err,
@@ -978,24 +982,6 @@
                         this.form[key] = storage.getItem(key);
                     }
                 }
-            },
-            getSubjectCriteria() {
-                return [{
-                    value: 'TOP_CRITERIA',
-                    label: '頂標'
-                }, {
-                    value: 'HEAD_CRITERIA',
-                    label: '前標'
-                }, {
-                    value: 'AVERAGE_CRITERIA',
-                    label: '均標'
-                }, {
-                    value: 'BACK_CRITERIA',
-                    label: '後標'
-                }, {
-                    value: 'BOTTOM_CRITERIA',
-                    label: '底標'
-                }];
             },
             getMajors() {
                 let majors = [];

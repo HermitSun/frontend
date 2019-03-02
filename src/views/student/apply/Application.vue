@@ -812,11 +812,11 @@
                 information.actualLevelPoints.socials = Number(this.form.actualLevelPoints.socials);
                 information.actualLevelPoints.sciences = Number(this.form.actualLevelPoints.sciences);
 
-                information.singleSubjectCriteria.chinese=this.getChineseCriteria(this.form.actualLevelPoints.chinese);
-                information.singleSubjectCriteria.math=this.getChineseCriteria(this.form.actualLevelPoints.math);
-                information.singleSubjectCriteria.english=this.getChineseCriteria(this.form.actualLevelPoints.english);
-                information.singleSubjectCriteria.socials=this.getChineseCriteria(this.form.actualLevelPoints.socials);
-                information.singleSubjectCriteria.sciences=this.getChineseCriteria(this.form.actualLevelPoints.sciences);
+                information.singleSubjectCriteria.chinese=this.getSubjectCriteria(this.getChineseCriteria(this.form.actualLevelPoints.chinese));
+                information.singleSubjectCriteria.math=this.getSubjectCriteria(this.getChineseCriteria(this.form.actualLevelPoints.math));
+                information.singleSubjectCriteria.english=this.getSubjectCriteria(this.getChineseCriteria(this.form.actualLevelPoints.english));
+                information.singleSubjectCriteria.socials=this.getSubjectCriteria(this.getChineseCriteria(this.form.actualLevelPoints.socials));
+                information.singleSubjectCriteria.sciences=this.getSubjectCriteria(this.getChineseCriteria(this.form.actualLevelPoints.sciences));
 
 
 
@@ -979,7 +979,23 @@
                     }
                 }
             },
-            getSubjectCriteria() {
+            getSubjectCriteria(level) {
+                if(level==='頂標'){
+                    return 'TOP_CRITERIA'
+                }
+                else if(level==='前標'){
+                    return 'HEAD_CRITERIA'
+                }
+                else if(level==='均標'){
+                    return 'AVERAGE_CRITERIA'
+                }
+                else if(level==='後標'){
+                    return 'BACK_CRITERIA'
+                }
+                else{
+                    return 'BOTTOM_CRITERIA'
+                }
+                /*
                 return [{
                     value: 'TOP_CRITERIA',
                     label: '頂標'
@@ -996,6 +1012,7 @@
                     value: 'BOTTOM_CRITERIA',
                     label: '底標'
                 }];
+                */
             },
             getMajors() {
                 let majors = [];

@@ -146,19 +146,19 @@
 
     mounted () {
       // 获取附件上传状态
-      checkAttachmentUpload()
-        .then((res) => {
-          this.hasFinishedUpload = res.data.hasUploaded
-          if (this.hasFinishedUpload) {
-            this.hasFinishedIdentity = true
-            this.hasFinishedTranscript = true
-            this.hasFinishedRecommend = true
-            this.hasFinishedOthers = true
-          }
-        })
-        .catch((err) => {
-          this.hasFinishedUpload = false
-        })
+      checkAttachmentUpload({
+        types: ['身份证明', '学测成绩单', '推荐信', '其他材料']
+      }).then((res) => {
+        this.hasFinishedUpload = res.data.hasUploaded
+        if (this.hasFinishedUpload) {
+          this.hasFinishedIdentity = true
+          this.hasFinishedTranscript = true
+          this.hasFinishedRecommend = true
+          this.hasFinishedOthers = true
+        }
+      }).catch((err) => {
+        this.hasFinishedUpload = false
+      })
     }
 
     get tokenHeader () {

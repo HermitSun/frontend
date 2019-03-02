@@ -1,21 +1,22 @@
-import Vue from 'vue'
-import Router from 'vue-router'
+import Vue from 'vue';
+import Router from 'vue-router';
 import {getToken} from "utils/token.ts";
 // 加载模板文件
 import NotFound from '@/views/404.vue'
-import MobilePrompt from '@/views/MobilePrompt.vue'
-import StudentLogin from '@/views/login/StudentLogin.vue'
-import Register from '@/views/register/Register.vue'
-import ForgetPassword from '@/views/login/ForgetPassword.vue'
-import Admin from '@/views/admin/Admin.vue'
-import SetProfessions from '@/views/admin/enrollment/SetProfessions.vue'
-import JuniorAll from '@/views/admin/check/JuniorAll.vue'
-import JuniorFailed from '@/views/admin/check/JuniorFailed.vue'
-import JuniorPassed from '@/views/admin/check/JuniorPassed.vue'
-import SeniorAll from '@/views/admin/check/SeniorAll.vue'
-import SeniorFailed from '@/views/admin/check/SeniorFailed.vue'
-import SeniorPassed from '@/views/admin/check/SeniorPassed.vue'
-import EditMessage from '@/views/admin/publish/EditMessage.vue'
+import MobilePrompt from '@/views/MobilePrompt.vue';
+import StudentLogin from '@/views/login/StudentLogin.vue';
+import Register from '@/views/register/Register.vue';
+import ForgetPassword from '@/views/login/ForgetPassword.vue';
+import Admin from '@/views/admin/Admin.vue';
+import SetProfessions from '@/views/admin/enrollment/SetProfessions.vue';
+import JuniorAll from '@/views/admin/check/JuniorAll.vue';
+import JuniorFailed from '@/views/admin/check/JuniorFailed.vue';
+import JuniorPassed from '@/views/admin/check/JuniorPassed.vue';
+import SeniorAll from '@/views/admin/check/SeniorAll.vue';
+import SeniorFailed from '@/views/admin/check/SeniorFailed.vue';
+import SeniorPassed from '@/views/admin/check/SeniorPassed.vue';
+import EditMessage from '@/views/admin/publish/EditMessage.vue';
+import ViewMessage from '@/views/admin/publish/ViewMessage.vue';
 import Application from '@/views/student/apply/Application.vue';
 import UploadAttachment from '@/views/student/apply/UploadAttachment.vue';
 import JuniorCheck from '@/views/student/check/JuniorCheck.vue';
@@ -130,11 +131,11 @@ const router = new Router({
         {
             path: '/admin',
             component: Admin,
-            name: '发布',
+            name: '发布结果',
             iconClass: 'el-icon-message',
-            leaf: true,
             children: [
-                {path: '/admin/edit-msg', component: EditMessage, name: '发布结果'},
+                {path: '/admin/edit-msg', component: EditMessage, name: '发送消息'},
+                {path: '/admin/view-msg', component: ViewMessage, name: '已发消息'}
             ],
             meta: {
                 icon: '',

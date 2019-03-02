@@ -38,10 +38,6 @@
     .wrapper {
         margin-top: 50px;
         height: 100% !important;
-
-        .el-table {
-
-        }
     }
 </style>
 

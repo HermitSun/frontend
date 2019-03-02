@@ -78,8 +78,8 @@ export const getMajors = () => {
 export const sendAttachment = (data, header) => {
     return axios.post('/application/attachment', data, header);
 };
-export const checkAttachmentUpload = () => {
-    return axios.get('/application/attachment_check');
+export const checkAttachmentUpload = (params) => {
+    return axios.post('/application/attachment_check', params);
 };
 
 // 管理員

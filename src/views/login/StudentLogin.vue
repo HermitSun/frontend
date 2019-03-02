@@ -20,7 +20,7 @@
 
 <script lang="ts">
   import { Vue, Component } from 'vue-property-decorator'
-  import { getToken } from 'utils/token.ts'
+  import { getAdminToken, getStudentToken } from 'utils/token.ts'
   import { bus } from "./bus.ts"
   import StudentLoginInputs from './StudentLoginInputs.vue'
   import AdminLogin from './AdminLogin.vue'
@@ -59,8 +59,10 @@
 
     mounted () {
       /*如果存在cookie，则转到主页*/
-      if (getToken()) {
-        this.$router.push('/home')
+      if (getStudentToken()) {
+        this.$router.push('/student')
+      } else if (getAdminToken()) {
+        this.$router.push('/admin')
       }
     }
   }

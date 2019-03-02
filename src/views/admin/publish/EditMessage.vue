@@ -5,7 +5,7 @@
                 <div class="title">主题</div>
             </el-col>
             <el-col :span="23">
-                <el-input placeholder="请输入主题" v-model="emailSubject"></el-input>
+                <el-input placeholder="请输入主题" v-model="msgSubject"></el-input>
             </el-col>
         </el-row>
         <el-row>
@@ -13,14 +13,13 @@
                 <div class="title">正文</div>
             </el-col>
             <el-col :span="23">
-                <el-input type="textarea" placeholder="请输入内容" v-model="emailContent" class="emailContent"
+                <el-input type="textarea" placeholder="请输入内容" v-model="msgContent" class="emailContent"
                           :clearable="true"></el-input>
             </el-col>
         </el-row>
         <el-col :span="24">
             <div class="prompt">
-                <i class="el-icon-info"></i>
-                <span>消息会发送给通过的学生。</span>
+                <el-checkbox v-model="sendEmailConcurrently">同时发送邮件（默认只发送站内消息）</el-checkbox>
             </div>
             <el-button type="primary" icon="el-icon-document" class="saveEmail" @click="saveMsg">保存</el-button>
             <el-button type="primary" icon="el-icon-share" class="publishMsg" @click="publishMsg">发布</el-button>
@@ -33,8 +32,9 @@
 
   @Component({})
   export default class EditEmail extends Vue {
-    emailSubject: string = ''
-    emailContent: string = ''
+    msgSubject: string = ''
+    msgContent: string = ''
+    sendEmailConcurrently: boolean = false
 
     mounted () {
       //
@@ -46,18 +46,6 @@
 
     publishMsg () {
       // 发布
-    }
-
-    handleUploadRemove (file, fileList) {
-      console.log(file, fileList)
-    }
-
-    handleUploadPreview (file) {
-      console.log(file)
-    }
-
-    handleUploadExceed (files, fileList) {
-      this.$message.warning(`不能超过 3 个文件`)
     }
   }
 </script>
@@ -89,14 +77,14 @@
 
         .publishMsg {
             float: right;
-            margin-top: -25px;
+            margin-top: -30px;
             margin-bottom: 10px;
             margin-right: 20px;
         }
 
         .saveEmail {
             float: right;
-            margin-top: -25px;
+            margin-top: -30px;
             margin-bottom: 10px;
             margin-right: 10px;
         }

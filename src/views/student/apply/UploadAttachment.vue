@@ -117,7 +117,7 @@
 
 <script lang="ts">
   import { Vue, Component } from 'vue-property-decorator'
-  import { getToken } from 'utils/token.ts'
+  import { getStudentToken } from 'utils/token.ts'
   import { checkAttachmentUpload, sendAttachment } from 'utils/api'
   import { isArray } from 'utils/common'
 
@@ -162,7 +162,7 @@
     }
 
     get tokenHeader () {
-      let token = getToken()
+      let token = getStudentToken()
       return {
         Authorization: `Bearer ${token}`
       }

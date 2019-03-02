@@ -19,21 +19,10 @@
                 </div>
             </el-col>
             <el-col :span="4" class="userInfo">
-                <el-dropdown trigger="hover">
-                    <el-badge :is-dot="this.hasNewMessage" class="avatarBadge">
-                        <span class="el-dropdown-link userInfo-inner" style="font-size: medium">
-                        <img :src="this.userAvatar?this.userAvatar:require('./img/avatar.jpg')"/>
-                        {{this.userName}}
-                    </span>
-                    </el-badge>
+                <el-dropdown trigger="hover" style="cursor: pointer;">
+                    <i class="el-icon-more" style="color: white; font-size: 18px;"></i>
                     <el-dropdown-menu slot="dropdown">
-                        <el-dropdown-item>
-                            <i class="el-icon-bell"></i>
-                            <el-badge :value="this.totalMessage" :max="99" class="messageBadge">
-                                <span>消息</span>
-                            </el-badge>
-                        </el-dropdown-item>
-                        <el-dropdown-item>
+                        <el-dropdown-item @click.native="$router.push('/admin/settings')">
                             <i class="el-icon-setting"></i>
                             <span>设置</span>
                         </el-dropdown-item>
@@ -78,7 +67,7 @@
                         </el-breadcrumb>
                     </el-col>
                     <el-col :span="24" class="content-wrapper">
-                        <Guide v-show="$route.path==='/admin'"></Guide>
+                        <Settings v-if="$route.path==='/admin/settings'"></Settings>
                         <transition name="fade" mode="out-in">
                             <router-view></router-view>
                         </transition>
@@ -91,11 +80,13 @@
 
 <script lang="ts">
   import { Vue, Component } from 'vue-property-decorator'
-  import { getToken, delToken } from 'utils/token.ts'
-  import Guide from './Guide.vue'
+  import { delToken, getAdminToken } from 'utils/token.ts'
+  import Settings from '@/views/admin/Settings.vue'
 
   @Component({
-    components: { Guide }
+    components: {
+      Settings
+    }
   })
   export default class Admin extends Vue {
     systemName: string = '台湾免试生管理系统'
@@ -108,7 +99,7 @@
     token: string = ''
 
     mounted () {
-      this.token = getToken()
+      this.token = getAdminToken()
       /*如果cookie不存在，则跳转到登录页*/
       if (this.token == '') {
         this.$router.push('/')
@@ -214,7 +205,6 @@
             }
 
             .tools {
-                padding: 0 23px;
                 width: 14px;
                 height: 60px;
                 line-height: 60px;

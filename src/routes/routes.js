@@ -1,6 +1,6 @@
 import Vue from 'vue';
 import Router from 'vue-router';
-import {getToken} from "utils/token.ts";
+import {getAdminToken, getStudentToken} from "../utils/token.ts";
 // 加载模板文件
 import NotFound from '@/views/404.vue'
 import MobilePrompt from '@/views/MobilePrompt.vue';
@@ -8,6 +8,7 @@ import StudentLogin from '@/views/login/StudentLogin.vue';
 import Register from '@/views/register/Register.vue';
 import ForgetPassword from '@/views/login/ForgetPassword.vue';
 import Admin from '@/views/admin/Admin.vue';
+import Settings from '@/views/admin/Settings.vue';
 import SetProfessions from '@/views/admin/enrollment/SetProfessions.vue';
 import JuniorAll from '@/views/admin/check/JuniorAll.vue';
 import JuniorFailed from '@/views/admin/check/JuniorFailed.vue';
@@ -22,6 +23,7 @@ import UploadAttachment from '@/views/student/apply/UploadAttachment.vue';
 import JuniorCheck from '@/views/student/check/JuniorCheck.vue';
 import SeniorCheck from '@/views/student/check/SeniorCheck.vue';
 import Student from '@/views/student/Student.vue';
+
 
 Vue.use(Router);
 
@@ -76,9 +78,13 @@ const router = new Router({
         {
             path: '/admin',
             name: '首页',
+            redirect: '/admin/set-profess',
             component: Admin,
             iconClass: 'el-icon-menu',
             hidden: true,
+            children: [
+                {path: '/admin/settings', component: Settings, name: '相关设置'}
+            ],
             meta: {
                 icon: '',
                 title: '南京大学台湾免试生管理系统'
@@ -190,6 +196,13 @@ const router = new Router({
 
 // 不屏蔽页面的路由name
 const PASSES = ['StudentLogin', 'Register', 'ForgetPassword', 'CannotReach', '404'];
+// 学生所有页面的name
+const STUDENT_PAGES = ['首頁', '填寫申請表', '上傳附件', '初審結果', '面試結果'];
+// 管理员所有页面的name
+const ADMIN_PAGES = ['招生专业',
+    '未通过审核', '已通过审核', '全部审核信息',
+    '未通过面试', '已通过面试', '全部面试信息',
+    '发送消息', '已发消息'];
 
 // 跳转之前
 router.beforeEach((to, from, next) => {
@@ -201,13 +214,27 @@ router.beforeEach((to, from, next) => {
             name: 'CannotReach'
         })
     } else {
-        const token = getToken();
-        if (PASSES.indexOf(to.name) < 0 && !token) {
-            next({
-                name: 'StudentLogin' // 跳转到登录页
-            })
+        let stuToken = getStudentToken();
+        let adminToken = getAdminToken();
+        if (!stuToken && !adminToken) {
+            if (PASSES.indexOf(to.name) >= 0) {
+                next();
+            } else {
+                next({
+                    name: 'StudentLogin'
+                });
+            }
+        } else if (stuToken && !adminToken) {
+            if (ADMIN_PAGES.indexOf(to.name) >= 0) {
+                next({
+                    name: 'StudentLogin'
+                });
+            } else {
+                next();
+            }
+        } else {
+            next();
         }
-        next();
     }
 });
 

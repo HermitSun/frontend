@@ -19,30 +19,12 @@
                 </div>
             </el-col>
             <el-col :span="4" class="userInfo">
-                <el-dropdown trigger="hover">
-                    <el-badge :is-dot="this.hasNewMessage" class="avatarBadge">
-                        <span class="el-dropdown-link userInfo-inner" style="font-size: medium">
-                        <img :src="this.userAvatar?this.userAvatar:require('./img/avatar.jpg')"/>
-                        {{this.userName}}
-                    </span>
-                    </el-badge>
-                    <el-dropdown-menu slot="dropdown">
-                        <el-dropdown-item>
-                            <i class="el-icon-bell"></i>
-                            <el-badge :value="this.totalMessage" :max="99" class="messageBadge">
-                                <span>消息</span>
-                            </el-badge>
-                        </el-dropdown-item>
-                        <el-dropdown-item>
-                            <i class="el-icon-setting"></i>
-                            <span>設置</span>
-                        </el-dropdown-item>
-                        <el-dropdown-item :divided="true" @click.native="logout">
-                            <i class="el-icon-back"></i>
-                            <span>登出</span>
-                        </el-dropdown-item>
-                    </el-dropdown-menu>
-                </el-dropdown>
+                <div @click="logout" style="cursor: pointer">
+                    <el-tooltip placement="left">
+                        <div slot="content">登出</div>
+                        <i class="el-icon-close"></i>
+                    </el-tooltip>
+                </div>
             </el-col>
         </el-col>
         <el-col :span="24" class="main">
@@ -94,7 +76,7 @@
 
 <script lang="ts">
   import { Vue, Component } from 'vue-property-decorator'
-  import { getToken, delToken } from 'utils/token.ts'
+  import { delToken, getStudentToken } from 'utils/token.ts'
   import Message from './Message.vue'
 
   @Component({
@@ -111,7 +93,7 @@
     token: string = ''
 
     mounted () {
-      this.token = getToken()
+      this.token = getStudentToken()
       /*如果cookie不存在，則跳轉到登錄頁*/
       if (this.token == '') {
         this.$router.push('/')
@@ -141,7 +123,7 @@
           this.$router.push('/')
         })
         .catch((err) => {
-          this.$message.error(err)
+          // 啥都不做
         })
     }
   }
@@ -186,7 +168,6 @@
                 height: 60px;
                 font-size: 22px;
                 padding-left: 20px;
-                padding-right: 10px;
                 padding-top: 5px;
                 background: $color-primary;
 
@@ -218,7 +199,7 @@
             }
 
             .tools {
-                padding: 0 23px;
+                margin-left: -10px;
                 width: 14px;
                 height: 60px;
                 line-height: 60px;

@@ -70,25 +70,27 @@
                             <el-input v-model="form.postalCode" clearable style="width: 195px;"></el-input>
                         </el-form-item>
 
-                        <el-form :model="form.phoneNumber" :rules="rules" ref="form.phoneNumber" label-width="130px"
+                        <el-form :model="form.phoneNumbers" :rules="rules" ref="form.phoneNumbers" label-width="130px"
                                  :inline="true">
                             <el-form-item label="TELEPHONE 電話號碼" label-width="195px" :rules="rules">
                                 <!--區號-->
                                 <el-form-item label="Home 住宅">
-                                    <el-input v-model="form.phoneNumber.home" placeholder="" clearable
+                                    <el-input v-model="form.phoneNumbers.homePhoneNumber" placeholder="" clearable
                                               style="width: 195px;"></el-input>
                                 </el-form-item>
-                                <el-form-item label="Mobile/Other 手機/其他" prop="mobile">
-                                    <el-input v-model="form.phoneNumber.mobile" clearable style="width: 300px;">
-                                        <el-select v-model="form.phoneNumber.areaCode" slot="prepend"
+                                <el-form-item label="Mobile/Other 手機/其他" prop="mobilePhoneNumber">
+                                    <el-input v-model="form.phoneNumbers.mobilePhoneNumber" clearable
+                                              style="width: 300px;">
+                                        <el-select v-model="form.phoneNumbers.areaCode" slot="prepend"
                                                    placeholder="請選擇區號" style="width:120px">
                                             <el-option label="+86" value="+86"></el-option>
                                             <el-option label="+886" value="+886"></el-option>
                                         </el-select>
                                     </el-input>
                                 </el-form-item>
-                                <el-form-item label="Fax 傳真" prop="fax">
-                                    <el-input v-model="form.phoneNumber.fax" clearable style="width: 195px;"></el-input>
+                                <el-form-item label="Fax 傳真" prop="faxNumber">
+                                    <el-input v-model="form.phoneNumbers.faxNumber" clearable
+                                              style="width: 195px;"></el-input>
                                 </el-form-item>
                             </el-form-item>
                         </el-form>
@@ -582,11 +584,11 @@
                     graduationYear: '',
                     address: '',
                     postalCode: '',
-                    phoneNumber: {
-                        home: '',
+                    phoneNumbers: {
+                        homePhoneNumber: '',
                         areaCode: '',
-                        mobile: '',
-                        fax: ''
+                        mobilePhoneNumber: '',
+                        faxNumber: ''
                     },
                     curriculumChoices: {
                         firstChoice: '',
@@ -653,7 +655,7 @@
                             name: '',
                             companyName: '',
                             occupation: '',
-                            phoneNumber: ''
+                            mobilePhoneNumber: ''
                         }
                     ]
                 },
@@ -693,7 +695,7 @@
                     postalCode: [
                         {required: true, message: '請輸入郵編', trigger: 'blur'}
                     ],
-                    mobile: [
+                    mobilePhoneNumber: [
                         {required: true, message: '請輸入手機號碼', trigger: 'blur'}
                     ],
                     firstChoice: [
@@ -791,7 +793,7 @@
             },
             submitApplication() {
                 let information = Object.assign({}, this.form);
-                information.phoneNumber = this.form.phoneNumber.areaCode + this.form.phoneNumber.mobile;
+                information.phoneNumbers.mobilePhoneNumber = this.form.phoneNumbers.areaCode + this.form.phoneNumbers.mobilePhoneNumber;
                 information.highSchool = this.form.highSchool.toString();
                 information.familyParticulars = this.familyParticulars.members;
                 information.activities = this.activities.activity;
@@ -936,15 +938,81 @@
                         let info = res.data;
                         this.form.firstName = info.firstName;
                         this.form.lastName = info.lastName;
-                        this.form.idCardNumber = info.idCardNumber;
-                        this.form.email = info.email;
-                        if (info.highSchool !== '') {
-                            this.form.highSchool = info.highSchool.split(',');
+                        if (info.needSimplification != null) {
+                            this.form.needSimplification = info.needSimplification.toString();
                         }
+                        this.form.sex = info.sex;
                         if (info.birthDate !== null) {
                             this.form.birthDate = info.birthDate;
                         }
+                        this.form.email = info.email;
+                        this.form.mtpNumber = info.mtpNumber;
+                        this.form.idCardNumber = info.idCardNumber;
+                        if (info.highSchool !== '') {
+                            this.form.highSchool = info.highSchool.split(',');
+                        }
+                        this.form.graduationYear = info.graduationYear;
                         this.form.address = info.address;
+                        this.form.postalCode = info.postalCode;
+
+                        //this.form.phoneNumbers.homePhoneNumber = info.phoneNumbers.homePhoneNumber;
+                        //this.form.phoneNumbers.areaCode = info.phoneNumbers.mobilePhoneNumber.substring(0, info.phoneNumbers.mobilePhoneNumber.indexOf("6") + 1);
+                        //this.form.phoneNumbers.mobilePhoneNumber = info.phoneNumbers.mobilePhoneNumber.substring(info.phoneNumbers.mobilePhoneNumber.indexOf("6") + 1);
+                        //this.form.phoneNumbers.faxNumber = info.phoneNumbers.faxNumber;
+
+                        if (info.curriculumChoices.firstChoice != null) {
+                            this.form.curriculumChoices.firstChoice = info.curriculumChoices.firstChoice;
+                        }
+                        if (info.curriculumChoices.secondChoice != null) {
+                            this.form.curriculumChoices.secondChoice = info.curriculumChoices.secondChoice;
+                        }
+                        if (info.curriculumChoices.thirdChoice != null) {
+                            this.form.curriculumChoices.thirdChoice = info.curriculumChoices.thirdChoice;
+                        }
+                        if (info.curriculumChoices.fourthChoice != null) {
+                            this.form.curriculumChoices.fourthChoice = info.curriculumChoices.fourthChoice;
+
+                        }
+
+                        this.form.artOrSci = info.artOrSci;
+                        if (info.acceptAssignment != null) {
+                            this.form.acceptAssignment = info.acceptAssignment.toString();
+                        }
+
+                        this.form.primarySchool.name = info.primarySchool.name;
+                        this.form.primarySchool.region = info.primarySchool.region;
+                        this.form.primarySchool.startDate = info.primarySchool.startDate;
+                        this.form.primarySchool.endDate = info.primarySchool.endDate;
+
+                        this.form.juniorMiddleSchool.name = info.juniorMiddleSchool.name;
+                        this.form.juniorMiddleSchool.region = info.juniorMiddleSchool.region;
+                        this.form.juniorMiddleSchool.startDate = info.juniorMiddleSchool.startDate;
+                        this.form.juniorMiddleSchool.endDate = info.juniorMiddleSchool.endDate;
+
+                        this.form.seniorMiddleSchool.name = info.seniorMiddleSchool.name;
+                        this.form.seniorMiddleSchool.region = info.seniorMiddleSchool.region;
+                        this.form.seniorMiddleSchool.startDate = info.seniorMiddleSchool.startDate;
+                        this.form.seniorMiddleSchool.endDate = info.seniorMiddleSchool.endDate;
+
+                        this.familyParticulars.members=info.familyParticulars;
+
+                        this.form.results.chinese = info.results.chinese;
+                        this.form.results.math = info.results.math;
+                        this.form.results.english = info.results.english;
+                        this.form.results.socials = info.results.socials;
+                        this.form.results.sciences = info.results.sciences;
+
+                        this.form.actualLevelPoints.chinese = info.actualLevelPoints.chinese;
+                        this.form.actualLevelPoints.math = info.actualLevelPoints.math;
+                        this.form.actualLevelPoints.english = info.actualLevelPoints.english;
+                        this.form.actualLevelPoints.socials = info.actualLevelPoints.socials;
+                        this.form.actualLevelPoints.sciences = info.actualLevelPoints.sciences;
+
+                        this.activities.activity=info.activities;
+
+                        this.form.personalStatement = info.personalStatement;
+
+
                     })
                     .catch((err) => {
                         this.$message({

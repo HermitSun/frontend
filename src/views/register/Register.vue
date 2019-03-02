@@ -125,7 +125,6 @@
         if (valid) {
           let form: any = (<any> Object).assign({}, this.registerForm)
           form.highSchool = this.registerForm.highSchool.toString()
-          console.log(form)
           registerUser(form)
             .then((res) => {
               if (res.data.succeed) {

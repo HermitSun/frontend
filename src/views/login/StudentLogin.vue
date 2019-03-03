@@ -151,7 +151,7 @@
 
             .leftHead {
                 float: left;
-                margin-left: 18px;
+                margin-left: 10px;
                 width: 183px;
                 height: 58px;
                 background: url(./img/NJULogo.png) center center;

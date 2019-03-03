@@ -512,9 +512,10 @@
                                           style="width: 260px;"></el-input>
                                 <el-input v-model="activity.award" placeholder="Name of award/activity獎項/活動名"
                                           style="width: 360px;"></el-input>
-                                <el-input v-model="activity.attendingDate"
-                                          placeholder="Date of issue/participation獲獎/參與日期"
-                                          style="width:290px;"></el-input>
+
+                                <el-date-picker v-model="activity.attendingDate" type="date" value-format="yyyy-MM-dd"
+                                                placeholder="Date of issue/participation獲獎/參與日期"
+                                                style="width:290px;"></el-date-picker>
                                 <el-button @click.prevent="removeActivity(activity)">刪除</el-button>
                             </el-form-item>
                             <el-form-item>
@@ -796,7 +797,10 @@
             },
             submitApplication() {
                 let information = Object.assign({}, this.form);
-                information.phoneNumbers.mobilePhoneNumber = this.form.phoneNumbers.areaCode + this.form.phoneNumbers.mobilePhoneNumber;
+
+                let mobile=this.form.phoneNumbers.areaCode + this.form.phoneNumbers.mobilePhoneNumber;
+                information.phoneNumbers.mobilePhoneNumber = (mobile).substring(mobile.lastIndexOf("+"));
+
                 information.highSchool = this.form.highSchool.toString();
                 information.familyParticulars = this.familyParticulars.members;
                 information.activities = this.activities.activity;
@@ -938,10 +942,12 @@
                 let _this = this;
                 getBasicInfo()
                     .then((res) => {
+
                         let info = res.data;
+
                         this.form.firstName = info.firstName;
                         this.form.lastName = info.lastName;
-                        if (info.needSimplification != null) {
+                        if (info.needSimplification !== false) {
                             this.form.needSimplification = info.needSimplification.toString();
                         }
                         this.form.sex = info.sex;
@@ -958,27 +964,29 @@
                         this.form.address = info.address;
                         this.form.postalCode = info.postalCode;
 
-                        //this.form.phoneNumbers.homePhoneNumber = info.phoneNumbers.homePhoneNumber;
-                        //this.form.phoneNumbers.areaCode = info.phoneNumbers.mobilePhoneNumber.substring(0, info.phoneNumbers.mobilePhoneNumber.indexOf("6") + 1);
-                        //this.form.phoneNumbers.mobilePhoneNumber = info.phoneNumbers.mobilePhoneNumber.substring(info.phoneNumbers.mobilePhoneNumber.indexOf("6") + 1);
-                        //this.form.phoneNumbers.faxNumber = info.phoneNumbers.faxNumber;
+                        this.form.phoneNumbers.homePhoneNumber = info.phoneNumbers.homePhoneNumber;
+                        this.form.phoneNumbers.areaCode = info.phoneNumbers.mobilePhoneNumber.substring(0, info.phoneNumbers.mobilePhoneNumber.indexOf("6") + 1);
+                        this.form.phoneNumbers.mobilePhoneNumber = info.phoneNumbers.mobilePhoneNumber.substring(info.phoneNumbers.mobilePhoneNumber.indexOf("6") + 1);
+                        this.form.phoneNumbers.faxNumber = info.phoneNumbers.faxNumber;
 
-                        if (info.curriculumChoices.firstChoice != null) {
+
+                        if (info.curriculumChoices.firstChoice !== null) {
                             this.form.curriculumChoices.firstChoice = info.curriculumChoices.firstChoice;
                         }
-                        if (info.curriculumChoices.secondChoice != null) {
+                        if (info.curriculumChoices.secondChoice !== null) {
                             this.form.curriculumChoices.secondChoice = info.curriculumChoices.secondChoice;
                         }
-                        if (info.curriculumChoices.thirdChoice != null) {
+                        if (info.curriculumChoices.thirdChoice !== null) {
                             this.form.curriculumChoices.thirdChoice = info.curriculumChoices.thirdChoice;
                         }
-                        if (info.curriculumChoices.fourthChoice != null) {
+                        if (info.curriculumChoices.fourthChoice !== null) {
                             this.form.curriculumChoices.fourthChoice = info.curriculumChoices.fourthChoice;
 
                         }
 
+
                         this.form.artOrSci = info.artOrSci;
-                        if (info.acceptAssignment != null) {
+                        if (info.acceptAssignment !== false) {
                             this.form.acceptAssignment = info.acceptAssignment.toString();
                         }
 
@@ -999,17 +1007,37 @@
 
                         this.familyParticulars.members = info.familyParticulars;
 
-                        this.form.results.chinese = info.results.chinese;
-                        this.form.results.math = info.results.math;
-                        this.form.results.english = info.results.english;
-                        this.form.results.socials = info.results.socials;
+                        if(info.results.chinese!==0) {
+                            this.form.results.chinese = info.results.chinese;
+                        }
+                        if(info.results.math!==0) {
+                            this.form.results.math = info.results.math;
+                        }
+                        if(info.results.english!==0) {
+                            this.form.results.english = info.results.english;
+                        }
+                        if(info.results.socials!==0) {
+                            this.form.results.socials = info.results.socials;
+                        }
+                        if(info.results.sciences!==0){
                         this.form.results.sciences = info.results.sciences;
+                        }
 
-                        this.form.actualLevelPoints.chinese = info.actualLevelPoints.chinese;
-                        this.form.actualLevelPoints.math = info.actualLevelPoints.math;
-                        this.form.actualLevelPoints.english = info.actualLevelPoints.english;
-                        this.form.actualLevelPoints.socials = info.actualLevelPoints.socials;
-                        this.form.actualLevelPoints.sciences = info.actualLevelPoints.sciences;
+                        if(info.actualLevelPoints.chinese!==0) {
+                            this.form.actualLevelPoints.chinese = info.actualLevelPoints.chinese;
+                        }
+                        if(info.actualLevelPoints.math!==0) {
+                            this.form.actualLevelPoints.math = info.actualLevelPoints.math;
+                        }
+                        if(info.actualLevelPoints.english!==0) {
+                            this.form.actualLevelPoints.english = info.actualLevelPoints.english;
+                        }
+                        if(info.actualLevelPoints.socials!==0) {
+                            this.form.actualLevelPoints.socials = info.actualLevelPoints.socials;
+                        }
+                        if(info.actualLevelPoints.sciences!==0) {
+                            this.form.actualLevelPoints.sciences = info.actualLevelPoints.sciences;
+                        }
 
                         this.activities.activity = info.activities;
 
@@ -1022,7 +1050,6 @@
                             message: err,
                             type: 'error'
                         })
-                        this.getTempSavedApplication();
                     })
             },
             tempSaveApplication() {
@@ -1144,16 +1171,13 @@
                         return _this;
                     })
                     .then((that) => {
-                        that.getTempSavedApplication();
+                        //          that.getTempSavedApplication();
                     })
                     .catch((err) => {
                         this.$message({
                             message: err,
                             type: 'error'
                         });
-                        this.getApplicationInfo();
-                        this.getMajors();
-                        this.getTempSavedApplication();
                     })
             }
         }

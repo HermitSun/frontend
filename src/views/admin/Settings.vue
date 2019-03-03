@@ -1,6 +1,6 @@
 <template>
     <div class="wrapper">
-        <el-card>
+        <el-card class="email">
             <el-form :model="emailForm" :rules="rules" ref="emailForm">
                 <el-form-item label="电子邮箱" :label-width="this.emailFormWidth" prop="email">
                     <el-input type="email" v-model="emailForm.email"></el-input>
@@ -16,12 +16,23 @@
                 </el-form-item>
             </el-form>
         </el-card>
+        <el-card class="ddl">
+            <el-form :model="ddlForm" :rules="rules" ref="ddlForm">
+                <el-form-item label="申请截止日期" :label-width="'120px'" prop="ddl">
+                    <el-date-picker v-model="ddlForm.ddl" type="date" placeholder="设置申请截止日期"
+                                    value-format="yyyy-MM-dd"></el-date-picker>
+                </el-form-item>
+                <el-form-item>
+                    <el-button type="primary" @click="startEnroll">开启招生</el-button>
+                </el-form-item>
+            </el-form>
+        </el-card>
     </div>
 </template>
 
 <script lang="ts">
   import { Vue, Component } from 'vue-property-decorator'
-  import { getAdminEmail, setAdminEmail } from 'utils/api'
+  import { allStart, getAdminEmail, setAdminEmail } from 'utils/api'
 
   @Component({})
   export default class Settings extends Vue {
@@ -29,12 +40,18 @@
       email: '',
       password: ''
     }
+    ddlForm: any = {
+      ddl: ''
+    }
     rules: any = {
       email: [
         { required: true, message: '请输入邮箱', trigger: 'blur' }
       ],
       password: [
         { required: true, message: '请输入邮箱授权码', trigger: 'blur' }
+      ],
+      ddl: [
+        { required: true, message: '请设置截止日期', trigger: 'blur' }
       ]
     }
     emailFormWidth: string = '100px'
@@ -83,15 +100,50 @@
         })
       })
     }
+
+    startEnroll () {
+      allStart({
+        ddl: this.ddlForm.ddl
+      }).then((res) => {
+        if (res.data.succeed) {
+          this.$message({
+            message: '设置成功',
+            type: 'success'
+          })
+        } else {
+          this.$message({
+            message: res.data.msg,
+            type: 'error'
+          })
+        }
+      }).catch((err) => {
+        this.$message({
+          message: err,
+          type: 'error'
+        })
+      })
+    }
   }
 </script>
 
 <style scoped lang="scss" rel="stylesheet/scss">
     .wrapper {
-        .el-card {
+        .email {
             width: 600px;
             position: relative;
-            top: 150px;
+            top: 80px;
+            left: 280px;
+
+            .el-button {
+                float: right;
+                margin-right: 20px;
+            }
+        }
+
+        .ddl {
+            width: 600px;
+            position: relative;
+            top: 120px;
             left: 280px;
 
             .el-button {

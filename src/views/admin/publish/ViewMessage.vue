@@ -10,15 +10,15 @@
             </el-table-column>
             <el-table-column label="消息 MESSAGE" min-width="200" prop="title"></el-table-column>
             <el-table-column label="时间 TIME" prop="releasedTime" sortable></el-table-column>
-            <!--<el-table-column label="操作" width="180">-->
-            <!--<template slot-scope="scope">-->
-            <!--<el-button size="small" @click="editMessage(scope.$index,scope.row)">编辑</el-button>-->
-            <!--<el-button type="danger" size="small" @click="deleteMessage(scope.$index)">删除</el-button>-->
-            <!--</template>-->
-            <!--</el-table-column>-->
+            <el-table-column label="操作" width="180">
+                <template slot-scope="scope">
+                    <el-button size="small" @click="editMessage(scope.$index,scope.row)">编辑</el-button>
+                    <el-button type="danger" size="small" @click="deleteMessage(scope.$index)">删除</el-button>
+                </template>
+            </el-table-column>
         </el-table>
         <!--编辑-->
-        <el-dialog title="编辑" :visible.snyc="editFormVisible" :before-close="handleEditClose">
+        <el-dialog title="编辑" :visible.snyc="editFormVisible" :rules="editFormRules" :before-close="handleEditClose">
             <el-form :model="editForm" label-width="80px" :rules="editFormRules" ref="editForm">
                 <el-form-item label="主题" prop="name">
                     <el-input v-model="editForm.title" auto-complete="off"></el-input>
@@ -37,7 +37,7 @@
 
 <script lang="ts">
   import { Vue, Component } from 'vue-property-decorator'
-  import { adminGetMessage } from 'utils/api'
+  import { adminGetMessage, adminUpdateMessage } from 'utils/api'
 
   @Component({})
   export default class ViewMessage extends Vue {
@@ -46,7 +46,8 @@
     editForm: any = {
       index: '',
       title: '',
-      content: ''
+      content: '',
+      releasedTime: ''
     }
     editFormRules: any = {
       title: [
@@ -90,7 +91,8 @@
       this.editForm = {
         index: index,
         title: row.title,
-        content: row.content
+        content: row.content,
+        releasedTime: row.releasedTime
       }
     }
 
@@ -98,26 +100,55 @@
       this.$confirm('确认删除？')
         .then(() => {
           this.messages.splice(index, 1)
+          adminUpdateMessage(this.messages)
+            .then((res) => {
+              if (res.data) {
+                this.$message({
+                  message: '删除成功',
+                  type: 'success'
+                })
+              } else {
+                this.$message({
+                  message: '删除失败',
+                  type: 'error'
+                })
+              }
+            })
+            .catch((err) => {
+              this.$message({
+                message: err,
+                type: 'error'
+              })
+            })
         })
         .catch(() => {
         })
     }
 
-    // editSubmit () {
-    //   this.messages[this.editForm.index].title = this.editForm.title
-    //   this.messages[this.editForm.index].content = this.editForm.content
-    //   adminUpdateMessage({
-    //     messages: this.messages
-    //   }).then((res) => {
-    //     if (res.data.succeed) {
-    //       this.$message.success('编辑成功')
-    //     } else {
-    //       this.$message.error(res.data.msg)
-    //     }
-    //   }).catch((err) => {
-    //     this.$message.error('编辑失败')
-    //   })
-    // }
+    editSubmit () {
+      this.messages[this.editForm.index].title = this.editForm.title
+      this.messages[this.editForm.index].content = this.editForm.content
+      adminUpdateMessage({
+        messages: this.messages
+      }).then((res) => {
+        if (res.data.succeed) {
+          this.$message({
+            message: '编辑成功',
+            type: 'success'
+          })
+        } else {
+          this.$message({
+            message: res.data.msg,
+            type: 'error'
+          })
+        }
+      }).catch((err) => {
+        this.$message({
+          message: err,
+          type: 'error'
+        })
+      })
+    }
 
     handleEditClose () {
       this.$confirm('确认关闭？')

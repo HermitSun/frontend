@@ -626,10 +626,6 @@
             </el-collapse>
             <!--提交暫存-->
             <el-col :span="24">
-                <div class="prompt">
-                    <i class="el-icon-info"></i>
-                    <span>如果清除頁面緩存，暫存將被刪除，敬請注意</span>
-                </div>
                 <el-button type="primary" icon="el-icon-upload2" class="confirmUpload" @click="submitApplication">提交
                 </el-button>
                 <el-button type="primary" icon="el-icon-document" class="saveEmail" @click="tempSaveApplication">暫存

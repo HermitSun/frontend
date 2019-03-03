@@ -67,6 +67,9 @@ export const getAttachmentNames = () => {
 };
 
 // 管理員
+export const allStart = (params) => {
+    return axios.post('/start/start', params)
+};
 export const setAdminEmail = (params) => {
     return axios.post('/email/adminEmailSet', params)
 };
@@ -77,7 +80,10 @@ export const adminGetMessage = () => {
     return axios.get('/message/released_messages');
 };
 export const adminSendMessage = (params) => {
-    return axios.post('/message/global_message', params);
+    return axios.post('/message/global_broadcast', params);
+};
+export const adminUpdateMessage = (params) => {
+    return axios.post('/message/', params)
 };
 
 export const checkStuList = params => {

@@ -29,6 +29,7 @@ Vue.use(Router);
 
 const router = new Router({
     mode: 'history',
+    base: '/taiwan/',
     routes: [
         {
             path: '/',

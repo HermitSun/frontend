@@ -246,7 +246,7 @@
                             school is
                             located. 中文填寫就讀學校。
                         </el-row>
-                        <el-form :model="form.primarySchool" :rules="rules" ref="from.primarySchool" label-width="130px"
+                        <el-form :model="form.primarySchool" :rules="rules" ref="from.primarySchool" label-width="150px"
                                  :inline="true" hide-required-asterisk>
                             <el-form-item>
                                 <div slot="label">
@@ -254,13 +254,12 @@
                                     <div>小學</div>
                                 </div>
                                 <el-form-item prop="name">
-                                    <!--接口文檔first拼錯-->
                                     <el-input v-model="form.primarySchool.name" placeholder="SCHOOL 學校名稱"
                                               style="width: 300px;"></el-input>
                                 </el-form-item>
                                 <el-form-item prop="region">
                                     <el-select v-model="form.primarySchool.region" placeholder="REGION 地區"
-                                               style="width: 200px">
+                                               style="width: 150px">
                                         <!--導入台灣地區區名-->
                                         <el-option label="新北市" value="新北市"></el-option>
                                         <el-option label="臺北市" value="臺北市"></el-option>
@@ -288,19 +287,18 @@
                                 <el-form-item prop="startDate">
                                     <el-date-picker type="date" placeholder="START 開始時間" value-format="yyyy-MM-dd"
                                                     v-model="form.primarySchool.startDate"
-                                                    style="width: 200px"></el-date-picker>
+                                                    style="width: 180px"></el-date-picker>
 
                                 </el-form-item>
                                 <el-form-item prop="endDate">
                                     <el-date-picker type="date" placeholder="END 終止時間" value-format="yyyy-MM-dd"
                                                     v-model="form.primarySchool.endDate"
-                                                    style="width: 200px"></el-date-picker>
+                                                    style="width: 180px"></el-date-picker>
                                 </el-form-item>
                             </el-form-item>
                         </el-form>
                         <el-form :model="form.juniorMiddleSchool" :rules="rules" ref="form.juniorMiddleSchool"
-                                 :inline="true">
-
+                                 :inline="true" label-width="150px">
                             <el-form-item>
                                 <div slot="label">
                                     <div>Junior middle school</div>
@@ -313,7 +311,7 @@
                                 </el-form-item>
                                 <el-form-item prop="region">
                                     <el-select v-model="form.juniorMiddleSchool.region" placeholder="REGION 地區"
-                                               style="width: 200px">
+                                               style="width: 150px">
                                         <!--導入台灣地區區名-->
                                         <el-option label="新北市" value="新北市"></el-option>
                                         <el-option label="臺北市" value="臺北市"></el-option>
@@ -343,20 +341,23 @@
                                 <el-form-item prop="startDate">
                                     <el-date-picker type="date" placeholder="START 開始時間" value-format="yyyy-MM-dd"
                                                     v-model="form.juniorMiddleSchool.startDate"
-                                                    style="width: 200px"></el-date-picker>
+                                                    style="width: 180px"></el-date-picker>
 
                                 </el-form-item>
                                 <el-form-item prop="endDate">
                                     <el-date-picker type="date" placeholder="END 終止時間" value-format="yyyy-MM-dd"
                                                     v-model="form.juniorMiddleSchool.endDate"
-                                                    style="width: 200px"></el-date-picker>
+                                                    style="width: 180px"></el-date-picker>
                                 </el-form-item>
                             </el-form-item>
                         </el-form>
                         <el-form :model="form.seniorMiddleSchool" :rules="rules" ref="form.seniorMiddleSchool"
-                                 label-width="130px"
-                                 :inline="true">
-                            <el-form-item label="Senior middle school 高中" label-width="182px">
+                                 :inline="true" label-width="150px">
+                            <el-form-item >
+                                <div slot="label">
+                                    <div>Senior middle school</div>
+                                    <div>高中</div>
+                                </div>
                                 <el-form-item prop="name">
                                     <!--接口文檔first拼錯-->
                                     <el-input v-model="form.seniorMiddleSchool.name" placeholder="SCHOOL 學校名稱"
@@ -364,7 +365,7 @@
                                 </el-form-item>
                                 <el-form-item prop="region">
                                     <el-select v-model="form.seniorMiddleSchool.region" placeholder="REGION 地區"
-                                               style="width: 200px">
+                                               style="width: 150px">
                                         <!--導入台灣地區區名-->
                                         <el-option label="新北市" value="新北市"></el-option>
                                         <el-option label="臺北市" value="臺北市"></el-option>
@@ -394,13 +395,13 @@
                                 <el-form-item prop="startDate">
                                     <el-date-picker type="date" placeholder="START 開始時間" value-format="yyyy-MM-dd"
                                                     v-model="form.seniorMiddleSchool.startDate"
-                                                    style="width: 200px"></el-date-picker>
+                                                    style="width: 180px"></el-date-picker>
 
                                 </el-form-item>
                                 <el-form-item prop="endDate">
                                     <el-date-picker type="date" placeholder="END 終止時間" value-format="yyyy-MM-dd"
                                                     v-model="form.seniorMiddleSchool.endDate"
-                                                    style="width: 200px"></el-date-picker>
+                                                    style="width: 180px"></el-date-picker>
                                 </el-form-item>
 
                             </el-form-item>
@@ -1042,7 +1043,6 @@
                         this.form.phoneNumbers.areaCode = info.phoneNumbers.mobilePhoneNumber.substring(0, info.phoneNumbers.mobilePhoneNumber.indexOf("6") + 1);
                         this.form.phoneNumbers.mobilePhoneNumber = info.phoneNumbers.mobilePhoneNumber.substring(info.phoneNumbers.mobilePhoneNumber.indexOf("6") + 1);
                         this.form.phoneNumbers.faxNumber = info.phoneNumbers.faxNumber;
-
 
 
                         if (info.curriculumChoices.firstChoice !== null) {

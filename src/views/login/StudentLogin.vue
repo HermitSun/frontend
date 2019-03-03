@@ -4,7 +4,7 @@
             <div class="content">
                 <div class="foo">
                     <div class="head clearFix">
-                        <img class="leftHead" :src="require('./img/NJULogo.png')" alt="logo"/>
+                        <div class="leftHead"></div>
                         <div class="rightHead" style="cursor: default">台灣免試生系統</div>
                     </div>
                     <StudentLoginInputs v-show="this.showStudentLogin"></StudentLoginInputs>
@@ -152,9 +152,9 @@
             .leftHead {
                 float: left;
                 margin-left: 18px;
-                width: 187px;
-                height: 66px;
-                background: no-repeat;
+                width: 183px;
+                height: 58px;
+                background: url(./img/NJULogo.png) center center;
             }
 
             .rightHead {

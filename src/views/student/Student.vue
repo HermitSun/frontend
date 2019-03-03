@@ -4,8 +4,7 @@
         <el-col :span="24" class="header">
             <el-col :span="10" class="logo" :class="this.collapsed?'logo-collapse-width':'logo-width'">
                 <div @click="backToIndex" style="cursor: pointer">
-                    <img src="./img/NJULogo.png" :class="this.collapsed?'logo-img-collapse':'logo-img'"
-                         alt="NJU's logo"/>
+                    <div :class="this.collapsed?'logo-img-collapse':'logo-img'"></div>
                     {{this.collapsed?'':this.systemName}}
                 </div>
             </el-col>
@@ -173,16 +172,22 @@
 
                 .logo-img-collapse {
                     width: 50px;
+                    height: 30px;
                     position: absolute;
                     left: 5px;
-                    top: 23px;
+                    top: 13px;
+                    background: url(./img/NJULogo.png) center center no-repeat;
+                    background-size: 50px
                 }
 
                 .logo-img {
                     width: 50px;
+                    height: 30px;
                     position: absolute;
                     left: 10px;
-                    top: 5px;
+                    top: -2px;
+                    background: url(./img/NJULogo.png) center center no-repeat;
+                    background-size: 50px
                 }
 
                 .txt {
@@ -199,7 +204,7 @@
             }
 
             .tools {
-                margin-left: -10px;
+                margin-left: 5px;
                 width: 14px;
                 height: 60px;
                 line-height: 60px;

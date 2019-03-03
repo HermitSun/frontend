@@ -18,10 +18,9 @@
             </el-col>
         </el-row>
         <el-col :span="24">
-            <div class="prompt">
-                <el-checkbox v-model="sendEmailConcurrently">同时发送邮件（默认只发送站内消息）</el-checkbox>
-            </div>
-            <el-button type="primary" icon="el-icon-document" class="saveEmail" @click="saveMsg">保存</el-button>
+            <!--<div class="prompt">-->
+            <!--<el-checkbox v-model="sendEmailConcurrently">同时发送邮件（默认只发送站内消息）</el-checkbox>-->
+            <!--</div>-->
             <el-button type="primary" icon="el-icon-share" class="publishMsg" @click="publishMsg">发布</el-button>
         </el-col>
     </el-card>
@@ -29,6 +28,7 @@
 
 <script lang="ts">
   import { Vue, Component } from 'vue-property-decorator'
+  import { adminSendMessage } from 'utils/api'
 
   @Component({})
   export default class EditEmail extends Vue {
@@ -36,16 +36,28 @@
     msgContent: string = ''
     sendEmailConcurrently: boolean = false
 
-    mounted () {
-      //
-    }
-
-    saveMsg () {
-      // 暂存
-    }
-
     publishMsg () {
-      // 发布
+      adminSendMessage({
+        title: this.msgSubject,
+        content: this.msgContent
+      }).then((res) => {
+        if (res.data.succeed) {
+          this.$message({
+            message: '发送成功',
+            type: 'success'
+          })
+        } else {
+          this.$message({
+            message: res.data.msg,
+            type: 'error'
+          })
+        }
+      }).catch((err) => {
+        this.$message({
+          message: err,
+          type: 'error'
+        })
+      })
     }
   }
 </script>
@@ -77,16 +89,8 @@
 
         .publishMsg {
             float: right;
-            margin-top: -30px;
             margin-bottom: 10px;
             margin-right: 20px;
-        }
-
-        .saveEmail {
-            float: right;
-            margin-top: -30px;
-            margin-bottom: 10px;
-            margin-right: 10px;
         }
 
         .prompt {

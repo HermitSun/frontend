@@ -137,10 +137,10 @@ const router = new Router({
         {
             path: '/admin',
             component: Admin,
-            name: '发布结果',
+            name: '发送消息',
             iconClass: 'el-icon-message',
             children: [
-                {path: '/admin/edit-msg', component: EditMessage, name: '发送消息'},
+                {path: '/admin/edit-msg', component: EditMessage, name: '站内消息'},
                 {path: '/admin/view-msg', component: ViewMessage, name: '已发消息'}
             ],
             meta: {

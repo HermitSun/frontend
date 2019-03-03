@@ -44,7 +44,10 @@
       studentGetMessage()
         .then((res) => {
           if (res.data.length > 0) {
-            this.messages = res.data
+            res.data.forEach(datum => {
+              datum.releasedTime = datum.releasedTime.split('T')[0]
+              this.messages.push(datum)
+            })
           }
         })
         .catch((err) => {

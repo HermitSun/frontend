@@ -73,6 +73,13 @@ export const setAdminEmail = (params) => {
 export const getAdminEmail = () => {
     return axios.get('/email/preAdmission')
 };
+export const adminGetMessage = () => {
+    return axios.get('/message/');
+};
+export const adminSendMessage = (params) => {
+    return axios.post('/message/global_message', params);
+};
+
 export const checkStuList = params => {
     return axios.get(`/list/getlist`, {params: params});
 };
@@ -82,9 +89,7 @@ export const checkStuDetail = () => {
 export const setMessage = params => {
     return axios.post(`/message/set`, params);
 };
-export const getMessage = () => {
-    return axios.get(`/message/get`);
-};
+
 export const remind = () => {
     return axios.post(`/email/remind`);
 };

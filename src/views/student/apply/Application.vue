@@ -1021,39 +1021,12 @@
                         this.$message({
                             message: err,
                             type: 'error'
-                        })
-                        this.getTempSavedApplication();
+                        });
                     })
             },
             tempSaveApplication() {
                 // 暫存
-                let storage = window.localStorage;
-                let information = Object.assign({}, this.form);
-                information.sex = this.form.sex.toString();
-                information.highSchool = this.form.highSchool.toString();
-                information.phoneNumbers = JSON.stringify(this.form.phoneNumbers);//
-                information.curriculumChoices = JSON.stringify(this.form.curriculumChoices);
-                information.artOrSci = this.form.artOrSci.toString();
-                information.primarySchool = JSON.stringify(this.form.primarySchool);
-                information.juniorMiddleSchool = JSON.stringify(this.form.juniorMiddleSchool);
-                information.seniorMiddleSchool = JSON.stringify(this.form.seniorMiddleSchool);
-                information.results = JSON.stringify(this.form.results);
-                information.actualLevelPoints = JSON.stringify(this.form.actualLevelPoints);
-                information.levelRange = JSON.stringify(this.form.levelRange);
-                information.singleSubjectCriteria = JSON.stringify(this.form.singleSubjectCriteria);
-                let temp = [];
-                this.activities.activity.forEach((activity) => {
-                    temp.push(JSON.stringify(activity) + '`');
-                });
-                information.activities = temp.toString();
-                temp = [];
-                this.familyParticulars.members.forEach((member) => {
-                    temp.push(JSON.stringify(member) + '`');
-                });
-                information.familyParticulars = temp.toString();
-                for (let key in information) {
-                    storage.setItem(key, information[key]);
-                }
+
                 this.$message({
                     message: '暫存完成',
                     type: 'success'
@@ -1061,43 +1034,7 @@
             },
             getTempSavedApplication() {
                 // 讀取暫存
-                let storage = window.localStorage;
-                this.form.firstName = storage.getItem('firstName');
-                this.form.lastName = storage.getItem('lastName');
-                this.form.needSimplification = storage.getItem('needSimplification');
-                this.form.sex = Number(storage.getItem('sex'));
-                this.form.birthDate = storage.getItem('birthDate');
-                this.form.email = storage.getItem('email');
-                this.form.mtpNumber = storage.getItem('mtpNumber');
-                this.form.idCardNumber = storage.getItem('idCardNumber');
-                this.form.highSchool = storage.getItem('highSchool').split(',');
-                this.form.graduationYear = storage.getItem('graduationYear');
-                this.form.address = storage.getItem('address');
-                this.form.postalCode = storage.getItem('postalCode');
-                this.form.phoneNumbers = JSON.parse(storage.getItem('phoneNumbers'));
-                this.form.curriculumChoices = JSON.parse(storage.getItem('curriculumChoices'));
-                this.form.artOrSci = Number(storage.getItem('artOrSci'));
-                this.form.acceptAssignment = storage.getItem('acceptAssignment');
-                this.form.primarySchool = JSON.parse(storage.getItem('primarySchool'));
-                this.form.juniorMiddleSchool = JSON.parse(storage.getItem('juniorMiddleSchool'));
-                this.form.seniorMiddleSchool = JSON.parse(storage.getItem('seniorMiddleSchool'));
-                this.form.results = JSON.parse(storage.getItem('results'));
-                this.form.actualLevelPoints = JSON.parse(storage.getItem('actualLevelPoints'));
-                this.form.levelRange = JSON.parse(storage.getItem('levelRange'));
-                this.form.singleSubjectCriteria = JSON.parse(storage.getItem('singleSubjectCriteria'));
-                this.form.personalStatement = storage.getItem('personalStatement');
-                let temp = storage.getItem('familyParticulars').split('`,');
-                temp[temp.length - 1] = temp[temp.length - 1].substring(0, temp[temp.length - 1].length - 1);
-                this.familyParticulars.members = [];
-                temp.forEach((t) => {
-                    this.familyParticulars.members.push(JSON.parse(t));
-                });
-                temp = storage.getItem('activities').split('`,');
-                temp[temp.length - 1] = temp[temp.length - 1].substring(0, temp[temp.length - 1].length - 1);
-                this.activities.activity = [];
-                temp.forEach((t) => {
-                    this.activities.activity.push(JSON.parse(t));
-                });
+
             },
             getSubjectCriteria(level) {
                 if (level === '頂標') {
@@ -1151,9 +1088,6 @@
                             message: err,
                             type: 'error'
                         });
-                        this.getApplicationInfo();
-                        this.getMajors();
-                        this.getTempSavedApplication();
                     })
             }
         }

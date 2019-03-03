@@ -3,7 +3,8 @@
         <div v-if="hasFinished">
             <p style="color: #67C23A">您已完成申請表填寫。</p>
         </div>
-        <el-form :model="this.form" :rules="this.rules" ref="form" label-width="138px" :inline="true">
+        <el-form :model="this.form" :rules="this.rules" ref="form" label-width="138px" :inline="true"
+                 hide-required-asterisk>
             <el-collapse accordion>
                 <el-collapse-item title="第一部分">
                     <div class="part1">
@@ -14,11 +15,19 @@
                         </el-row>
 
                         <el-form-item label="SIMPLIFICATION 簡體姓名" label-width="195px">
-                            <el-form-item label="FAMILY NAME 姓" prop="firstName">
+                            <el-form-item prop="firstName">
+                                <div slot="label">
+                                    <div>FAMILY NAME</div>
+                                    <div>姓</div>
+                                </div>
                                 <el-input placeholder="中文(必須與身份證相同)" v-model="form.firstName" clearable
                                           style="width: 195px;"></el-input>
                             </el-form-item>
-                            <el-form-item label="GIVEN NAME 名" prop="lastName">
+                            <el-form-item prop="lastName">
+                                <div slot="label">
+                                    <div>GIVEN NAME</div>
+                                    <div>名</div>
+                                </div>
                                 <el-input placeholder="中文(必須與身份證相同)" v-model="form.lastName" clearable
                                           style="width: 195px;"></el-input>
                             </el-form-item>
@@ -31,28 +40,57 @@
                             </el-form-item>
                         </el-form-item>
 
-                        <el-form-item label="SEX 性別" prop="sex">
+                        <el-form-item prop="sex">
+                            <div slot="label">
+                                <div>SEX</div>
+                                <div>性別</div>
+                            </div>
                             <el-select v-model="form.sex" placeholder="請選擇性別" style="width: 195px;">
                                 <el-option label="男" :value=1></el-option>
                                 <el-option label="女" :value=0></el-option>
                             </el-select>
                         </el-form-item>
-                        <el-form-item label="DATE OF BIRTH 出生日期" prop="birthDate">
+
+                        <el-form-item prop="birthDate">
+                            <div slot="label">
+                                <div>DATE OF BIRTH</div>
+                                <div>出生日期</div>
+                            </div>
                             <el-date-picker type="date" placeholder="選擇日期" v-model="form.birthDate"
                                             value-format="yyyy-MM-dd" style="width: 195px;"
                                             :default-value="new Date('2000-01-01')"></el-date-picker>
                         </el-form-item>
-                        <el-form-item label="EMAIL ADDRESS 電郵" prop="email">
+
+                        <el-form-item prop="email">
+                            <div slot="label">
+                                <div>EMAIL ADDRESS</div>
+                                <div>電郵</div>
+                            </div>
                             <el-input v-model="form.email" clearable style="width: 195px;"></el-input>
                         </el-form-item>
-                        <el-form-item label="ID CARD No. 身份證號碼" prop="IDCardNumber">
+
+                        <el-form-item prop="IDCardNumber">
+                            <div slot="label">
+                                <div>ID CARD No.</div>
+                                <div>身份證號碼</div>
+                            </div>
                             <el-input v-model="form.idCardNumber" clearable style="width: 195px;"></el-input>
                         </el-form-item>
-                        <el-form-item label="MTP Number 台胞證號碼" prop="mtpNumber">
+
+                        <el-form-item prop="mtpNumber">
+                            <div slot="label">
+                                <div>MTP Number</div>
+                                <div>台胞证号码</div>
+                            </div>
                             <el-input v-model="form.mtpNumber" placeholder="請輸入8位台胞證號碼" clearable
                                       style="width: 195px;"></el-input>
                         </el-form-item>
-                        <el-form-item label="HIGH SCHOOL 現就讀學校" prop="highSchool">
+
+                        <el-form-item prop="highSchool">
+                            <div slot="label">
+                                <div>HIGH SCHOOL</div>
+                                <div>现就读学校</div>
+                            </div>
                             <el-cascader
                                     expand-trigger="hover"
                                     :options="options"
@@ -62,26 +100,50 @@
                             >
                             </el-cascader>
                         </el-form-item>
-                        <el-form-item label="Graduation Year 畢業年份" prop="graduationYear">
+
+                        <el-form-item prop="graduationYear">
+                            <div slot="label">
+                                <div>Graduation Year</div>
+                                <div>毕业年份</div>
+                            </div>
                             <el-date-picker type="year" placeholder="選擇年份" v-model="form.graduationYear"
                                             value-format="yyyy" style="width: 195px;"></el-date-picker>
                         </el-form-item>
-                        <el-form-item label="ADDRESS 通訊地址" prop="address">
+
+                        <el-form-item prop="address">
+                            <div slot="label">
+                                <div>ADDRESS</div>
+                                <div>通讯地址</div>
+                            </div>
                             <el-input v-model="form.address" clearable style="width: 195px;"></el-input>
                         </el-form-item>
-                        <el-form-item label="POSTAL CODE 郵編" prop="postalCode">
+
+                        <el-form-item prop="postalCode">
+                            <div slot="label">
+                                <div>POSTAL CODE</div>
+                                <div>邮编</div>
+                            </div>
                             <el-input v-model="form.postalCode" clearable style="width: 195px;"></el-input>
                         </el-form-item>
 
-                        <el-form :model="form.phoneNumbers" :rules="rules" ref="form.phoneNumbers" label-width="130px"
-                                 :inline="true">
+                        <el-form :model="form.phoneNumbers" :rules="rules" ref="form.phoneNumbers" label-width="138px"
+                                 :inline="true" hide-required-asterisk>
                             <el-form-item label="TELEPHONE 電話號碼" label-width="195px" :rules="rules">
                                 <!--區號-->
-                                <el-form-item label="Home 住宅">
+                                <el-form-item>
+                                    <div slot="label">
+                                        <div>Home</div>
+                                        <div>住宅</div>
+                                    </div>
                                     <el-input v-model="form.phoneNumbers.homePhoneNumber" placeholder="" clearable
                                               style="width: 195px;"></el-input>
                                 </el-form-item>
-                                <el-form-item label="Mobile/Other 手機/其他" prop="mobilePhoneNumber">
+
+                                <el-form-item prop="mobilePhoneNumber">
+                                    <div slot="label">
+                                        <div>Mobile/Other</div>
+                                        <div>手机/其他</div>
+                                    </div>
                                     <el-input v-model="form.phoneNumbers.mobilePhoneNumber" clearable
                                               style="width: 300px;">
                                         <el-select v-model="form.phoneNumbers.areaCode" slot="prepend"
@@ -91,7 +153,12 @@
                                         </el-select>
                                     </el-input>
                                 </el-form-item>
-                                <el-form-item label="Fax 傳真" prop="faxNumber">
+
+                                <el-form-item prop="faxNumber">
+                                    <div slot="label">
+                                        <div>Fax</div>
+                                        <div>传真</div>
+                                    </div>
                                     <el-input v-model="form.phoneNumbers.faxNumber" clearable
                                               style="width: 195px;"></el-input>
                                 </el-form-item>
@@ -109,7 +176,7 @@
                         </el-row>
 
                         <el-form :model="form.curriculumChoices" :rules="rules" ref="form.curriculumChoices"
-                                 label-width="130px" :inline="true">
+                                 label-width="130px" :inline="true" hide-required-asterisk>
 
                             <el-form-item>
                                 <el-form-item label="1st choice 第一志願" prop="firstChoice" label-width="155px">
@@ -180,7 +247,7 @@
                             located. 中文填寫就讀學校。
                         </el-row>
                         <el-form :model="form.primarySchool" :rules="rules" ref="from.primarySchool" label-width="130px"
-                                 :inline="true">
+                                 :inline="true" hide-required-asterisk>
                             <el-form-item label="Primary School 小學" label-width="150px">
                                 <el-form-item prop="name">
                                     <!--接口文檔first拼錯-->
@@ -798,7 +865,7 @@
             submitApplication() {
                 let information = Object.assign({}, this.form);
 
-                let mobile=this.form.phoneNumbers.areaCode + this.form.phoneNumbers.mobilePhoneNumber;
+                let mobile = this.form.phoneNumbers.areaCode + this.form.phoneNumbers.mobilePhoneNumber;
                 information.phoneNumbers.mobilePhoneNumber = (mobile).substring(mobile.lastIndexOf("+"));
 
                 information.highSchool = this.form.highSchool.toString();
@@ -1007,35 +1074,35 @@
 
                         this.familyParticulars.members = info.familyParticulars;
 
-                        if(info.results.chinese!==0) {
+                        if (info.results.chinese !== 0) {
                             this.form.results.chinese = info.results.chinese;
                         }
-                        if(info.results.math!==0) {
+                        if (info.results.math !== 0) {
                             this.form.results.math = info.results.math;
                         }
-                        if(info.results.english!==0) {
+                        if (info.results.english !== 0) {
                             this.form.results.english = info.results.english;
                         }
-                        if(info.results.socials!==0) {
+                        if (info.results.socials !== 0) {
                             this.form.results.socials = info.results.socials;
                         }
-                        if(info.results.sciences!==0){
-                        this.form.results.sciences = info.results.sciences;
+                        if (info.results.sciences !== 0) {
+                            this.form.results.sciences = info.results.sciences;
                         }
 
-                        if(info.actualLevelPoints.chinese!==0) {
+                        if (info.actualLevelPoints.chinese !== 0) {
                             this.form.actualLevelPoints.chinese = info.actualLevelPoints.chinese;
                         }
-                        if(info.actualLevelPoints.math!==0) {
+                        if (info.actualLevelPoints.math !== 0) {
                             this.form.actualLevelPoints.math = info.actualLevelPoints.math;
                         }
-                        if(info.actualLevelPoints.english!==0) {
+                        if (info.actualLevelPoints.english !== 0) {
                             this.form.actualLevelPoints.english = info.actualLevelPoints.english;
                         }
-                        if(info.actualLevelPoints.socials!==0) {
+                        if (info.actualLevelPoints.socials !== 0) {
                             this.form.actualLevelPoints.socials = info.actualLevelPoints.socials;
                         }
-                        if(info.actualLevelPoints.sciences!==0) {
+                        if (info.actualLevelPoints.sciences !== 0) {
                             this.form.actualLevelPoints.sciences = info.actualLevelPoints.sciences;
                         }
 

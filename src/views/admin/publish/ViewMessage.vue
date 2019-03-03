@@ -62,7 +62,10 @@
       adminGetMessage()
         .then((res) => {
           if (res.data) {
-            this.messages = res.data
+            res.data.forEach((datum) => {
+              datum.releasedTime = datum.releasedTime.split('T')[0]
+              this.messages.push(datum)
+            })
           } else {
             this.$message({
               message: '读取失败',
@@ -129,7 +132,7 @@
 
 <style scoped lang="scss" rel="stylesheet/scss">
     .wrapper {
-        margin: 30px 20px 0 20px;
+        margin: 20px 20px 0 20px;
         height: 100% !important;
     }
 </style>

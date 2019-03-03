@@ -353,7 +353,7 @@
                         </el-form>
                         <el-form :model="form.seniorMiddleSchool" :rules="rules" ref="form.seniorMiddleSchool"
                                  :inline="true" label-width="150px">
-                            <el-form-item >
+                            <el-form-item>
                                 <div slot="label">
                                     <div>Senior middle school</div>
                                     <div>高中</div>
@@ -870,7 +870,7 @@
                     attendingDate: '',
                 });
             },
-            submitApplication() {
+            formatApplication() {
                 let information = Object.assign({}, this.form);
 
                 let mobile = this.form.phoneNumbers.areaCode + this.form.phoneNumbers.mobilePhoneNumber;
@@ -904,7 +904,10 @@
                 if (information.birthDate.indexOf('T') >= 0) {
                     information.birthDate = information.birthDate.substring(0, information.birthDate.indexOf('T'))
                 }
-                console.log(information);
+                return information;
+            },
+            submitApplication() {
+                let information = this.formatApplication();
                 this.$refs.form.validate((valid) => {
                     if (valid) {
                         sendApplication(information)
@@ -1129,15 +1132,27 @@
             },
             tempSaveApplication() {
                 // 暫存
-
-                this.$message({
-                    message: '暫存完成',
-                    type: 'success'
-                })
-            },
-            getTempSavedApplication() {
-                // 讀取暫存
-
+                let information = this.formatApplication();
+                sendApplication(information)
+                    .then((res) => {
+                        if (res.data.succeed) {
+                            this.$message({
+                                message: '暫存完成',
+                                type: 'success'
+                            })
+                        } else {
+                            this.$message({
+                                message: res.data.msg,
+                                type: 'error'
+                            })
+                        }
+                    })
+                    .catch((err) => {
+                        this.$message({
+                            message: err,
+                            type: 'error'
+                        })
+                    })
             },
             getSubjectCriteria(level) {
                 if (level === '頂標') {
@@ -1182,9 +1197,6 @@
                         that.getApplicationInfo();
                         that.getMajors();
                         return _this;
-                    })
-                    .then((that) => {
-                        //          that.getTempSavedApplication();
                     })
                     .catch((err) => {
                         this.$message({

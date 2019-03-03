@@ -74,7 +74,7 @@ export const getAdminEmail = () => {
     return axios.get('/email/preAdmission')
 };
 export const adminGetMessage = () => {
-    return axios.get('/message/');
+    return axios.get('/message/released_messages');
 };
 export const adminSendMessage = (params) => {
     return axios.post('/message/global_message', params);

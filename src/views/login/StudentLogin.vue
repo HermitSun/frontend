@@ -155,6 +155,7 @@
                 width: 183px;
                 height: 58px;
                 background: url(./img/NJULogo.png) center center;
+                background-size: 183px 58px;
             }
 
             .rightHead {

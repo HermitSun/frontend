@@ -178,8 +178,8 @@
                                 </div>
                             </el-col>
                         </el-row>
-                        <el-form :model="form.results" :rules="rules" label-width="130px" :inline="true">
-                            <el-form-item label="Results 原始成績" label-width="110px">
+                        <el-form :model="form.results" :rules="rules" label-width="140px" :inline="true">
+                            <el-form-item label="Results 原始成績" label-width="140px">
                                 <el-form-item prop="chinese">
                                     <el-input v-model="form.results.chinese" placeholder="CHINESE 國文"
                                               style="width:180px"></el-input>
@@ -632,6 +632,10 @@
             </el-collapse>
             <!--提交暫存-->
             <el-col :span="24">
+                <div class="prompt">
+                    <i class="el-icon-info"></i>
+                    <span>點擊暫存，可下次繼續填寫</span>
+                </div>
                 <el-button type="primary" icon="el-icon-upload2" class="confirmUpload" @click="submitApplication">提交
                 </el-button>
                 <el-button type="primary" icon="el-icon-document" class="saveEmail" @click="tempSaveApplication">暫存

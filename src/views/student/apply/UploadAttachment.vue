@@ -294,8 +294,10 @@
           return upload.uid !== file.uid
         })
         this.transcriptFileData.delete('file')
+        this.transcriptNames = []
         uploads.forEach(upload => {
           this.transcriptFileData.append('file', upload)
+          this.transcriptNames.push(upload.name)
         })
       } else {
         this.transcriptFileData.delete('file')
@@ -355,8 +357,10 @@
           return upload.uid !== file.uid
         })
         this.recommendFileData.delete('file')
+        this.recommendNames = []
         uploads.forEach(upload => {
           this.recommendFileData.append('file', upload)
+          this.recommendNames.push(upload.name)
         })
       } else {
         this.recommendFileData.delete('file')
@@ -416,8 +420,10 @@
           return upload.uid !== file.uid
         })
         this.othersFileData.delete('file')
+        this.othersNames = []
         uploads.forEach(upload => {
           this.othersFileData.append('file', upload)
+          this.othersNames.push(upload.name)
         })
       } else {
         this.othersFileData.delete('file')

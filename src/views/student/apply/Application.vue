@@ -6,11 +6,11 @@
         <el-form :model="this.form" :rules="this.rules" ref="form" label-width="138px" :inline="true"
                  hide-required-asterisk>
             <el-collapse accordion>
-                <el-collapse-item title="第一部分">
+                <el-collapse-item title="一. 個人基本情況">
                     <div class="part1">
                         <el-row>
                             <el-col :span="24">
-                                <div class="title grid-content bg-purple-dark">一. PERSONAL PARTICULARS 個人基本情況</div>
+                                <div class="title grid-content bg-purple-dark">PERSONAL PARTICULARS 個人基本情況</div>
                             </el-col>
                         </el-row>
 
@@ -66,15 +66,17 @@
                                 <div>EMAIL ADDRESS</div>
                                 <div>電郵</div>
                             </div>
-                            <el-input v-model="form.email" clearable style="width: 195px;"></el-input>
+                            <el-input v-model="form.email" placeholder="請輸入郵箱" clearable
+                                      style="width: 195px;"></el-input>
                         </el-form-item>
 
-                        <el-form-item prop="IDCardNumber">
+                        <el-form-item prop="idCardNumber">
                             <div slot="label">
                                 <div>ID CARD No.</div>
                                 <div>身份證號碼</div>
                             </div>
-                            <el-input v-model="form.idCardNumber" clearable style="width: 195px;"></el-input>
+                            <el-input v-model="form.idCardNumber" placeholder="請輸入身份證號碼" clearable
+                                      style="width: 195px;"></el-input>
                         </el-form-item>
 
                         <el-form-item prop="mtpNumber">
@@ -91,13 +93,8 @@
                                 <div>HIGH SCHOOL</div>
                                 <div>現就讀學校</div>
                             </div>
-                            <el-cascader
-                                    expand-trigger="hover"
-                                    :options="options"
-                                    v-model="form.highSchool"
-                                    style="width:195px"
-                                    filterable clearable
-                            >
+                            <el-cascader expand-trigger="hover" :options="options" v-model="form.highSchool"
+                                         style="width:195px" filterable clearable placeholder="請選擇學校">
                             </el-cascader>
                         </el-form-item>
 
@@ -115,7 +112,8 @@
                                 <div>ADDRESS</div>
                                 <div>郵寄地址</div>
                             </div>
-                            <el-input v-model="form.address" clearable style="width: 195px;"></el-input>
+                            <el-input v-model="form.address" clearable style="width: 195px;"
+                                      placeholder="請輸入地址"></el-input>
                         </el-form-item>
 
                         <el-form-item prop="postalCode">
@@ -123,20 +121,21 @@
                                 <div>POSTAL CODE</div>
                                 <div>郵編</div>
                             </div>
-                            <el-input v-model="form.postalCode" clearable style="width: 195px;"></el-input>
+                            <el-input v-model="form.postalCode" clearable style="width: 195px;"
+                                      placeholder="請輸入郵編"></el-input>
                         </el-form-item>
 
                         <el-form :model="form.phoneNumbers" :rules="rules" ref="form.phoneNumbers" label-width="138px"
                                  :inline="true" hide-required-asterisk>
-                            <el-form-item label="TELEPHONE 電話號碼" label-width="195px" :rules="rules">
+                            <el-form-item label-width="195px" :rules="rules">
                                 <!--區號-->
                                 <el-form-item>
                                     <div slot="label">
                                         <div>Home</div>
                                         <div>住宅</div>
                                     </div>
-                                    <el-input v-model="form.phoneNumbers.homePhoneNumber" placeholder="" clearable
-                                              style="width: 195px;"></el-input>
+                                    <el-input v-model="form.phoneNumbers.homePhoneNumber" clearable
+                                              style="width: 195px;" placeholder="請輸入宅電"></el-input>
                                 </el-form-item>
 
                                 <el-form-item prop="mobilePhoneNumber">
@@ -145,7 +144,7 @@
                                         <div>手機/其他</div>
                                     </div>
                                     <el-input v-model="form.phoneNumbers.mobilePhoneNumber" clearable
-                                              style="width: 300px;">
+                                              style="width: 300px;" placeholder="請輸入手機">
                                         <el-select v-model="form.phoneNumbers.areaCode" slot="prepend"
                                                    placeholder="請選擇區號" style="width:120px">
                                             <el-option label="+86" value="+86"></el-option>
@@ -160,18 +159,18 @@
                                         <div>傳真</div>
                                     </div>
                                     <el-input v-model="form.phoneNumbers.faxNumber" clearable
-                                              style="width: 195px;"></el-input>
+                                              style="width: 195px;" placeholder="請輸入傳真"></el-input>
                                 </el-form-item>
                             </el-form-item>
                         </el-form>
 
                     </div>
                 </el-collapse-item>
-                <el-collapse-item title="第二部分">
+                <el-collapse-item title="二. 台灣地區大學入學考試學科能力測驗成績">
                     <div class="part2">
                         <el-row>
                             <el-col :span="24">
-                                <div class="title grid-content bg-purple-dark">二. RESULT OF GENERAL SCHOLASTIC ABILITY
+                                <div class="title grid-content bg-purple-dark">RESULT OF GENERAL SCHOLASTIC ABILITY
                                     TEST (ATTACH
                                     A COPY OF RESULT<br/>
                                     台灣地區大學入學考試學科能力測驗成績
@@ -285,11 +284,11 @@
                         </el-form>
                     </div>
                 </el-collapse-item>
-                <el-collapse-item title="第三部分">
+                <el-collapse-item title="三. 就讀學校">
                     <div class="part3">
                         <el-row>
                             <el-col :span="24">
-                                <div class="title grid-content bg-purple-dark">三. SCHOOL ATTENDED 就讀學校</div>
+                                <div class="title grid-content bg-purple-dark">SCHOOL ATTENDED 就讀學校</div>
                             </el-col>
                             Name of schools attended the present school. Please state the province and city that the
                             school is
@@ -462,11 +461,11 @@
                         </el-form>
                     </div>
                 </el-collapse-item>
-                <el-collapse-item title="第四部分">
+                <el-collapse-item title="四. 申請者家屬情況">
                     <div class="part4">
                         <el-row>
                             <el-col :span="24">
-                                <div class="title grid-content bg-purple-dark">四. PARTICULARS OF FAMILY MEMBERS
+                                <div class="title grid-content bg-purple-dark">PARTICULARS OF FAMILY MEMBERS
                                     申請者家屬情況
                                 </div>
                             </el-col>
@@ -496,11 +495,11 @@
 
                     </div>
                 </el-collapse-item>
-                <el-collapse-item title="第五部分">
+                <el-collapse-item title="五. 選報專業（類）志願">
                     <div class="part5">
                         <el-row>
                             <el-col :span="24">
-                                <div class="title grid-content bg-purple-dark">五. CHOICE OF CURRICULUM 選報專業（類）志願</div>
+                                <div class="title grid-content bg-purple-dark">CHOICE OF CURRICULUM 選報專業（類）志願</div>
                             </el-col>
                         </el-row>
 
@@ -557,7 +556,7 @@
                         <br>If you are not offered for any of the above preferred programmes, will you accept other
                         programmes
                         assigned by NJU?本人是否願意被錄取到其他專業（類）？<br/>
-                        <el-form-item label="ASSIGNMENT 調劑 " prop="acceptAssignment" >
+                        <el-form-item label="ASSIGNMENT 調劑 " prop="acceptAssignment">
                             <el-radio-group v-model="form.acceptAssignment" :disabled="true">
                                 <el-radio label="true">Yes 願意</el-radio>
                                 <el-radio label="false">No 不願意</el-radio>
@@ -565,11 +564,11 @@
                         </el-form-item>
                     </div>
                 </el-collapse-item>
-                <el-collapse-item title="第六部分">
+                <el-collapse-item title="六. 高中階段課外活動及所獲獎項">
                     <div class="part6">
                         <el-row>
                             <el-col :span="24">
-                                <div class="title grid-content bg-purple-dark">六. EXTRA-CURRICULAR ACTIVITIES, AND
+                                <div class="title grid-content bg-purple-dark">EXTRA-CURRICULAR ACTIVITIES, AND
                                     AWARDS
                                     高中階段課外活動及所獲獎項
                                 </div>
@@ -603,11 +602,11 @@
 
                     </div>
                 </el-collapse-item>
-                <el-collapse-item title="第七部分">
+                <el-collapse-item title="七. 個人陳述">
                     <div class="part7">
                         <el-row>
                             <el-col :span="24">
-                                <div class="title grid-content bg-purple-dark">七. PERSONAL STATEMENT 個人陳述</div>
+                                <div class="title grid-content bg-purple-dark">PERSONAL STATEMENT 個人陳述</div>
                             </el-col>
                             NOTES: Write briefly your reasons for applying to study at Nanjing University, outlining the
                             curricula which
@@ -766,9 +765,15 @@
                     highSchool: [
                         {required: true, message: '請選擇現就讀學校', trigger: 'change'}
                     ],
+                    email: [
+                        {required: true, message: '請填寫郵箱', trigger: 'blur'}
+                    ],
+                    idCardNumber: [
+                        {required: true, message: '請填寫身份證號碼', trigger: 'blur'}
+                    ],
                     mtpNumber: [
                         {required: true, message: '請輸入8位台胞證號碼', trigger: 'blur'},
-                        {min: 8, max: 8, message: '請輸入8位台胞證號碼', trigger: 'change'}
+                        {min: 8, max: 8, message: '請輸入8位台胞證號碼', trigger: 'blur'}
                     ],
                     graduationYear: [
                         {required: true, message: '請選擇畢業年份', trigger: 'blur'}
@@ -918,6 +923,7 @@
             },
             submitApplication() {
                 let information = this.formatApplication();
+                information.cacheOrSubmit = 1; // 提交
                 this.$refs.form.validate((valid) => {
                     if (valid) {
                         sendApplication(information)
@@ -955,8 +961,7 @@
                         return false;
                     }
                 });
-
-            },//有問題
+            },
             getChineseCriteria(point) {
                 let temp = Number(point);
                 if (temp <= 15 && temp >= 13) {
@@ -1043,10 +1048,6 @@
                         if (info.birthDate !== null) {
                             this.form.birthDate = info.birthDate;
                         }
-
-                        this.form.email = info.email;
-                        this.form.mtpNumber = info.mtpNumber;
-                        this.form.idCardNumber = info.idCardNumber;
                         if (info.highSchool !== '') {
                             this.form.highSchool = info.highSchool.split(',');
                         }
@@ -1145,6 +1146,7 @@
             tempSaveApplication() {
                 // 暫存
                 let information = this.formatApplication();
+                information.cacheOrSubmit = 0; // 暫存
                 sendApplication(information)
                     .then((res) => {
                         if (res.data.succeed) {

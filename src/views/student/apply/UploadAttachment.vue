@@ -31,9 +31,9 @@
                     <b style="color: #409EFF">點擊上傳</b>
                 </div>
                 <div slot="tip" style="color: #909399; font-size: 12px;">
-                    只能上傳不超過兩個PDF文件，且大小不超過20M
-                    <span style="font-weight:bold; color: #F56C6C;">
-                        {{hasFinishedUpload?'；為確保準確，如需修改，請重新上傳':''}}</span>
+                    只能上傳不超過<span class="mark">兩個PDF</span>文件，且大小不超過<span class="mark">20M</span>
+                    {{hasFinishedUpload?'；':''}}
+                    <span class="mark">{{hasFinishedUpload?'為確保準確，如需修改，請重新上傳':''}}</span>
                 </div>
             </el-upload>
             <div class="footer">
@@ -55,9 +55,9 @@
                     <b style="color: #409EFF">點擊上傳</b>
                 </div>
                 <div slot="tip" style="color: #909399; font-size: 12px;">
-                    只能上傳一個PDF文件，且大小不超過20M
-                    <span style="font-weight:bold; color: #F56C6C;">
-                        {{hasFinishedUpload?'；為確保準確，如需修改，請重新上傳':''}}</span>
+                    只能上傳不超過<span class="mark">兩個PDF</span>文件，且大小不超過<span class="mark">20M</span>
+                    {{hasFinishedUpload?'；':''}}
+                    <span class="mark">{{hasFinishedUpload?'為確保準確，如需修改，請重新上傳':''}}</span>
                 </div>
             </el-upload>
             <div class="footer">
@@ -79,9 +79,9 @@
                     <b style="color: #409EFF">點擊上傳</b>
                 </div>
                 <div slot="tip" style="color: #909399; font-size: 12px;">
-                    只能上傳不超過兩個PDF文件，且大小不超過20M
-                    <span style="font-weight:bold; color: #F56C6C;">
-                        {{hasFinishedUpload?'；為確保準確，如需修改，請重新上傳':''}}</span>
+                    只能上傳不超過<span class="mark">兩個PDF</span>文件，且大小不超過<span class="mark">20M</span>
+                    {{hasFinishedUpload?'；':''}}
+                    <span class="mark">{{hasFinishedUpload?'為確保準確，如需修改，請重新上傳':''}}</span>
                 </div>
             </el-upload>
             <div class="footer">
@@ -102,9 +102,9 @@
                     <b style="color: #409EFF">點擊上傳</b>
                 </div>
                 <div slot="tip" style="color: #909399; font-size: 12px;">
-                    只能上傳不超過三個PDF文件，且大小不超過20M
-                    <span style="font-weight:bold; color: #F56C6C;">
-                        {{hasFinishedUpload?'；為確保準確，如需修改，請重新上傳':''}}</span>
+                    只能上傳不超過<span class="mark">兩個PDF</span>文件，且大小不超過<span class="mark">20M</span>
+                    {{hasFinishedUpload?'；':''}}
+                    <span class="mark">{{hasFinishedUpload?'為確保準確，如需修改，請重新上傳':''}}</span>
                 </div>
             </el-upload>
             <div class="footer">
@@ -197,7 +197,7 @@
         headers: { "Content-Type": "multipart/form-data" }
       }
       if (this.identityFileData.getAll('file').length === 0) {
-        this.$message.error('請上傳附件')
+        this.$message.error('請按照要求上傳附件')
       } else {
         this.identityFileData.append('type', '身份证明')
         this.identityFileData.getAll('file').forEach(file => {
@@ -260,7 +260,7 @@
         headers: { "Content-Type": "multipart/form-data" }
       }
       if (this.transcriptFileData.getAll('file').length === 0) {
-        this.$message.error('請上傳附件')
+        this.$message.error('請按照要求上傳附件')
       } else {
         this.transcriptFileData.append('type', '学测成绩单')
         this.transcriptFileData.getAll('file').forEach(file => {
@@ -323,7 +323,7 @@
         headers: { "Content-Type": "multipart/form-data" }
       }
       if (this.recommendFileData.getAll('file').length === 0) {
-        this.$message.error('請上傳附件')
+        this.$message.error('請按照要求上傳附件')
       } else {
         this.recommendFileData.append('type', '推荐信')
         this.recommendFileData.getAll('file').forEach(file => {
@@ -386,7 +386,7 @@
         headers: { "Content-Type": "multipart/form-data" }
       }
       if (this.othersFileData.getAll('file').length === 0) {
-        this.$message.error('請上傳附件')
+        this.$message.error('請按照要求上傳附件')
       } else {
         this.othersFileData.append('type', '其他材料')
         this.othersFileData.getAll('file').forEach(file => {
@@ -500,6 +500,11 @@
             float: right;
             margin-top: 20px;
             margin-bottom: 20px;
+        }
+
+        .mark {
+            font-weight: bold;
+            color: #F56C6C;
         }
     }
 </style>

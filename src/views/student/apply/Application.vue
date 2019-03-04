@@ -913,9 +913,7 @@
                 if (information.birthDate.indexOf('T') >= 0) {
                     information.birthDate = information.birthDate.substring(0, information.birthDate.indexOf('T'))
                 }
-                if (information.primarySchool.startDate('T') >= 0) {
-                    information.primarySchool.startDate = information.primarySchool.startDate.substring(0, information.primarySchool.startDate.indexOf('T'))
-                }
+
                 return information;
             },
             submitApplication() {
@@ -1045,9 +1043,7 @@
                         if (info.birthDate !== null) {
                             this.form.birthDate = info.birthDate;
                         }
-                        if (info.primarySchool.startDate !== null) {
-                            this.form.primarySchool.startDate = info.primarySchool.startDate;
-                        }
+
                         this.form.email = info.email;
                         this.form.mtpNumber = info.mtpNumber;
                         this.form.idCardNumber = info.idCardNumber;

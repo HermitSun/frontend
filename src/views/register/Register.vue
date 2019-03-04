@@ -76,7 +76,7 @@
             if (value === '') {
               callback(new Error('請輸入身份證號'))
             } else if (!/^[A-Z][0-9]{9}$/.test(value)) {
-              callback(new Error('請檢查身份證是否正確'))
+              callback(new Error('請檢查身份證是否正確，首字母須大寫'))
             } else {
               callback()
             }

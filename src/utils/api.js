@@ -1,7 +1,7 @@
 import axios from 'axios';
 import {getStudentToken, getAdminToken} from "./token.ts";
 
-const BASE_URL = 'http://localhost:3141';
+const BASE_URL = 'http://47.107.239.200:3141';
 
 axios.defaults.baseURL = BASE_URL;
 

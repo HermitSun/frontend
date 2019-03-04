@@ -171,8 +171,7 @@
                         <el-row>
                             <el-col :span="24">
                                 <div class="title grid-content bg-purple-dark">RESULT OF GENERAL SCHOLASTIC ABILITY
-                                    TEST (ATTACH
-                                    A COPY OF RESULT<br/>
+                                    TEST<br/>
                                     台灣地區大學入學考試學科能力測驗成績
                                 </div>
                             </el-col>
@@ -553,6 +552,7 @@
                             </el-radio-group>
                         </el-form-item>
 
+                        <!--
                         <br>If you are not offered for any of the above preferred programmes, will you accept other
                         programmes
                         assigned by NJU?本人是否願意被錄取到其他專業（類）？<br/>
@@ -562,6 +562,7 @@
                                 <el-radio label="false">No 不願意</el-radio>
                             </el-radio-group>
                         </el-form-item>
+                        -->
                     </div>
                 </el-collapse-item>
                 <el-collapse-item title="六. 高中階段課外活動及所獲獎項">

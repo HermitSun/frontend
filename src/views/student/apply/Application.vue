@@ -176,107 +176,125 @@
                                 </div>
                             </el-col>
                         </el-row>
+
+                        <el-form label-width="130px" :inline="true">
+                            <el-form-item label=" " label-width="120px"></el-form-item>
+                            <el-form-item label="CHINESE 國文"></el-form-item>
+                            <el-form-item label="MATH 數學"></el-form-item>
+                            <el-form-item label="ENGLISH 英文"></el-form-item>
+                            <el-form-item label="SOCIAL 社會"></el-form-item>
+                            <el-form-item label="SCIENCES 自然"></el-form-item>
+
+                        </el-form>
+
                         <el-form :model="form.results" :rules="rules" label-width="140px" :inline="true">
-                            <el-form-item label="Results 原始成績" label-width="140px">
+                            <el-form-item label="Results 原始成績">
+                                <div slot="label">
+                                    <div>Results</div>
+                                    <div>原始成績</div>
+                                </div>
                                 <el-form-item prop="chinese">
                                     <el-input v-model="form.results.chinese" placeholder="CHINESE 國文"
-                                              style="width:180px"></el-input>
+                                              style="width:130px"></el-input>
                                 </el-form-item>
                                 <el-form-item prop="math">
                                     <el-input v-model="form.results.math" placeholder="MATH 數學"
-                                              style="width:180px"></el-input>
+                                              style="width:130px"></el-input>
                                 </el-form-item>
                                 <el-form-item prop="english">
                                     <el-input v-model="form.results.english" placeholder="ENGLISH 英文"
-                                              style="width:180px"></el-input>
+                                              style="width:130px"></el-input>
                                 </el-form-item>
                                 <el-form-item>
                                     <el-input v-model="form.results.socials" placeholder="SOCIAL 社會"
-                                              style="width:180px"></el-input>
+                                              style="width:130px"></el-input>
                                 </el-form-item>
                                 <el-form-item>
                                     <el-input v-model="form.results.sciences" placeholder="SCIENCES 自然"
-                                              style="width:180px"></el-input>
+                                              style="width:130px"></el-input>
                                 </el-form-item>
                             </el-form-item>
                         </el-form>
-                        <el-form :model="form.actualLevelPoints" :rules="rules" label-width="130px" :inline="true">
-
-                            <el-form-item label="Actual level points 實得級分" label-width="202px">
+                        <el-form :model="form.actualLevelPoints" :rules="rules" label-width="140px" :inline="true">
+                            <el-form-item>
+                                <div slot="label">
+                                    <div>Actual level points</div>
+                                    <div>實得級分</div>
+                                </div>
                                 <el-form-item prop="chinese">
                                     <el-input v-model="form.actualLevelPoints.chinese" placeholder="CHINESE 國文"
-                                              style="width:180px"></el-input>
+                                              style="width:130px"></el-input>
                                 </el-form-item>
                                 <el-form-item prop="math">
                                     <el-input v-model="form.actualLevelPoints.math" placeholder="MATH 數學"
-                                              style="width:180px"></el-input>
+                                              style="width:130px"></el-input>
                                 </el-form-item>
                                 <el-form-item prop="english">
                                     <el-input v-model="form.actualLevelPoints.english" placeholder="ENGLISH 英文"
-                                              style="width:180px"></el-input>
+                                              style="width:130px"></el-input>
                                 </el-form-item>
                                 <el-form-item>
                                     <el-input v-model="form.actualLevelPoints.socials" placeholder="SOCIAL 社會"
-                                              style="width:180px"></el-input>
+                                              style="width:130px"></el-input>
                                 </el-form-item>
                                 <el-form-item>
                                     <el-input v-model="form.actualLevelPoints.sciences" placeholder="SCIENCES 自然"
-                                              style="width:180px"></el-input>
+                                              style="width:130px"></el-input>
                                 </el-form-item>
                             </el-form-item>
                         </el-form>
                         <el-form :model="form.levelRange" :rules="rules" :inline="true">
-                            <el-form-item label="Level range 級距" label-width="132px">
+                            <el-form-item label-width="140px">
+                                <div slot="label">
+                                    <div>Level range</div>
+                                    <div>級距</div>
+                                </div>
                                 <el-form-item prop="chinese">
                                     <el-input v-model="form.levelRange.chinese" placeholder="CHINESE 國文"
-                                              style="width:180px" :disabled="true"></el-input>
+                                              style="width:130px" :disabled="true"></el-input>
                                 </el-form-item>
                                 <el-form-item prop="math">
                                     <el-input v-model="form.levelRange.math" placeholder="MATH 數學"
-                                              style="width:180px" :disabled="true"></el-input>
+                                              style="width:130px" :disabled="true"></el-input>
                                 </el-form-item>
                                 <el-form-item prop="english">
                                     <el-input v-model="form.levelRange.english" placeholder="ENGLISH 英文"
-                                              style="width:180px" :disabled="true"></el-input>
+                                              style="width:130px" :disabled="true"></el-input>
                                 </el-form-item>
                                 <el-form-item>
                                     <el-input v-model="form.levelRange.socials" placeholder="SOCIAL 社會"
-                                              style="width:180px" :disabled="true"></el-input>
+                                              style="width:130px" :disabled="true"></el-input>
                                 </el-form-item>
                                 <el-form-item>
                                     <el-input v-model="form.levelRange.sciences" placeholder="SCIENCES 自然"
-                                              style="width:180px" :disabled="true"></el-input>
+                                              style="width:130px" :disabled="true"></el-input>
                                 </el-form-item>
                             </el-form-item>
                         </el-form>
                         <el-form :model="form.singleSubjectCriteria" :rules="rules" :inline="true">
-                            <el-form-item label="Single subject criteria 單科標準" label-width="222px">
+                            <el-form-item label-width="140px">
+                                <div slot="label">
+                                    <div>Single subject criteria</div>
+                                    <div>單科標準</div>
+                                </div>
                                 <el-form-item prop="chinese">
-                                    <el-input v-model="getCriteria1" placeholder="CHINESE 國文" style="width:180px"
+                                    <el-input v-model="getCriteria1" placeholder="CHINESE 國文" style="width:130px"
                                               :disabled="true"></el-input>
                                 </el-form-item>
                                 <el-form-item prop="math">
-                                    <el-input v-model="getCriteria2" placeholder="MATH 數學" style="width:180px"
+                                    <el-input v-model="getCriteria2" placeholder="MATH 數學" style="width:130px"
                                               :disabled="true"></el-input>
                                 </el-form-item>
                                 <el-form-item prop="english">
-                                    <el-input v-model="getCriteria3" placeholder="ENGLISH 英文" style="width:180px"
+                                    <el-input v-model="getCriteria3" placeholder="ENGLISH 英文" style="width:130px"
                                               :disabled="true"></el-input>
                                 </el-form-item>
                                 <el-form-item>
-                                    <el-input v-model="getCriteria4" placeholder="SOCIAL 社會" style="width:180px"
+                                    <el-input v-model="getCriteria4" placeholder="SOCIAL 社會" style="width:130px"
                                               :disabled="true"></el-input>
-                                    <!--
-                                    <el-select v-model="form.singleSubjectCriteria.socials" placeholder="SOCIAL 社會"
-                                               style="width:180px">
-                                        <template v-for="item of getSubjectCriteria()">
-                                            <el-option :label="item.label" :value="item.value"></el-option>
-                                        </template>
-                                    </el-select>
-                                    -->
                                 </el-form-item>
                                 <el-form-item>
-                                    <el-input v-model="getCriteria5" placeholder="SCIENCES 自然" style="width:180px"
+                                    <el-input v-model="getCriteria5" placeholder="SCIENCES 自然" style="width:130px"
                                               :disabled="true"></el-input>
                                 </el-form-item>
                             </el-form-item>
@@ -503,49 +521,70 @@
                         </el-row>
 
                         <el-form :model="form.curriculumChoices" :rules="rules" ref="form.curriculumChoices"
-                                 label-width="130px" :inline="true" hide-required-asterisk>
+                                 label-width="130px" hide-required-asterisk>
 
-                            <el-form-item>
-                                <el-form-item label="1st choice 第一志願" prop="firstChoice" label-width="155px">
-                                    <!--接口文檔first拼錯-->
+                            <el-form-item label="1st choice 第一志願" prop="firstChoice" label-width="155px">
+                                <!--接口文檔first拼錯-->
+                                <transition name="el-fade-in">
                                     <el-select v-model="form.curriculumChoices.firstChoice" placeholder="請選擇第一志願"
-                                               style="width: 300px;" clearable filterable>
+                                               style="width: 300px" clearable filterable v-show="showFirstChoice">
                                         <template v-for="major of firstChoiceMajors">
                                             <el-option :label="major.label" :value="major.value"></el-option>
                                         </template>
                                     </el-select>
-                                </el-form-item>
-                                <el-form-item label="2st choice 第二志願" prop="secondChoice" label-width="155px">
+                                </transition>
+                                <el-button size="mini" icon="el-icon-caret-top" :disabled="true"></el-button>
+                                <el-button size="mini" icon="el-icon-caret-bottom"
+                                           @click="exchangeFirstSecond"></el-button>
+                            </el-form-item>
+                            <el-form-item label="2st choice 第二志願" prop="secondChoice" label-width="155px">
+                                <transition name="el-fade-in">
                                     <el-select v-model="form.curriculumChoices.secondChoice" placeholder="請選擇第二志願"
-                                               style="width: 300px;" clearable filterable>
+                                               style="width: 300px;" clearable filterable v-show="showSecondChoice">
                                         <template v-for="major of secondChoiceMajors">
                                             <el-option :label="major.label" :value="major.value"></el-option>
                                         </template>
                                     </el-select>
-                                </el-form-item>
-                                <el-form-item label="3st choice 第三志願" label-width="155px">
+                                </transition>
+                                <el-button size="mini" icon="el-icon-caret-top"
+                                           @click="exchangeFirstSecond"></el-button>
+                                <el-button size="mini" icon="el-icon-caret-bottom"
+                                           @click="exchangeSecondThird"></el-button>
+                            </el-form-item>
+                            <el-form-item label="3st choice 第三志願" label-width="155px">
+                                <transition name="el-fade-in">
                                     <el-select v-model="form.curriculumChoices.thirdChoice" placeholder="請選擇第三志願"
-                                               style="width: 300px;" clearable filterable>
+                                               style="width: 300px;" clearable filterable v-show="showThirdChoice">
                                         <template v-for="major of thirdChoiceMajors">
                                             <el-option :label="major.label" :value="major.value"></el-option>
                                         </template>
                                     </el-select>
-                                </el-form-item>
-                                <el-form-item label="4st choice 第四志願" label-width="155px">
+                                </transition>
+                                <el-button size="mini" icon="el-icon-caret-top"
+                                           @click="exchangeSecondThird"></el-button>
+                                <el-button size="mini" icon="el-icon-caret-bottom"
+                                           @click="exchangeThirdFourth"></el-button>
+                            </el-form-item>
+                            <el-form-item label="4st choice 第四志願" label-width="155px">
+                                <transition name="el-fade-in">
                                     <el-select v-model="form.curriculumChoices.fourthChoice" placeholder="請選擇第四志願"
-                                               style="width: 300px;" clearable filterable>
+                                               style="width: 300px;" clearable filterable v-show="showFourthChoice">
                                         <template v-for="major of fourthChoiceMajors">
                                             <el-option :label="major.label" :value="major.value"></el-option>
                                         </template>
                                     </el-select>
-                                </el-form-item>
+                                </transition>
+                                <el-button size="mini" icon="el-icon-caret-top"
+                                           @click="exchangeThirdFourth"></el-button>
+                                <el-button size="mini" icon="el-icon-caret-bottom" :disabled="true"></el-button>
                             </el-form-item>
+
                         </el-form>
 
                         <el-form-item label="You are 您屬於" prop="artOrSci">
                             <el-radio-group v-model="form.artOrSci">
-                                <el-radio :label="0">Arts 文史類</el-radio>
-                                <el-radio :label="1">Science 理工農醫類</el-radio>
+                                <el-radio :label="0" @click.native="clearChoices">Arts 文史類</el-radio>
+                                <el-radio :label="1" @click.native="clearChoices">Science 理工農醫類</el-radio>
                             </el-radio-group>
                         </el-form-item>
 
@@ -651,6 +690,10 @@
         data() {
             return {
                 hasFinished: false,
+                showFirstChoice: true,
+                showSecondChoice: true,
+                showThirdChoice: true,
+                showFourthChoice: true,
                 options: highSchools,
                 form: {
                     firstName: '',
@@ -830,14 +873,10 @@
         mounted() {
             this.$nextTick(() => {
                 this.checkApplicationStatus();
-            })
+            });
         },
         watch: {
             isArt(val) {
-                this.form.curriculumChoices.firstChoice = '';
-                this.form.curriculumChoices.secondChoice = '';
-                this.form.curriculumChoices.thirdChoice = '';
-                this.form.curriculumChoices.fourthChoice = '';
                 this.majors = this.majorInfos.filter(major => {
                     return val === 0 ? major.acceptArt : !major.acceptArt
                 });
@@ -895,7 +934,12 @@
             }
         },
         methods: {
-
+            clearChoices() {
+                this.form.curriculumChoices.firstChoice = '';
+                this.form.curriculumChoices.secondChoice = '';
+                this.form.curriculumChoices.thirdChoice = '';
+                this.form.curriculumChoices.fourthChoice = '';
+            },
             removeMember(item) {
                 let index = this.familyParticulars.members.indexOf(item);
                 if (index !== -1) {
@@ -1106,7 +1150,6 @@
 
                         if (info.curriculumChoices.firstChoice !== null) {
                             this.form.curriculumChoices.firstChoice = info.curriculumChoices.firstChoice;
-                            console.log(this.form.curriculumChoices.firstChoice)
                         }
                         if (info.curriculumChoices.secondChoice !== null) {
                             this.form.curriculumChoices.secondChoice = info.curriculumChoices.secondChoice;
@@ -1266,8 +1309,62 @@
                             message: err,
                             type: 'error'
                         });
-                    })
-            }
+                    });
+
+            },
+            exchangeFirstSecond() {
+                // let _this = this;
+                // new Promise((resolve) => {
+                //     this.showFirstChoice = false;
+                //     this.showSecondChoice = false;
+                //     resolve(_this)
+                // }).then((that) => {
+                //     let temp = that.form.curriculumChoices.firstChoice;
+                //     that.form.curriculumChoices.firstChoice = that.form.curriculumChoices.secondChoice;
+                //     that.form.curriculumChoices.secondChoice = temp;
+                //     return that;
+                // }).then((that) => {
+                //     that.showFirstChoice = true;
+                //     that.showSecondChoice = true;
+                // });
+                this.showFirstChoice = false;
+                this.showSecondChoice = false;
+                setTimeout(() => {
+                    let temp = this.form.curriculumChoices.firstChoice;
+                    this.form.curriculumChoices.firstChoice = this.form.curriculumChoices.secondChoice;
+                    this.form.curriculumChoices.secondChoice = temp;
+                }, 200);
+                setTimeout(() => {
+                    this.showFirstChoice = true;
+                    this.showSecondChoice = true;
+                }, 200);
+            },
+            exchangeSecondThird() {
+                this.showSecondChoice = false;
+                this.showThirdChoice = false;
+                setTimeout(() => {
+                    let temp = this.form.curriculumChoices.secondChoice;
+                    this.form.curriculumChoices.secondChoice = this.form.curriculumChoices.thirdChoice;
+                    this.form.curriculumChoices.thirdChoice = temp;
+                }, 200);
+                setTimeout(() => {
+                    this.showSecondChoice = true;
+                    this.showThirdChoice = true;
+                }, 200);
+            },
+            exchangeThirdFourth() {
+                this.showThirdChoice = false;
+                this.showFourthChoice = false;
+                setTimeout(() => {
+                    let temp = this.form.curriculumChoices.thirdChoice;
+                    this.form.curriculumChoices.thirdChoice = this.form.curriculumChoices.fourthChoice;
+                    this.form.curriculumChoices.fourthChoice = temp;
+                }, 200);
+                setTimeout(() => {
+                    this.showThirdChoice = true;
+                    this.showFourthChoice = true;
+                }, 200);
+            },
         }
     }
 </script>
@@ -1362,4 +1459,8 @@
         width: 100%;
         height: 390px;
     }
+
+    /*.el-form-item__content {*/
+    /*margin-left: 0 !important;*/
+    /*}*/
 </style>

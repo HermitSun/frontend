@@ -176,107 +176,125 @@
                                 </div>
                             </el-col>
                         </el-row>
+
+                        <el-form label-width="130px" :inline="true">
+                            <el-form-item label=" " label-width="120px"></el-form-item>
+                            <el-form-item label="CHINESE 國文"></el-form-item>
+                            <el-form-item label="MATH 數學"></el-form-item>
+                            <el-form-item label="ENGLISH 英文"></el-form-item>
+                            <el-form-item label="SOCIAL 社會"></el-form-item>
+                            <el-form-item label="SCIENCES 自然"></el-form-item>
+
+                        </el-form>
+
                         <el-form :model="form.results" :rules="rules" label-width="140px" :inline="true">
-                            <el-form-item label="Results 原始成績" label-width="140px">
+                            <el-form-item label="Results 原始成績">
+                                <div slot="label">
+                                    <div>Results</div>
+                                    <div>原始成績</div>
+                                </div>
                                 <el-form-item prop="chinese">
                                     <el-input v-model="form.results.chinese" placeholder="CHINESE 國文"
-                                              style="width:180px"></el-input>
+                                              style="width:130px"></el-input>
                                 </el-form-item>
                                 <el-form-item prop="math">
                                     <el-input v-model="form.results.math" placeholder="MATH 數學"
-                                              style="width:180px"></el-input>
+                                              style="width:130px"></el-input>
                                 </el-form-item>
                                 <el-form-item prop="english">
                                     <el-input v-model="form.results.english" placeholder="ENGLISH 英文"
-                                              style="width:180px"></el-input>
+                                              style="width:130px"></el-input>
                                 </el-form-item>
                                 <el-form-item>
                                     <el-input v-model="form.results.socials" placeholder="SOCIAL 社會"
-                                              style="width:180px"></el-input>
+                                              style="width:130px"></el-input>
                                 </el-form-item>
                                 <el-form-item>
                                     <el-input v-model="form.results.sciences" placeholder="SCIENCES 自然"
-                                              style="width:180px"></el-input>
+                                              style="width:130px"></el-input>
                                 </el-form-item>
                             </el-form-item>
                         </el-form>
-                        <el-form :model="form.actualLevelPoints" :rules="rules" label-width="130px" :inline="true">
-
-                            <el-form-item label="Actual level points 實得級分" label-width="202px">
+                        <el-form :model="form.actualLevelPoints" :rules="rules" label-width="140px" :inline="true">
+                            <el-form-item >
+                                <div slot="label">
+                                    <div>Actual level points</div>
+                                    <div>實得級分</div>
+                                </div>
                                 <el-form-item prop="chinese">
                                     <el-input v-model="form.actualLevelPoints.chinese" placeholder="CHINESE 國文"
-                                              style="width:180px"></el-input>
+                                              style="width:130px"></el-input>
                                 </el-form-item>
                                 <el-form-item prop="math">
                                     <el-input v-model="form.actualLevelPoints.math" placeholder="MATH 數學"
-                                              style="width:180px"></el-input>
+                                              style="width:130px"></el-input>
                                 </el-form-item>
                                 <el-form-item prop="english">
                                     <el-input v-model="form.actualLevelPoints.english" placeholder="ENGLISH 英文"
-                                              style="width:180px"></el-input>
+                                              style="width:130px"></el-input>
                                 </el-form-item>
                                 <el-form-item>
                                     <el-input v-model="form.actualLevelPoints.socials" placeholder="SOCIAL 社會"
-                                              style="width:180px"></el-input>
+                                              style="width:130px"></el-input>
                                 </el-form-item>
                                 <el-form-item>
                                     <el-input v-model="form.actualLevelPoints.sciences" placeholder="SCIENCES 自然"
-                                              style="width:180px"></el-input>
+                                              style="width:130px"></el-input>
                                 </el-form-item>
                             </el-form-item>
                         </el-form>
                         <el-form :model="form.levelRange" :rules="rules" :inline="true">
-                            <el-form-item label="Level range 級距" label-width="132px">
+                            <el-form-item label-width="140px">
+                                <div slot="label">
+                                    <div>Level range</div>
+                                    <div>級距</div>
+                                </div>
                                 <el-form-item prop="chinese">
                                     <el-input v-model="form.levelRange.chinese" placeholder="CHINESE 國文"
-                                              style="width:180px" :disabled="true"></el-input>
+                                              style="width:130px" :disabled="true"></el-input>
                                 </el-form-item>
                                 <el-form-item prop="math">
                                     <el-input v-model="form.levelRange.math" placeholder="MATH 數學"
-                                              style="width:180px" :disabled="true"></el-input>
+                                              style="width:130px" :disabled="true"></el-input>
                                 </el-form-item>
                                 <el-form-item prop="english">
                                     <el-input v-model="form.levelRange.english" placeholder="ENGLISH 英文"
-                                              style="width:180px" :disabled="true"></el-input>
+                                              style="width:130px" :disabled="true"></el-input>
                                 </el-form-item>
                                 <el-form-item>
                                     <el-input v-model="form.levelRange.socials" placeholder="SOCIAL 社會"
-                                              style="width:180px" :disabled="true"></el-input>
+                                              style="width:130px" :disabled="true"></el-input>
                                 </el-form-item>
                                 <el-form-item>
                                     <el-input v-model="form.levelRange.sciences" placeholder="SCIENCES 自然"
-                                              style="width:180px" :disabled="true"></el-input>
+                                              style="width:130px" :disabled="true"></el-input>
                                 </el-form-item>
                             </el-form-item>
                         </el-form>
                         <el-form :model="form.singleSubjectCriteria" :rules="rules" :inline="true">
-                            <el-form-item label="Single subject criteria 單科標準" label-width="222px">
+                            <el-form-item label-width="140px">
+                                <div slot="label">
+                                    <div>Single subject criteria</div>
+                                    <div>單科標準</div>
+                                </div>
                                 <el-form-item prop="chinese">
-                                    <el-input v-model="getCriteria1" placeholder="CHINESE 國文" style="width:180px"
+                                    <el-input v-model="getCriteria1" placeholder="CHINESE 國文" style="width:130px"
                                               :disabled="true"></el-input>
                                 </el-form-item>
                                 <el-form-item prop="math">
-                                    <el-input v-model="getCriteria2" placeholder="MATH 數學" style="width:180px"
+                                    <el-input v-model="getCriteria2" placeholder="MATH 數學" style="width:130px"
                                               :disabled="true"></el-input>
                                 </el-form-item>
                                 <el-form-item prop="english">
-                                    <el-input v-model="getCriteria3" placeholder="ENGLISH 英文" style="width:180px"
+                                    <el-input v-model="getCriteria3" placeholder="ENGLISH 英文" style="width:130px"
                                               :disabled="true"></el-input>
                                 </el-form-item>
                                 <el-form-item>
-                                    <el-input v-model="getCriteria4" placeholder="SOCIAL 社會" style="width:180px"
+                                    <el-input v-model="getCriteria4" placeholder="SOCIAL 社會" style="width:130px"
                                               :disabled="true"></el-input>
-                                    <!--
-                                    <el-select v-model="form.singleSubjectCriteria.socials" placeholder="SOCIAL 社會"
-                                               style="width:180px">
-                                        <template v-for="item of getSubjectCriteria()">
-                                            <el-option :label="item.label" :value="item.value"></el-option>
-                                        </template>
-                                    </el-select>
-                                    -->
                                 </el-form-item>
                                 <el-form-item>
-                                    <el-input v-model="getCriteria5" placeholder="SCIENCES 自然" style="width:180px"
+                                    <el-input v-model="getCriteria5" placeholder="SCIENCES 自然" style="width:130px"
                                               :disabled="true"></el-input>
                                 </el-form-item>
                             </el-form-item>
@@ -509,7 +527,7 @@
                                 <el-form-item label="1st choice 第一志願" prop="firstChoice" label-width="155px">
                                     <!--接口文檔first拼錯-->
                                     <el-select v-model="form.curriculumChoices.firstChoice" placeholder="請選擇第一志願"
-                                               style="width: 300px;" clearable filterable>
+                                               style="width: 300px;">
                                         <template v-for="major of this.majors">
                                             <el-option :label="major.label" :value="major.value"></el-option>
                                         </template>

@@ -1,7 +1,7 @@
 import axios from 'axios';
 import {getStudentToken, getAdminToken} from "./token.ts";
 
-const BASE_URL = 'http://47.107.239.200:3141';
+const BASE_URL = 'http://localhost:3141';
 
 axios.defaults.baseURL = BASE_URL;
 
@@ -77,13 +77,16 @@ export const getAdminEmail = () => {
     return axios.get('/email/preAdmission')
 };
 export const adminGetMessage = () => {
-    return axios.get('/message/released_messages');
+    return axios.get('/message/released_broadcast');
 };
 export const adminSendMessage = (params) => {
     return axios.post('/message/global_broadcast', params);
 };
 export const adminUpdateMessage = (params) => {
-    return axios.post('/message/', params)
+    return axios.put('/message/global_broadcast', params);
+};
+export const adminDeleteMessage = (params) => {
+    return axios.delete('/message/global_broadcast', {params: params});
 };
 
 export const checkStuList = params => {

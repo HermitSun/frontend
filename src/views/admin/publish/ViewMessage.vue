@@ -13,7 +13,7 @@
             <el-table-column label="操作" width="180">
                 <template slot-scope="scope">
                     <el-button size="small" @click="editMessage(scope.$index,scope.row)">编辑</el-button>
-                    <el-button type="danger" size="small" @click="deleteMessage(scope.$index)">删除</el-button>
+                    <el-button type="danger" size="small" @click="deleteMessage(scope.row)">删除</el-button>
                 </template>
             </el-table-column>
         </el-table>
@@ -37,14 +37,14 @@
 
 <script lang="ts">
   import { Vue, Component } from 'vue-property-decorator'
-  import { adminGetMessage, adminUpdateMessage } from 'utils/api'
+  import { adminDeleteMessage, adminGetMessage, adminUpdateMessage } from 'utils/api'
 
   @Component({})
   export default class ViewMessage extends Vue {
     messages: any = []
     selections: any = []
     editForm: any = {
-      index: '',
+      id: '',
       title: '',
       content: '',
       releasedTime: ''
@@ -60,6 +60,14 @@
     editFormVisible: boolean = false
 
     mounted () {
+      this.getMessages()
+    }
+
+    handleSelectionChange (val) {
+      this.selections = val
+    }
+
+    getMessages () {
       adminGetMessage()
         .then((res) => {
           if (res.data) {
@@ -82,52 +90,53 @@
         })
     }
 
-    handleSelectionChange (val) {
-      this.selections = val
-    }
-
     editMessage (index, row) {
       this.editFormVisible = true
       this.editForm = {
-        index: index,
+        id: index,
         title: row.title,
         content: row.content,
         releasedTime: row.releasedTime
       }
     }
 
-    deleteMessage (index) {
+    deleteMessage (row) {
+      let _this = this
+      let ids = []
+      ids.push(row.id)
       this.$confirm('确认删除？')
         .then(() => {
-          this.messages.splice(index, 1)
-          adminUpdateMessage(this.messages)
-            .then((res) => {
-              if (res.data) {
-                this.$message({
-                  message: '删除成功',
-                  type: 'success'
-                })
-              } else {
-                this.$message({
-                  message: '删除失败',
-                  type: 'error'
-                })
-              }
-            })
-            .catch((err) => {
+          adminDeleteMessage({
+            ids: ids
+          }).then((res) => {
+            if (res.data) {
               this.$message({
-                message: err,
+                message: '删除成功',
+                type: 'success'
+              })
+            } else {
+              this.$message({
+                message: '删除失败',
                 type: 'error'
               })
+            }
+            return _this
+          }).then(that => {
+            that.getMessages()
+          }).catch((err) => {
+            this.$message({
+              message: err,
+              type: 'error'
             })
+          })
         })
         .catch(() => {
         })
     }
 
     editSubmit () {
-      this.messages[this.editForm.index].title = this.editForm.title
-      this.messages[this.editForm.index].content = this.editForm.content
+      this.messages[this.editForm.id].title = this.editForm.title
+      this.messages[this.editForm.id].content = this.editForm.content
       adminUpdateMessage({
         messages: this.messages
       }).then((res) => {
@@ -136,6 +145,7 @@
             message: '编辑成功',
             type: 'success'
           })
+          this.editFormVisible = false
         } else {
           this.$message({
             message: res.data.msg,

@@ -510,34 +510,31 @@
                                     <!--接口文檔first拼錯-->
                                     <el-select v-model="form.curriculumChoices.firstChoice" placeholder="請選擇第一志願"
                                                style="width: 300px;" clearable filterable>
-                                        <template v-for="major of this.majors">
+                                        <template v-for="major of firstChoiceMajors">
                                             <el-option :label="major.label" :value="major.value"></el-option>
                                         </template>
                                     </el-select>
                                 </el-form-item>
                                 <el-form-item label="2st choice 第二志願" prop="secondChoice" label-width="155px">
                                     <el-select v-model="form.curriculumChoices.secondChoice" placeholder="請選擇第二志願"
-                                               style="width: 300px;">
-                                        <template
-                                                v-for="major of this.majors.filter((selected)=>{return selected.value!==form.curriculumChoices.firstChoice})">
+                                               style="width: 300px;" clearable filterable>
+                                        <template v-for="major of secondChoiceMajors">
                                             <el-option :label="major.label" :value="major.value"></el-option>
                                         </template>
                                     </el-select>
                                 </el-form-item>
                                 <el-form-item label="3st choice 第三志願" label-width="155px">
                                     <el-select v-model="form.curriculumChoices.thirdChoice" placeholder="請選擇第三志願"
-                                               style="width: 300px;">
-                                        <template
-                                                v-for="major of this.majors.filter((selected)=>{return selected.value!==form.curriculumChoices.firstChoice&&selected.value!==form.curriculumChoices.thirdChoice})">
+                                               style="width: 300px;" clearable filterable>
+                                        <template v-for="major of thirdChoiceMajors">
                                             <el-option :label="major.label" :value="major.value"></el-option>
                                         </template>
                                     </el-select>
                                 </el-form-item>
                                 <el-form-item label="4st choice 第四志願" label-width="155px">
                                     <el-select v-model="form.curriculumChoices.fourthChoice" placeholder="請選擇第四志願"
-                                               style="width: 300px;">
-                                        <template
-                                                v-for="major of this.majors.filter((selected)=>{return selected.value!==form.curriculumChoices.firstChoice&&selected.value!==form.curriculumChoices.thirdChoice&&selected.value!==form.curriculumChoices.fourthChoice})">
+                                               style="width: 300px;" clearable filterable>
+                                        <template v-for="major of fourthChoiceMajors">
                                             <el-option :label="major.label" :value="major.value"></el-option>
                                         </template>
                                     </el-select>
@@ -826,7 +823,8 @@
                         {max: 500, message: "字數不得超過500字", trigger: 'blur'}
                     ],
                 },
-                majors: []
+                majors: [],
+                majorInfos: []
             };
         },
         mounted() {
@@ -834,7 +832,21 @@
                 this.checkApplicationStatus();
             })
         },
+        watch: {
+            isArt(val) {
+                this.form.curriculumChoices.firstChoice = '';
+                this.form.curriculumChoices.secondChoice = '';
+                this.form.curriculumChoices.thirdChoice = '';
+                this.form.curriculumChoices.fourthChoice = '';
+                this.majors = this.majorInfos.filter(major => {
+                    return val === 0 ? major.acceptArt : !major.acceptArt
+                });
+            }
+        },
         computed: {
+            isArt() {
+                return this.form.artOrSci;
+            },
             getCriteria1() {
                 return this.getChineseCriteria(this.form.actualLevelPoints.chinese);
             },
@@ -853,7 +865,34 @@
             isDisabled() {
                 return this.form.needSimplification !== 'true';
             },
-
+            firstChoiceMajors() {
+                return this.majors.filter(major => {
+                    return major.value !== this.form.curriculumChoices.secondChoice
+                        && major.value !== this.form.curriculumChoices.thirdChoice
+                        && major.value !== this.form.curriculumChoices.fourthChoice;
+                });
+            },
+            secondChoiceMajors() {
+                return this.majors.filter(major => {
+                    return major.value !== this.form.curriculumChoices.firstChoice
+                        && major.value !== this.form.curriculumChoices.thirdChoice
+                        && major.value !== this.form.curriculumChoices.fourthChoice;
+                })
+            },
+            thirdChoiceMajors() {
+                return this.majors.filter(major => {
+                    return major.value !== this.form.curriculumChoices.firstChoice
+                        && major.value !== this.form.curriculumChoices.secondChoice
+                        && major.value !== this.form.curriculumChoices.fourthChoice;
+                })
+            },
+            fourthChoiceMajors() {
+                return this.majors.filter(major => {
+                    return major.value !== this.form.curriculumChoices.firstChoice
+                        && major.value !== this.form.curriculumChoices.secondChoice
+                        && major.value !== this.form.curriculumChoices.thirdChoice;
+                })
+            }
         },
         methods: {
 
@@ -1061,9 +1100,13 @@
                         this.form.phoneNumbers.mobilePhoneNumber = info.phoneNumbers.mobilePhoneNumber.substring(info.phoneNumbers.mobilePhoneNumber.indexOf("6") + 1);
                         this.form.phoneNumbers.faxNumber = info.phoneNumbers.faxNumber;
 
+                        this.form.email = info.email;
+                        this.form.idCardNumber = info.idCardNumber;
+                        this.form.mtpNumber = info.mtpNumber;
 
                         if (info.curriculumChoices.firstChoice !== null) {
                             this.form.curriculumChoices.firstChoice = info.curriculumChoices.firstChoice;
+                            console.log(this.form.curriculumChoices.firstChoice)
                         }
                         if (info.curriculumChoices.secondChoice !== null) {
                             this.form.curriculumChoices.secondChoice = info.curriculumChoices.secondChoice;
@@ -1075,7 +1118,6 @@
                             this.form.curriculumChoices.fourthChoice = info.curriculumChoices.fourthChoice;
 
                         }
-
 
                         this.form.artOrSci = info.artOrSci;
                         if (info.acceptAssignment !== false) {
@@ -1189,8 +1231,13 @@
                         res.data.forEach((major) => {
                             majors.push({
                                 label: major.name,
-                                value: major.name
+                                value: major.name,
+                                acceptArt: major.acceptArt
                             });
+                        });
+                        this.majorInfos = majors;
+                        this.majors = majors.filter(major => {
+                            return this.form.artOrSci === 0 ? major.acceptArt : !major.acceptArt;
                         })
                     })
                     .catch((err) => {
@@ -1199,7 +1246,6 @@
                             type: 'error'
                         })
                     });
-                this.majors = majors;
             },
             checkApplicationStatus() {
                 let _this = this;
@@ -1209,9 +1255,11 @@
                         return _this;
                     })
                     .then((that) => {
-                        that.getApplicationInfo();
                         that.getMajors();
                         return _this;
+                    })
+                    .then((that) => {
+                        that.getApplicationInfo();
                     })
                     .catch((err) => {
                         this.$message({

@@ -16,17 +16,17 @@
                 </el-form-item>
             </el-form>
         </el-card>
-        <el-card class="ddl">
-            <el-form :model="ddlForm" :rules="rules" ref="ddlForm">
-                <el-form-item label="申请截止日期" :label-width="'120px'" prop="ddl">
-                    <el-date-picker v-model="ddlForm.ddl" type="date" placeholder="设置申请截止日期"
-                                    value-format="yyyy-MM-dd"></el-date-picker>
-                </el-form-item>
-                <el-form-item>
-                    <el-button type="primary" @click="startEnroll">开启招生</el-button>
-                </el-form-item>
-            </el-form>
-        </el-card>
+        <!--<el-card class="ddl">-->
+            <!--<el-form :model="ddlForm" :rules="rules" ref="ddlForm">-->
+                <!--<el-form-item label="申请截止日期" :label-width="'120px'" prop="ddl">-->
+                    <!--<el-date-picker v-model="ddlForm.ddl" type="date" placeholder="设置申请截止日期"-->
+                                    <!--value-format="yyyy-MM-dd"></el-date-picker>-->
+                <!--</el-form-item>-->
+                <!--<el-form-item>-->
+                    <!--<el-button type="primary" @click="startEnroll">开启招生</el-button>-->
+                <!--</el-form-item>-->
+            <!--</el-form>-->
+        <!--</el-card>-->
     </div>
 </template>
 

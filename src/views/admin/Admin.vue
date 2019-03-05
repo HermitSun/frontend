@@ -90,11 +90,6 @@
   export default class Admin extends Vue {
     systemName: string = '台湾免试生管理系统'
     collapsed: boolean = false//是否折叠（默认否）
-    userName: string = ''
-    userAvatar: string = ''
-    //收到的消息
-    hasNewMessage: boolean = false
-    totalMessage: number = 0
     token: string = ''
 
     mounted () {
@@ -103,14 +98,6 @@
       if (this.token == '') {
         this.$router.push('/')
       }
-      //此处还缺少获取用户名称和信息数量的方法
-      window.setInterval(() => {
-        setTimeout(this.handleNewMessage, 0)
-      }, 30000)//30s查询一次消息
-    }
-
-    handleNewMessage () {
-      this.hasNewMessage = !!this.totalMessage
     }
 
     handleCollapse () {

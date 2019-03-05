@@ -1,6 +1,7 @@
 <template>
     <div class="wrapper">
-        <el-table :data="messages" style="width: 100%" @selection-change="handleSelectionChange">
+        <el-table :data="messages" style="width: 100%" @selection-change="handleSelectionChange"
+                  v-loading="messagesLoading">
             <el-table-column type="selection" width="60"></el-table-column>
             <el-table-column type="index" width="80"></el-table-column>
             <el-table-column type="expand">
@@ -13,10 +14,14 @@
             <el-table-column label="操作" width="180">
                 <template slot-scope="scope">
                     <el-button size="small" @click="editMessage(scope.$index,scope.row)">编辑</el-button>
-                    <el-button type="danger" size="small" @click="deleteMessage(scope.row)">删除</el-button>
+                    <el-button type="danger" size="small" @click="deleteSingleMessage(scope.row)">删除</el-button>
                 </template>
             </el-table-column>
         </el-table>
+        <el-col :span="24" class="toolbar">
+            <el-button type="danger" @click="batchDeleteMessage()" :disabled="selections.length===0">批量删除</el-button>
+            <el-button type="primary" @click="$router.push('/admin/edit-msg')">新增消息</el-button>
+        </el-col>
         <!--编辑-->
         <el-dialog title="编辑" :visible.snyc="editFormVisible" :rules="editFormRules" :before-close="handleEditClose">
             <el-form :model="editForm" label-width="80px" :rules="editFormRules" ref="editForm">
@@ -58,6 +63,7 @@
       ]
     }
     editFormVisible: boolean = false
+    messagesLoading: boolean = false
 
     mounted () {
       this.getMessages()
@@ -68,25 +74,30 @@
     }
 
     getMessages () {
+      this.messagesLoading = true
       adminGetMessage()
         .then((res) => {
           if (res.data) {
+            let msg = []
             res.data.forEach((datum) => {
               datum.releasedTime = datum.releasedTime.split('T')[0]
-              this.messages.push(datum)
+              msg.push(datum)
             })
+            this.messages = msg
           } else {
             this.$message({
               message: '读取失败',
               type: 'error'
             })
           }
+          this.messagesLoading = false
         })
         .catch((err) => {
           this.$message({
             message: err,
             type: 'error'
           })
+          this.messagesLoading = false
         })
     }
 
@@ -100,28 +111,39 @@
       }
     }
 
-    deleteMessage (row) {
-      let _this = this
+    batchDeleteMessage () {
+      let ids = []
+      this.selections.forEach(select => {
+        ids.push(select.id)
+      })
+      this.deleteMessage(ids)
+    }
+
+    batchSingleMessage (row) {
       let ids = []
       ids.push(row.id)
+      this.deleteMessage(ids)
+    }
+
+    deleteMessage (ids) {
+      let _this = this
       this.$confirm('确认删除？')
         .then(() => {
-          adminDeleteMessage({
-            ids: ids
-          }).then((res) => {
-            if (res.data) {
-              this.$message({
-                message: '删除成功',
-                type: 'success'
-              })
-            } else {
-              this.$message({
-                message: '删除失败',
-                type: 'error'
-              })
-            }
-            return _this
-          }).then(that => {
+          adminDeleteMessage({ data: { ids: ids } })
+            .then((res) => {
+              if (res.data) {
+                this.$message({
+                  message: '删除成功',
+                  type: 'success'
+                })
+              } else {
+                this.$message({
+                  message: '删除失败',
+                  type: 'error'
+                })
+              }
+              return _this
+            }).then(that => {
             that.getMessages()
           }).catch((err) => {
             this.$message({
@@ -175,5 +197,9 @@
     .wrapper {
         margin: 20px 20px 0 20px;
         height: 100% !important;
+
+        .toolbar {
+            margin-top: 10px;
+        }
     }
 </style>

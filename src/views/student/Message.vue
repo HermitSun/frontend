@@ -30,17 +30,17 @@
       getApplicationStatus()
         .then((res) => {
           this.hasFinished = !!res.data.hasUploaded
+          checkAttachmentUpload({
+            types: ['身份证明', '学测成绩单', '推荐信', '其他材料']
+          }).then((res) => {
+            this.hasFinished = !!res.data.hasUploaded
+          }).catch((err) => {
+            this.hasFinished = false
+          })
         })
         .catch((err) => {
           this.hasFinished = false
         })
-      checkAttachmentUpload({
-        types: ['身份证明', '学测成绩单', '推荐信', '其他材料']
-      }).then((res) => {
-        this.hasFinished = !!res.data.hasUploaded
-      }).catch((err) => {
-        this.hasFinished = false
-      })
       studentGetMessage()
         .then((res) => {
           if (res.data.length > 0) {

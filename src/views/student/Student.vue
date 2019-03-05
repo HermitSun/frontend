@@ -42,11 +42,11 @@
                             </el-menu-item>
                         </el-submenu>
                         <el-menu-item v-else :index="item.path" class="leaf">
-                            <div slot="title">
-                                <i :class="item.iconClass"></i>
-                                <span style="font-size: medium">{{item.name}}</span>
+                            <i :class="item.iconClass"></i>
+                            <span style="font-size: medium" slot="title">
+                                {{item.name}}
                                 <el-badge :value="hasNewMessage?'new':''"></el-badge>
-                            </div>
+                            </span>
                         </el-menu-item>
                     </template>
                 </el-menu>
@@ -77,6 +77,7 @@
   import { Vue, Component } from 'vue-property-decorator'
   import { delToken, getStudentToken } from 'utils/token.ts'
   import Message from './Message.vue'
+  import { studentGetMessage } from 'utils/api'
 
   @Component({
     components: { Message }
@@ -88,24 +89,29 @@
     userAvatar: string = ''
     //收到的消息
     hasNewMessage: boolean = false
-    totalMessage: number = 0
     token: string = ''
 
     mounted () {
       this.token = getStudentToken()
-      /*如果cookie不存在，則跳轉到登錄頁*/
+      /*如果token不存在，則跳轉到登錄頁*/
       if (this.token == '') {
         this.$router.push('/')
       }
-      //此處還缺少獲取用戶名稱和信息數量的方法
-      window.setInterval(() => {
-        setTimeout(this.handleNewMessage, 0)
-      }, 30000)//30s查詢一次消息
+      // this.handleNewMessage()
+      // window.setInterval(() => {
+      //   setTimeout(this.handleNewMessage, 0)
+      // }, 60000)//60s查詢一次消息
     }
 
-    handleNewMessage () {
-      this.hasNewMessage = !!this.totalMessage
-    }
+    // handleNewMessage () {
+    //   studentGetMessage()
+    //     .then(res => {
+    //       this.hasNewMessage = res.data.length > 0
+    //     })
+    //     .catch(err => {
+    //       this.hasNewMessage = false
+    //     })
+    // }
 
     handleCollapse () {
       this.collapsed = !this.collapsed
@@ -273,14 +279,6 @@
                     box-sizing: border-box;
                 }
             }
-        }
-    }
-</style>
-
-<style lang="scss" rel="stylesheet/scss">
-    .avatarBadge {
-        .el-badge__content {
-            top: 10px !important;
         }
     }
 </style>

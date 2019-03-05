@@ -1,7 +1,9 @@
 import axios from 'axios';
 import {getStudentToken, getAdminToken} from "./token.ts";
 
-const BASE_URL = 'http://localhost:3141';
+const BASE_URL = process.env.NODE_ENV === 'production'
+    ? 'http://47.99.190.101:3141'
+    : 'http://localhost:3141';
 
 axios.defaults.baseURL = BASE_URL;
 
@@ -86,7 +88,7 @@ export const adminUpdateMessage = (params) => {
     return axios.put('/message/global_broadcast', params);
 };
 export const adminDeleteMessage = (params) => {
-    return axios.delete('/message/global_broadcast', {params: params});
+    return axios.delete('/message/global_broadcast', params);
 };
 
 export const checkStuList = params => {

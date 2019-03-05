@@ -583,8 +583,8 @@
 
                         <el-form-item label="You are 您屬於" prop="artOrSci">
                             <el-radio-group v-model="form.artOrSci">
-                                <el-radio :label="0" @click.native="clearChoices">Arts 文史類</el-radio>
-                                <el-radio :label="1" @click.native="clearChoices">Science 理工農醫類</el-radio>
+                                <el-radio :label="0">Arts 文史類</el-radio>
+                                <el-radio :label="1">Science 理工農醫類</el-radio>
                             </el-radio-group>
                         </el-form-item>
 
@@ -875,17 +875,17 @@
                 this.checkApplicationStatus();
             });
         },
-        watch: {
-            isArt(val) {
-                this.majors = this.majorInfos.filter(major => {
-                    return val === 0 ? major.acceptArt : !major.acceptArt
-                });
-            }
-        },
+        // watch: {
+        //     isArt(val) {
+        //         this.majors = this.majorInfos.filter(major => {
+        //             return val === 0 ? major.acceptArt : true
+        //         });
+        //     }
+        // },
         computed: {
-            isArt() {
-                return this.form.artOrSci;
-            },
+            // isArt() {
+            //     return this.form.artOrSci;
+            // },
             getCriteria1() {
                 return this.getChineseCriteria(this.form.actualLevelPoints.chinese);
             },
@@ -934,12 +934,12 @@
             }
         },
         methods: {
-            clearChoices() {
-                this.form.curriculumChoices.firstChoice = '';
-                this.form.curriculumChoices.secondChoice = '';
-                this.form.curriculumChoices.thirdChoice = '';
-                this.form.curriculumChoices.fourthChoice = '';
-            },
+            // clearChoices() {
+            //     this.form.curriculumChoices.firstChoice = '';
+            //     this.form.curriculumChoices.secondChoice = '';
+            //     this.form.curriculumChoices.thirdChoice = '';
+            //     this.form.curriculumChoices.fourthChoice = '';
+            // },
             removeMember(item) {
                 let index = this.familyParticulars.members.indexOf(item);
                 if (index !== -1) {
@@ -1278,10 +1278,11 @@
                                 acceptArt: major.acceptArt
                             });
                         });
-                        this.majorInfos = majors;
-                        this.majors = majors.filter(major => {
-                            return this.form.artOrSci === 0 ? major.acceptArt : !major.acceptArt;
-                        })
+                        // this.majorInfos = majors;
+                        // this.majors = majors.filter(major => {
+                        //     return this.form.artOrSci === 0 ? major.acceptArt : true;
+                        // })
+                        this.majors = majors;
                     })
                     .catch((err) => {
                         this.$message({

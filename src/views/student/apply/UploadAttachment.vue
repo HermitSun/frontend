@@ -55,7 +55,7 @@
                     <b style="color: #409EFF">點擊上傳</b>
                 </div>
                 <div slot="tip" style="color: #909399; font-size: 12px;">
-                    只能上傳不超過<span class="mark">兩個PDF</span>文件，且大小不超過<span class="mark">20M</span>
+                    只能上傳<span class="mark">一個PDF</span>文件，且大小不超過<span class="mark">20M</span>
                     {{hasFinishedUpload?'；':''}}
                     <span class="mark">{{hasFinishedUpload?'為確保準確，如需修改，請重新上傳':''}}</span>
                 </div>

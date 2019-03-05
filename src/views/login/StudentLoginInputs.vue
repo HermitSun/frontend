@@ -16,7 +16,8 @@
                         </p>
                     </el-tooltip>
                     <p>
-                        <button class="loginButton" @click="checkAndLogin()">登 錄</button>
+                        <button class="loginButton" @click="checkAndLogin" @keyup.enter.native="checkAndLogin">登 錄
+                        </button>
                     </p>
                 </div>
             </div>
@@ -99,7 +100,7 @@
             }
           }
           if (this.showPrompt) {
-            this.emailAddress = ''
+            // this.emailAddress = ''
             this.password = ''
             bus.$emit('switch-page', LoginPages.PROMPT)
             bus.$emit('prompt-content', this.promptContent)

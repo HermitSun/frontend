@@ -12,7 +12,7 @@
                     <el-input placeholder="請輸入身份證號" v-model="registerForm.idCardNumber"></el-input>
                 </el-form-item>
                 <el-form-item label="密碼" :label-width="this.registerFormWidth" prop="password">
-                    <el-input type="password" placeholder="請確認密碼" v-model="registerForm.password"></el-input>
+                    <el-input type="password" placeholder="請輸入密碼" v-model="registerForm.password"></el-input>
                 </el-form-item>
                 <el-form-item label="確認密碼" :label-width="this.registerFormWidth" prop="confirmPassword">
                     <el-input type="password" placeholder="請確認密碼" v-model="registerForm.confirmPassword"></el-input>

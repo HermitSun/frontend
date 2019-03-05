@@ -1,6 +1,6 @@
 <template>
     <div class="wrapper">
-        <div v-if="hasFinished">
+        <div v-if="hasFinishedForm&&hasFinishedAttachment">
             <p style="color: #67C23A">您已完成申請，請耐心等待結果。</p>
         </div>
         <el-table :data="messages" style="width: 100%">
@@ -24,23 +24,24 @@
   @Component({})
   export default class Message extends Vue {
     messages: any = []
-    hasFinished: boolean = false
+    hasFinishedForm: boolean = false
+    hasFinishedAttachment: boolean = false
 
     mounted () {
       getApplicationStatus()
         .then((res) => {
-          this.hasFinished = !!res.data.hasUploaded
-          checkAttachmentUpload({
-            types: ['身份证明', '学测成绩单', '推荐信', '其他材料']
-          }).then((res) => {
-            this.hasFinished = !!res.data.hasUploaded
-          }).catch((err) => {
-            this.hasFinished = false
-          })
+          this.hasFinishedForm = !!res.data.hasUploaded
         })
         .catch((err) => {
-          this.hasFinished = false
+          this.hasFinishedForm = false
         })
+      checkAttachmentUpload({
+        types: ['身份证明', '学测成绩单', '推荐信', '考生照片', '其他材料']
+      }).then((res) => {
+        this.hasFinishedAttachment = !!res.data.hasUploaded
+      }).catch((err) => {
+        this.hasFinishedAttachment = false
+      })
       studentGetMessage()
         .then((res) => {
           if (res.data.length > 0) {

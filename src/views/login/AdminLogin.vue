@@ -93,7 +93,7 @@
             }
           }
           if (this.showPrompt) {
-            this.username = ''
+            // this.username = ''
             this.password = ''
             bus.$emit('switch-page', LoginPages.PROMPT)
             bus.$emit('prompt-content', this.promptContent)

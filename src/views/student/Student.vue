@@ -37,7 +37,8 @@
                                 <i :class="item.iconClass"></i>
                                 <span slot="title" style="font-size: medium">{{item.name}}</span>
                             </template>
-                            <el-menu-item v-for="child in item.children" :index="child.path" :key="child.path">
+                            <el-menu-item v-for="child in item.children" :index="child.path" :key="child.path"
+                                          :disabled="child.path==='/student/senior-check'">
                                 {{child.name}}
                             </el-menu-item>
                         </el-submenu>

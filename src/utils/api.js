@@ -56,6 +56,9 @@ export const getMajors = () => {
 export const getApplicationStatus = () => {
     return axios.post('/application/form_check');
 };
+export const simplifyChar = (params) => {
+    return axios.post('/application/simplify_api');
+};
 
 // 附件
 export const sendAttachment = (data, header) => {
@@ -89,6 +92,9 @@ export const adminUpdateMessage = (params) => {
 };
 export const adminDeleteMessage = (params) => {
     return axios.delete('/message/global_broadcast', params);
+};
+export const addMajor = (params) => {
+    return axios.post('/majorSetting/majorSetting', params);
 };
 
 export const checkStuList = params => {

@@ -179,8 +179,9 @@
                 i {
                     display: inline-block;
                     width: 28px;
-                    height: 28px;
+                    height: 40px;
                     background: url(./img/LoginIcons.png) no-repeat;
+                    background-size: 15px;
                     position: absolute;
                     right: 6px;
                     top: 7px;
@@ -240,7 +241,7 @@
     }
 
     .password i {
-        background-position: 7px -50px !important;
+        background-position: 7px -58px !important;
     }
 
     .footer {

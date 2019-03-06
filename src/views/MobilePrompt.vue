@@ -1,5 +1,5 @@
 <template>
-    <h1>請使用PC端訪問，謝謝！</h1>
+    <h1>請使用PC端訪問</h1>
 </template>
 
 <script lang="ts">

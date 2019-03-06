@@ -6,7 +6,7 @@
             <div v-else-if="hasReleased&&hasPassed">恭喜您，您已通過面試</div>
             <div v-else-if="hasReleased&&!hasPassed">很遺憾，您沒有通過面試</div>
             <div slot="footer" class="footer">
-                <el-button @click="dialogVisible = false">取 消</el-button>
+                <!--<el-button @click="dialogVisible = false">取 消</el-button>-->
                 <el-button type="primary" @click="dialogVisible = false">確 定</el-button>
             </div>
         </el-dialog>

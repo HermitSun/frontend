@@ -13,9 +13,8 @@
             <!--<el-table-column prop="stuNum" label="招生人数" min-width="120"></el-table-column>-->
             <el-table-column label="操作" width="180" fixed="right">
                 <template slot-scope="scope">
-                    <el-button size="small" @click="handleEdit(scope.row)" :disabled="true">修改</el-button>
-                    <el-button type="danger" size="small" @click="handleRemove(scope.row)" :disabled="true">删除
-                    </el-button>
+                    <el-button size="small" @click="handleEdit(scope.row)">修改</el-button>
+                    <el-button type="danger" size="small" @click="handleRemove(scope.row)">删除</el-button>
                 </template>
             </el-table-column>
         </el-table>
@@ -36,8 +35,8 @@
                     <el-input v-model="editForm.time" size="small" placeholder="学制" clearable></el-input>
                 </el-form-item>
                 <el-form-item label="选考科目要求" :label-width="this.editFormWidth">
-                    <el-radio v-model="editForm.acceptArt" :label="false">仅限理科</el-radio>
-                    <el-radio v-model="editForm.acceptArt" :label="true">文理兼收</el-radio>
+                    <el-radio v-model="editForm.acceptArt" :label="'仅限理科'">仅限理科</el-radio>
+                    <el-radio v-model="editForm.acceptArt" :label="'文理兼收'">文理兼收</el-radio>
                 </el-form-item>
                 <el-form-item label="所在（含）一流学科名称" :label-width="this.editFormWidth">
                     <el-input v-model="editForm.comment" size="small" placeholder="一流学科" clearable></el-input>
@@ -88,7 +87,7 @@
 
 <script lang="ts">
   import { Vue, Component } from 'vue-property-decorator'
-  import { addMajor, getMajors } from 'utils/api'
+  import { addMajor, changeMajor, deleteMajor, getMajors } from 'utils/api'
 
   @Component({})
   export default class SetProfessions extends Vue {
@@ -166,13 +165,52 @@
       this.editForm = (<any> Object).assign({}, row)
     }
 
+    editSubmit () {
+      let form = this.editForm
+      form.acceptArt = form.acceptArt === '文理兼收'
+      changeMajor(form)
+        .then(res => {
+          if (res.data.succeed) {
+            this.$message({
+              message: '编辑成功',
+              type: 'success'
+            })
+            this.editFormVisible = false
+            this.getProfessions()
+          } else {
+            this.$message({
+              message: res.data.msg,
+              type: 'error'
+            })
+          }
+        })
+        .catch(err => {
+          this.$message({
+            message: err,
+            type: 'error'
+          })
+        })
+    }
+
     addSubmit () {
       // 新增
       let form = this.addForm
       form.acceptArt = form.acceptArt === '文理兼收'
       addMajor(form)
         .then(res => {
-          this.addFormVisible = false
+          if (res.data.succeed) {
+            this.$message({
+              message: '添加成功',
+              type: 'success'
+            })
+            this.addFormVisible = false
+            this.getProfessions()
+          } else {
+            this.$message({
+              message: res.data.msg,
+              type: 'error'
+            })
+          }
         })
         .catch(err => {
           this.$message({
@@ -184,10 +222,54 @@
 
     handleRemove (row: any) {
       // 删除
+      deleteMajor(row.name)
+        .then(res => {
+          if (res.data.succeed) {
+            this.$message({
+              message: '删除成功',
+              type: 'success'
+            })
+            this.getProfessions()
+          } else {
+            this.$message({
+              message: res.data.msg,
+              type: 'error'
+            })
+          }
+        })
+        .catch(err => {
+          this.$message({
+            message: err,
+            type: 'error'
+          })
+        })
     }
 
     batchRemove () {
       // 批量删除
+      this.selected.forEach(major => {
+        deleteMajor(major.name)
+          .then(res => {
+            if (res.data.succeed) {
+              this.$message({
+                message: '删除成功',
+                type: 'success'
+              })
+              this.getProfessions()
+            } else {
+              this.$message({
+                message: res.data.msg,
+                type: 'error'
+              })
+            }
+          })
+          .catch(err => {
+            this.$message({
+              message: err,
+              type: 'error'
+            })
+          })
+      })
     }
 
     handleCurrentChange (val) {

@@ -94,7 +94,13 @@ export const adminDeleteMessage = (params) => {
     return axios.delete('/message/global_broadcast', params);
 };
 export const addMajor = (params) => {
-    return axios.post('/majorSetting/majorSetting', params);
+    return axios.post('/majorSetting/majorAdding', params);
+};
+export const deleteMajor = (params) => {
+    return axios.post('/majorSetting/majorDeleting', params);
+};
+export const changeMajor = (params) => {
+    return axios.post('/majorSetting/majorChanging', params);
 };
 
 export const checkStuList = params => {

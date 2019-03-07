@@ -31,7 +31,7 @@
             <el-aside :class="this.collapsed?'menu-collapsed':'menu-expanded'">
                 <el-menu :default-active="$route.path" router :collapse="this.collapsed"
                          :collapse-transition="false" active-text-color="#FF0000" background-color="#eef1f6">
-                    <template v-for="(item,index) in $router.options.routes" v-if="item.path==='/student'">
+                    <template v-for="(item,index) in navItems">
                         <el-submenu :index="index+''" v-if="!item.leaf">
                             <template slot="title">
                                 <i :class="item.iconClass"></i>
@@ -91,6 +91,12 @@
     //收到的消息
     hasNewMessage: boolean = false
     token: string = ''
+
+    get navItems () {
+      return (<any> this.$router).options.routes.filter(route => {
+        return route.path === '/student'
+      })
+    }
 
     mounted () {
       this.token = getStudentToken()

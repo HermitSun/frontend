@@ -39,7 +39,7 @@
             <el-aside :class="this.collapsed?'menu-collapsed':'menu-expanded'">
                 <el-menu :default-active="$route.path" router :collapse="this.collapsed"
                          :collapse-transition="false" active-text-color="#FF0000" background-color="#eef1f6">
-                    <template v-for="(item,index) in $router.options.routes" v-if="item.path==='/admin'&&!item.hidden">
+                    <template v-for="(item,index) in navItems">
                         <el-submenu :index="index+''" v-if="!item.leaf">
                             <template slot="title">
                                 <i :class="item.iconClass"></i>
@@ -91,6 +91,12 @@
     systemName: string = '台湾免试生管理系统'
     collapsed: boolean = false//是否折叠（默认否）
     token: string = ''
+
+    get navItems () {
+      return (<any> this.$router).options.routes.filter(route => {
+        return route.path === '/admin' && !route.hidden
+      })
+    }
 
     mounted () {
       this.token = getAdminToken()

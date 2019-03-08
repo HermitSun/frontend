@@ -102,6 +102,12 @@ export const deleteMajor = (params) => {
 export const changeMajor = (params) => {
     return axios.post('/majorSetting/majorChanging', params);
 };
+export const setDDL = (params) => {
+    return axios.post('', params);
+};
+export const getDDL = () => {
+    return axios.get('');
+};
 
 export const checkStuList = params => {
     return axios.get(`/list/getlist`, {params: params});

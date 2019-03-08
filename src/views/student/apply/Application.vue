@@ -1,10 +1,13 @@
 <template>
     <el-card class="wrapper">
-        <div v-if="hasFinished">
+        <div v-if="hasClosed">
+            <p style="color: #F56C6C">已到截止日期！</p>
+        </div>
+        <div v-else-if="!hasClosed&&hasFinished">
             <p style="color: #67C23A">您已完成申請表填寫。</p>
         </div>
         <el-form :model="this.form" :rules="this.rules" ref="form" label-width="138px" :inline="true"
-                 hide-required-asterisk>
+                 :disabled="hasClosed" hide-required-asterisk>
             <el-collapse accordion>
                 <el-collapse-item title="一. 個人基本情況">
                     <div class="part1">
@@ -14,7 +17,7 @@
                             </el-col>
                         </el-row>
 
-                        <el-form-item label="SIMPLIFICATION 簡體姓名" label-width="195px">
+                        <el-form-item label="SIMPLIFICATION 簡體姓名" label-width="195px" :disabled="hasClosed">
                             <el-form-item prop="firstName">
                                 <div slot="label">
                                     <div>FAMILY NAME</div>
@@ -126,7 +129,7 @@
                         </el-form-item>
 
                         <el-form :model="form.phoneNumbers" :rules="rules" ref="form.phoneNumbers" label-width="138px"
-                                 :inline="true" hide-required-asterisk>
+                                 :inline="true" hide-required-asterisk :disabled="hasClosed">
                             <el-form-item label-width="195px" :rules="rules">
                                 <!--區號-->
                                 <el-form-item>
@@ -177,7 +180,7 @@
                             </el-col>
                         </el-row>
 
-                        <el-form label-width="130px" :inline="true">
+                        <el-form label-width="130px" :inline="true" :disabled="hasClosed">
                             <el-form-item label=" " label-width="120px"></el-form-item>
                             <el-form-item label="CHINESE 國文"></el-form-item>
                             <el-form-item label="MATH 數學"></el-form-item>
@@ -187,7 +190,8 @@
 
                         </el-form>
 
-                        <el-form :model="form.results" :rules="rules" label-width="140px" :inline="true">
+                        <el-form :model="form.results" :rules="rules" label-width="140px" :inline="true"
+                                 :disabled="hasClosed">
                             <el-form-item label="Results 原始成績">
                                 <div slot="label">
                                     <div>Results</div>
@@ -215,7 +219,8 @@
                                 </el-form-item>
                             </el-form-item>
                         </el-form>
-                        <el-form :model="form.actualLevelPoints" :rules="rules" label-width="140px" :inline="true">
+                        <el-form :model="form.actualLevelPoints" :rules="rules" label-width="140px" :inline="true"
+                                 :disabled="hasClosed">
                             <el-form-item>
                                 <div slot="label">
                                     <div>Actual level points</div>
@@ -312,7 +317,7 @@
                             located. 中文填寫就讀學校。
                         </el-row>
                         <el-form :model="form.primarySchool" :rules="rules" ref="from.primarySchool" label-width="150px"
-                                 :inline="true" hide-required-asterisk>
+                                 :inline="true" hide-required-asterisk :disabled="hasClosed">
                             <el-form-item>
                                 <div slot="label">
                                     <div>Primary School</div>
@@ -365,7 +370,7 @@
                             </el-form-item>
                         </el-form>
                         <el-form :model="form.juniorMiddleSchool" :rules="rules" ref="form.juniorMiddleSchool"
-                                 :inline="true" label-width="150px">
+                                 :inline="true" label-width="150px" :disabled="hasClosed">
                             <el-form-item>
                                 <div slot="label">
                                     <div>Junior middle school</div>
@@ -421,7 +426,7 @@
                             </el-form-item>
                         </el-form>
                         <el-form :model="form.seniorMiddleSchool" :rules="rules" ref="form.seniorMiddleSchool"
-                                 :inline="true" label-width="150px">
+                                 :inline="true" label-width="150px" :disabled="hasClosed">
                             <el-form-item>
                                 <div slot="label">
                                     <div>Senior middle school</div>
@@ -488,11 +493,11 @@
                             </el-col>
                         </el-row>
                         請至少填寫一個家屬信息！
-                        <el-form :model="familyParticulars" ref="familyParticulars" label-width="0">
+                        <el-form :model="familyParticulars" ref="familyParticulars" label-width="0"
+                                 :disabled="hasClosed">
                             <el-form-item
                                     v-for="(member,index) in familyParticulars.members"
-                                    :key="index"
-                            >
+                                    :key="index">
                                 <el-input v-model="member.relationship" placeholder="Relationship 關係"
                                           style="width: 180px"></el-input>
                                 <el-input v-model="member.name" placeholder="NAME 姓名" style="width: 180px"></el-input>
@@ -521,7 +526,7 @@
                         </el-row>
 
                         <el-form :model="form.curriculumChoices" :rules="rules" ref="form.curriculumChoices"
-                                 label-width="130px" hide-required-asterisk>
+                                 label-width="130px" hide-required-asterisk :disabled="hasClosed">
 
                             <el-form-item label="1st choice 第一志願" prop="firstChoice" label-width="155px">
                                 <!--接口文檔first拼錯-->
@@ -581,7 +586,7 @@
 
                         </el-form>
 
-                        <el-form-item label="You are 您屬於" prop="artOrSci">
+                        <el-form-item label="You are 您屬於" prop="artOrSci" :disabled="hasClosed">
                             <el-radio-group v-model="form.artOrSci">
                                 <el-radio :label="0">Arts 文史類</el-radio>
                                 <el-radio :label="1">Science 理工農醫類</el-radio>
@@ -617,11 +622,8 @@
                             請填寫你參加過的社會活動，主要包括以下幾個方面：①學術活動：主要包括參加的各類學科競賽、科研活動、徵文比賽、創新大賽等；②文體活動：主要包括參加的各種文藝、體育活動；③社會活動：如志願者活動、學生社團活動、公益活動等。請附獲獎證書影印本、公開發表作品影印本和其他有關證明材料。
                         </el-row>
 
-                        <el-form :model="activities" ref="activities" label-width="0">
-                            <el-form-item
-                                    v-for="(activity,index) in activities.activity"
-                                    :key="index"
-                            >
+                        <el-form :model="activities" ref="activities" label-width="0" :disabled="hasClosed">
+                            <el-form-item v-for="(activity,index) in activities.activity" :key="index">
                                 <el-input v-model="activity.organization" placeholder="Name of organization頒發/主辦單位"
                                           style="width: 260px;"></el-input>
                                 <el-input v-model="activity.award" placeholder="Name of award/activity獎項/活動名"
@@ -682,14 +684,16 @@
 </template>
 
 <script>
-    import {getBasicInfo, sendApplication, getMajors, getApplicationStatus} from "utils/api";
+    import {getBasicInfo, sendApplication, getMajors, getApplicationStatus, getDDL} from "utils/api";
     import highSchools from 'utils/highSchools.ts';
+    import {getDate} from "utils/common";
 
     export default {
 
         data() {
             return {
                 hasFinished: false,
+                hasClosed: false,
                 showFirstChoice: true,
                 showSecondChoice: true,
                 showThirdChoice: true,
@@ -872,6 +876,17 @@
         },
         mounted() {
             this.$nextTick(() => {
+                this.hasClosed = true;
+                getDDL()
+                    .then(res => {
+                        this.hasClosed = getDate().replace('/', '-') === res.data.ddl;
+                    })
+                    .catch(err => {
+                        this.$message({
+                            message: err,
+                            type: 'error'
+                        })
+                    });
                 this.checkApplicationStatus();
             });
         },

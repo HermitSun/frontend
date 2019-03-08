@@ -10,14 +10,17 @@
         </el-steps>
         <!--檢查申請表-->
         <div class="checkApplication" v-show="active===0">
-            <p v-if="hasFinishedUpload" style="color: #67C23A">您已完成附件上傳。</p>
-            <div v-else>
+            <p v-if="hasClosed" style="color: #F56C6C">已到截止日期！</p>
+            <p v-else-if="!hasClosed&&hasFinishedUpload" style="color: #67C23A">您已完成附件上傳。</p>
+            <div v-else-if="!hasClosed&&!hasFinishedUpload">
                 <p>請檢查申請表是否填寫完整，確認後點擊進入下一步。</p>
                 <p class="mark">注意：材料不符合要求將無法通過審核。</p>
             </div>
             <div class="footer">
-                <el-button @click="$router.push('/student/application')" v-if="!hasFinishedUpload">返回檢查</el-button>
-                <el-button type="primary" @click="++active">
+                <el-button @click="$router.push('/student/application')" v-if="!hasFinishedUpload"
+                           :disabled="hasClosed">返回檢查
+                </el-button>
+                <el-button type="primary" @click="++active" :disabled="hasClosed">
                     {{hasFinishedUpload?'重新上傳':'下一步'}}
                 </el-button>
             </div>
@@ -147,13 +150,14 @@
 <script lang="ts">
   import { Vue, Component, Watch } from 'vue-property-decorator'
   import { getStudentToken } from 'utils/token.ts'
-  import { checkAttachmentUpload, getAttachmentNames, sendAttachment } from 'utils/api'
-  import { isArray } from 'utils/common'
+  import { checkAttachmentUpload, getDDL, sendAttachment } from 'utils/api'
+  import { getDate, isArray } from 'utils/common'
 
   @Component({})
   export default class UploadAttachment extends Vue {
     active: number = 0
     hasFinishedUpload: boolean = false
+    hasClosed: boolean = false
 
     uploadServer: string = 'http://localhost:3141/application/attachment'
 
@@ -184,19 +188,32 @@
 
     mounted () {
       // 获取附件上传状态
-      checkAttachmentUpload({
-        types: ['身份证明', '学测成绩单', '推荐信', '考生照片', '其他材料']
-      }).then((res) => {
-        this.hasFinishedUpload = res.data.hasUploaded
-        if (this.hasFinishedUpload) {
-          this.hasFinishedIdentity = true
-          this.hasFinishedTranscript = true
-          this.hasFinishedRecommend = true
-          this.hasFinishedOthers = true
-          this.hasFinishedPhotos = true
-        }
-      }).catch((err) => {
-        this.hasFinishedUpload = false
+      this.$nextTick(() => {
+        // this.hasClosed = true
+        getDDL()
+          .then(res => {
+            this.hasClosed = getDate().replace('/', '-') === res.data.ddl
+          })
+          .catch(err => {
+            this.$message({
+              message: err,
+              type: 'error'
+            })
+          })
+        checkAttachmentUpload({
+          types: ['身份证明', '学测成绩单', '推荐信', '考生照片', '其他材料']
+        }).then((res) => {
+          this.hasFinishedUpload = res.data.hasUploaded
+          if (this.hasFinishedUpload) {
+            this.hasFinishedIdentity = true
+            this.hasFinishedTranscript = true
+            this.hasFinishedRecommend = true
+            this.hasFinishedOthers = true
+            this.hasFinishedPhotos = true
+          }
+        }).catch((err) => {
+          this.hasFinishedUpload = false
+        })
       })
     }
 

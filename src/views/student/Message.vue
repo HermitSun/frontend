@@ -11,8 +11,8 @@
                     <span>{{ props.row.content }}</span>
                 </template>
             </el-table-column>
-            <el-table-column label="消息 MESSAGE" width="850" prop="title"></el-table-column>
-            <el-table-column label="时间 TIME" prop="releasedTime"></el-table-column>
+            <el-table-column label="消息 MESSAGE" min-width="600" prop="title"></el-table-column>
+            <el-table-column label="时间 TIME" min-width="120" prop="releasedTime"></el-table-column>
         </el-table>
     </div>
 </template>

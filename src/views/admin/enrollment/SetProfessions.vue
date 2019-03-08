@@ -5,9 +5,9 @@
                   @selection-change="handleCurrentChange">
             <el-table-column type="selection" width="55" fixed="left"></el-table-column>
             <el-table-column prop="id" label="#" width="80"></el-table-column>
-            <el-table-column prop="name" label="招生专业（类）" width="180"></el-table-column>
-            <el-table-column prop="time" label="学制" width="80"></el-table-column>
-            <el-table-column prop="acceptArt" label="选考科目要求" width="120"></el-table-column>
+            <el-table-column prop="name" label="招生专业（类）" width="160"></el-table-column>
+            <el-table-column prop="time" label="学制" width="60"></el-table-column>
+            <el-table-column prop="acceptArt" label="选考科目要求" width="140" sortable></el-table-column>
             <el-table-column prop="comment" label="所在（含）一流学科名称" min-width="120"></el-table-column>
             <el-table-column prop="college" label="所在院系" min-width="120"></el-table-column>
             <!--<el-table-column prop="stuNum" label="招生人数" min-width="120"></el-table-column>-->

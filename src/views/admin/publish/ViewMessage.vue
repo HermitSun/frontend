@@ -94,7 +94,7 @@
         })
         .catch((err) => {
           this.$message({
-            message: err,
+            message: err.toString(),
             type: 'error'
           })
           this.messagesLoading = false
@@ -147,7 +147,7 @@
             that.getMessages()
           }).catch((err) => {
             this.$message({
-              message: err,
+              message: err.toString(),
               type: 'error'
             })
           })
@@ -176,7 +176,7 @@
         }
       }).catch((err) => {
         this.$message({
-          message: err,
+          message: err.toString(),
           type: 'error'
         })
       })

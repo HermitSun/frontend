@@ -686,7 +686,6 @@
 <script>
     import {getBasicInfo, sendApplication, getMajors, getApplicationStatus, getDDL} from "utils/api";
     import highSchools from 'utils/highSchools.ts';
-    import {getDate} from "utils/common";
 
     export default {
 
@@ -879,11 +878,12 @@
                 this.hasClosed = true;
                 getDDL()
                     .then(res => {
-                        this.hasClosed = getDate().replace('/', '-') === res.data.ddl;
+                        this.hasClosed = new Date() >= new Date(res.data.ddl);
                     })
                     .catch(err => {
+                        this.hasClosed = false
                         this.$message({
-                            message: err,
+                            message: err.toString(),
                             type: 'error'
                         })
                     });
@@ -1048,7 +1048,7 @@
                             })
                             .catch((err) => {
                                 this.$message({
-                                    message: err,
+                                    message: err.toString(),
                                     type: 'error'
                                 })
                             })
@@ -1239,7 +1239,7 @@
                     })
                     .catch((err) => {
                         this.$message({
-                            message: err,
+                            message: err.toString(),
                             type: 'error'
                         });
                     })
@@ -1264,7 +1264,7 @@
                     })
                     .catch((err) => {
                         this.$message({
-                            message: err,
+                            message: err.toString(),
                             type: 'error'
                         })
                     })
@@ -1301,7 +1301,7 @@
                     })
                     .catch((err) => {
                         this.$message({
-                            message: err,
+                            message: err.toString(),
                             type: 'error'
                         })
                     });
@@ -1322,7 +1322,7 @@
                     })
                     .catch((err) => {
                         this.$message({
-                            message: err,
+                            message: err.toString(),
                             type: 'error'
                         });
                     });

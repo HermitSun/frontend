@@ -33,13 +33,14 @@
 <script lang="ts">
   import { Vue, Component, Watch } from 'vue-property-decorator'
   import { getStudentToken, setStudentToken } from 'utils/token.ts'
-  import { login } from 'utils/api'
+  import { getDDL, login } from 'utils/api'
   import { bus } from './bus.ts'
 
   @Component({})
   export default class StudentLoginInputs extends Vue {
 
     showPrompt: boolean = false
+    hasClosed: boolean = false
     promptContent: string = ''
     emailAddress: string = ''
     password: string = ''
@@ -50,6 +51,16 @@
 
     mounted () {
       this.token = getStudentToken()
+      getDDL()
+        .then(res => {
+          this.hasClosed = new Date() >= new Date(res.data.ddl);
+        })
+        .catch(err => {
+          this.$message({
+            message: err.toString(),
+            type: 'error'
+          })
+        })
     }
 
     @Watch('emailAddress')
@@ -107,7 +118,7 @@
             bus.$emit('simplified', false)
           }
         }).catch((error) => {
-          this.$message.error(error)
+          this.$message.error(error.toString())
         })
       }
     }

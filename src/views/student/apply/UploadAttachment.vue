@@ -151,7 +151,7 @@
   import { Vue, Component, Watch } from 'vue-property-decorator'
   import { getStudentToken } from 'utils/token.ts'
   import { checkAttachmentUpload, getDDL, sendAttachment } from 'utils/api'
-  import { getDate, isArray } from 'utils/common'
+  import { isArray } from 'utils/common'
 
   @Component({})
   export default class UploadAttachment extends Vue {
@@ -192,11 +192,12 @@
         // this.hasClosed = true
         getDDL()
           .then(res => {
-            this.hasClosed = getDate().replace('/', '-') === res.data.ddl
+            this.hasClosed = new Date() >= new Date(res.data.ddl)
           })
           .catch(err => {
+            this.hasClosed = false
             this.$message({
-              message: err,
+              message: err.toString(),
               type: 'error'
             })
           })
@@ -270,7 +271,7 @@
             }
           })
           .catch(err => {
-            this.$message.error(err)
+            this.$message.error(err.toString())
           })
       }
     }
@@ -333,7 +334,7 @@
             }
           })
           .catch(err => {
-            this.$message.error(err)
+            this.$message.error(err.toString())
           })
       }
     }
@@ -396,7 +397,7 @@
             }
           })
           .catch(err => {
-            this.$message.error(err)
+            this.$message.error(err.toString())
           })
       }
     }
@@ -459,7 +460,7 @@
             }
           })
           .catch(err => {
-            this.$message.error(err)
+            this.$message.error(err.toString())
           })
       }
     }
@@ -531,7 +532,7 @@
             }
           })
           .catch(err => {
-            this.$message.error(err)
+            this.$message.error(err.toString())
           })
       }
     }
@@ -587,7 +588,7 @@
     }
 
     handleUploadError (err) {
-      this.$message.error(err)
+      this.$message.error(err.toString())
     }
 
     finishUpload () {

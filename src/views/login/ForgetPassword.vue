@@ -194,7 +194,7 @@
               this.$message.error(res.data.msg)
             }
           }).catch((err) => {
-            this.$message.error(err)
+            this.$message.error(err.toString())
           })
         } else {
           this.$message.error('內容有誤，請重新填寫')

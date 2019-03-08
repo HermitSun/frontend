@@ -54,7 +54,7 @@
         }
       }).catch((err) => {
         this.$message({
-          message: err,
+          message: err.toString(),
           type: 'error'
         })
       })

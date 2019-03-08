@@ -136,7 +136,7 @@
               }
             })
             .catch((err) => {
-              this.$message.error(err)
+              this.$message.error(err.toString())
             })
         } else {
           this.$message.error('內容不符合要求，請重新填寫')

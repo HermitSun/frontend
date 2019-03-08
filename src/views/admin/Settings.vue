@@ -16,23 +16,29 @@
                 </el-form-item>
             </el-form>
         </el-card>
-        <!--<el-card class="ddl">-->
-            <!--<el-form :model="ddlForm" :rules="rules" ref="ddlForm">-->
-                <!--<el-form-item label="申请截止日期" :label-width="'120px'" prop="ddl">-->
-                    <!--<el-date-picker v-model="ddlForm.ddl" type="date" placeholder="设置申请截止日期"-->
-                                    <!--value-format="yyyy-MM-dd"></el-date-picker>-->
-                <!--</el-form-item>-->
-                <!--<el-form-item>-->
-                    <!--<el-button type="primary" @click="startEnroll">开启招生</el-button>-->
-                <!--</el-form-item>-->
-            <!--</el-form>-->
-        <!--</el-card>-->
+        <el-card class="ddl">
+            <el-form :model="ddlForm" :rules="rules" ref="ddlForm">
+                <el-form-item label="申请截止日期" :label-width="'120px'" prop="ddl">
+                    <el-date-picker v-model="ddlForm.ddl" type="date" placeholder="设置申请截止日期"
+                                    value-format="yyyy-MM-dd"></el-date-picker>
+                </el-form-item>
+                <el-form-item>
+                    <div style="color: #909399;">
+                        <i class="el-icon-warning"></i>
+                        <span>注意：设置截止日期后，会在截止当天0:00时关闭注册、填写申请表和上传附件功能。</span>
+                    </div>
+                </el-form-item>
+                <el-form-item>
+                    <el-button type="primary" @click="setDeadLine">设置</el-button>
+                </el-form-item>
+            </el-form>
+        </el-card>
     </div>
 </template>
 
 <script lang="ts">
   import { Vue, Component } from 'vue-property-decorator'
-  import { allStart, getAdminEmail, setAdminEmail } from 'utils/api'
+  import { allStart, getAdminEmail, setAdminEmail, setDDL } from 'utils/api'
 
   @Component({})
   export default class Settings extends Vue {
@@ -71,7 +77,7 @@
         })
         .catch((err) => {
           this.$message({
-            message: err,
+            message: err.toString(),
             type: 'error'
           })
         })
@@ -95,33 +101,33 @@
         }
       }).catch((err) => {
         this.$message({
-          message: err,
+          message: err.toString(),
           type: 'error'
         })
       })
     }
 
-    startEnroll () {
-      allStart({
-        ddl: this.ddlForm.ddl
-      }).then((res) => {
-        if (res.data.succeed) {
+    setDeadLine () {
+      setDDL({})
+        .then(res => {
+          if (res.data.succeed) {
+            this.$message({
+              message: '设置成功',
+              type: 'success'
+            })
+          } else {
+            this.$message({
+              message: res.data.msg,
+              type: 'error'
+            })
+          }
+        })
+        .catch(err => {
           this.$message({
-            message: '设置成功',
-            type: 'success'
-          })
-        } else {
-          this.$message({
-            message: res.data.msg,
+            message: err.toString(),
             type: 'error'
           })
-        }
-      }).catch((err) => {
-        this.$message({
-          message: err,
-          type: 'error'
         })
-      })
     }
   }
 </script>
@@ -148,6 +154,7 @@
 
             .el-button {
                 float: right;
+                margin-top: -40px;
                 margin-right: 20px;
             }
         }

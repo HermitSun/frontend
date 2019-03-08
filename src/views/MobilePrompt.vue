@@ -11,5 +11,8 @@
 </script>
 
 <style scoped lang="scss" rel="stylesheet/scss">
-
+    h1 {
+        width: 30px;
+        margin-left: 30px;
+    }
 </style>

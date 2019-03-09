@@ -3,8 +3,9 @@
         <el-card>
             <div slot="header">
                 <span class="bold">註冊</span>
+                <p v-if="hasClosed" style="color: #F56C6C">已到截止日期！</p>
             </div>
-            <el-form :model="registerForm" :rules="registerRules" ref="registerForm">
+            <el-form :model="registerForm" :rules="registerRules" ref="registerForm" :disabled="hasClosed">
                 <el-form-item label="郵箱" :label-width="this.registerFormWidth" prop="email">
                     <el-input type="email" placeholder="請輸入郵箱" v-model="registerForm.email"></el-input>
                 </el-form-item>
@@ -48,11 +49,12 @@
 
 <script lang="ts">
   import { Vue, Component } from 'vue-property-decorator'
-  import { registerUser } from 'utils/api'
+  import { getDDL, registerUser } from 'utils/api'
   import highSchools from 'utils/highSchools.ts'
 
   @Component({})
   export default class Register extends Vue {
+    hasClosed: boolean = false
     schoolOptions: any = highSchools
     registerForm: any = {
       name: '',
@@ -118,6 +120,20 @@
       ]
     }
     registerFormWidth: string = '120px'
+
+    mounted () {
+      getDDL()
+        .then(res => {
+          this.hasClosed = new Date() >= new Date(res.data.ddl)
+        })
+        .catch(err => {
+          this.hasClosed = false
+          this.$message({
+            message: err.toString(),
+            type: 'error'
+          })
+        })
+    }
 
     registerStudent () {
       let form: any = this.$refs.registerForm

@@ -2,7 +2,7 @@ import axios from 'axios';
 import {getStudentToken, getAdminToken} from "./token.ts";
 
 const BASE_URL = process.env.NODE_ENV === 'production'
-    ? 'http://47.99.190.101:3141'
+    ? 'http://47.107.239.200:3141'
     : 'http://localhost:3141';
 
 axios.defaults.baseURL = BASE_URL;
@@ -100,13 +100,21 @@ export const deleteMajor = (params) => {
     return axios.post('/majorSetting/majorDeleting', params);
 };
 export const changeMajor = (params) => {
-    return axios.post('/majorSetting/majorChanging', params);
+    return axios.post('/majorSetting/majorUpdate', params);
 };
 export const setDDL = (params) => {
-    return axios.post('', params);
+    return axios.post('/DDL/setting', params);
 };
 export const getDDL = () => {
-    return axios.get('');
+    return axios.get('/DDL/getting');
+};
+export const exportSelected = () => {
+    return axios({
+        method: 'post',
+        url: '/fileDownload/fileDownload',
+        // data: params,
+        responseType: 'blob'
+    });
 };
 
 export const checkStuList = params => {
@@ -124,14 +132,6 @@ export const remind = () => {
 };
 export const modifyStuInfo = (params) => {
     return axios.post(`/list/save`, params);
-};
-export const exportSelected = (params) => {
-    return axios({
-        method: 'post',
-        url: `/form/download`,
-        data: params,
-        responseType: 'blob'
-    });
 };
 export const modifyStuStatus = (params) => {
     return axios.post(`/list/save`, params);

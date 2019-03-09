@@ -167,6 +167,7 @@
 
     editSubmit () {
       let form = this.editForm
+      form.majorid = form.id
       form.acceptArt = form.acceptArt === '文理兼收'
       changeMajor(form)
         .then(res => {
@@ -222,34 +223,11 @@
 
     handleRemove (row: any) {
       // 删除
-      deleteMajor(row.name)
-        .then(res => {
-          if (res.data.succeed) {
-            this.$message({
-              message: '删除成功',
-              type: 'success'
-            })
-            this.getProfessions()
-          } else {
-            this.$message({
-              message: res.data.msg,
-              type: 'error'
-            })
-          }
-        })
-        .catch(err => {
-          this.$message({
-            message: err.toString(),
-            type: 'error'
-          })
-        })
-    }
-
-    batchRemove () {
-      // 批量删除
-      this.selected.forEach(major => {
-        deleteMajor(major.name)
-          .then(res => {
+      this.$confirm('确认删除？')
+        .then(() => {
+          deleteMajor({
+            majorid: row.id
+          }).then(res => {
             if (res.data.succeed) {
               this.$message({
                 message: '删除成功',
@@ -262,13 +240,45 @@
                 type: 'error'
               })
             }
-          })
-          .catch(err => {
+          }).catch(err => {
             this.$message({
               message: err.toString(),
               type: 'error'
             })
           })
+        })
+        .catch(() => {
+        })
+    }
+
+    batchRemove () {
+      // 批量删除
+      this.$confirm('确认删除？')
+        .then(() => {
+          this.selected.forEach(major => {
+            deleteMajor({
+              majorid: major.id
+            }).then(res => {
+              if (res.data.succeed) {
+                this.$message({
+                  message: '删除成功',
+                  type: 'success'
+                })
+                this.getProfessions()
+              } else {
+                this.$message({
+                  message: res.data.msg,
+                  type: 'error'
+                })
+              }
+            }).catch(err => {
+              this.$message({
+                message: err.toString(),
+                type: 'error'
+              })
+            })
+          })
+        }).catch(() => {
       })
     }
 

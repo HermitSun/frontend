@@ -33,12 +33,13 @@
                 </el-form-item>
             </el-form>
         </el-card>
+        <!--<el-button type="primary" @click="downloadPDF">下载</el-button>-->
     </div>
 </template>
 
 <script lang="ts">
   import { Vue, Component } from 'vue-property-decorator'
-  import { allStart, getAdminEmail, setAdminEmail, setDDL } from 'utils/api'
+  import { allStart, exportSelected, getAdminEmail, getDDL, setAdminEmail, setDDL } from 'utils/api'
 
   @Component({})
   export default class Settings extends Vue {
@@ -81,6 +82,42 @@
             type: 'error'
           })
         })
+      getDDL()
+        .then((res) => {
+          if (res.data.succ) {
+            this.ddlForm.ddl = res.data.ddl
+          } else {
+            this.$message({
+              message: res.data.msg,
+              type: 'error'
+            })
+          }
+        })
+        .catch((err) => {
+          this.$message({
+            message: err.toString(),
+            type: 'error'
+          })
+        })
+    }
+
+    downloadPDF () {
+      exportSelected()
+        .then(res => {
+          let url = window.URL.createObjectURL(new Blob([res.data]))
+          let link = document.createElement('a')
+          link.style.display = 'none'
+          link.href = url
+          link.setAttribute('download', 'test.pdf')
+          document.body.appendChild(link)
+          link.click()
+        })
+        .catch(err => {
+          this.$message({
+            message: err.toString(),
+            type: 'error'
+          })
+        })
     }
 
     saveAdminEmail () {
@@ -108,26 +145,26 @@
     }
 
     setDeadLine () {
-      setDDL({})
-        .then(res => {
-          if (res.data.succeed) {
-            this.$message({
-              message: '设置成功',
-              type: 'success'
-            })
-          } else {
-            this.$message({
-              message: res.data.msg,
-              type: 'error'
-            })
-          }
-        })
-        .catch(err => {
+      setDDL({
+        ddl: this.ddlForm.ddl
+      }).then(res => {
+        if (res.data.succeed) {
           this.$message({
-            message: err.toString(),
+            message: '设置成功',
+            type: 'success'
+          })
+        } else {
+          this.$message({
+            message: res.data.msg,
             type: 'error'
           })
+        }
+      }).catch(err => {
+        this.$message({
+          message: err.toString(),
+          type: 'error'
         })
+      })
     }
   }
 </script>

@@ -24,7 +24,7 @@
         </div>
         <div class="footer">
             <router-link to="/forget-password" class="router1">忘記密碼</router-link>
-            <router-link to="/register" class="router2">沒有賬號？現在註冊</router-link>
+            <router-link to="/register" class="router2" v-if="!hasClosed">沒有賬號？現在註冊</router-link>
             <a class="router3" @click="switchAdmin">管理员入口</a>
         </div>
     </div>
@@ -53,7 +53,7 @@
       this.token = getStudentToken()
       getDDL()
         .then(res => {
-          this.hasClosed = new Date() >= new Date(res.data.ddl);
+          this.hasClosed = new Date() >= new Date(res.data.ddl)
         })
         .catch(err => {
           this.$message({
@@ -281,6 +281,7 @@
         }
 
         .router3 {
+            float: right;
             text-align: right;
             width: 30%
         }

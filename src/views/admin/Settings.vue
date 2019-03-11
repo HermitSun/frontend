@@ -191,7 +191,8 @@
 
             .el-button {
                 float: right;
-                margin-top: -40px;
+                margin-top: -10px;
+                margin-bottom: -10px;
                 margin-right: 20px;
             }
         }

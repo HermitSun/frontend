@@ -1,5 +1,5 @@
 <template>
-    <h1>請使用PC端訪問</h1>
+    <p>請使用PC端訪問</p>
 </template>
 
 <script lang="ts">
@@ -11,8 +11,9 @@
 </script>
 
 <style scoped lang="scss" rel="stylesheet/scss">
-    h1 {
+    p {
         width: 30px;
-        margin-left: 30px;
+        margin-left: 700px;
+        margin-top: 700px;
     }
 </style>

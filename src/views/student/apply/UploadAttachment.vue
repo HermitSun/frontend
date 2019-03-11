@@ -192,7 +192,9 @@
         // this.hasClosed = true
         getDDL()
           .then(res => {
-            this.hasClosed = new Date() >= new Date(res.data.ddl)
+            if (res.data.ddl) {
+              this.hasClosed = new Date() >= new Date(res.data.ddl)
+            }
           })
           .catch(err => {
             this.hasClosed = false
@@ -245,6 +247,23 @@
       return this.hasFinishedUpload || (this.photosNames.length > 0 && this.hasFinishedPhotos)
     }
 
+    checkDDL () {
+      let status: boolean = false
+      getDDL()
+        .then(res => {
+          if (res.data.ddl) {
+            status = new Date() >= new Date(res.data.ddl)
+          }
+        })
+        .catch(err => {
+          this.$message({
+            message: err.toString(),
+            type: 'error'
+          })
+        })
+      return status
+    }
+
     // 身份證明
     identityUpload () {
       let upload: any = this.$refs.identityUpload
@@ -255,24 +274,28 @@
       if (this.identityFileData.getAll('file').length === 0) {
         this.$message.error('請按照要求上傳附件')
       } else {
-        this.identityFileData.append('type', '身份证明')
-        this.identityFileData.getAll('file').forEach(file => {
-          if (this.identityNames.indexOf(file.name) < 0) {
-            this.identityNames.push(file.name)
-          }
-        })
-        sendAttachment(this.identityFileData, header)
-          .then(res => {
-            if (res.data.succeed) {
-              this.$message.success("上傳成功")
-              this.hasFinishedIdentity = true
-            } else {
-              this.$message.error(res.data.msg)
+        if (this.checkDDL()) {
+          this.$message.error('提交已經截止')
+        } else {
+          this.identityFileData.append('type', '身份证明')
+          this.identityFileData.getAll('file').forEach(file => {
+            if (this.identityNames.indexOf(file.name) < 0) {
+              this.identityNames.push(file.name)
             }
           })
-          .catch(err => {
-            this.$message.error(err.toString())
-          })
+          sendAttachment(this.identityFileData, header)
+            .then(res => {
+              if (res.data.succeed) {
+                this.$message.success("上傳成功")
+                this.hasFinishedIdentity = true
+              } else {
+                this.$message.error(res.data.msg)
+              }
+            })
+            .catch(err => {
+              this.$message.error(err.toString())
+            })
+        }
       }
     }
 
@@ -318,24 +341,28 @@
       if (this.transcriptFileData.getAll('file').length === 0) {
         this.$message.error('請按照要求上傳附件')
       } else {
-        this.transcriptFileData.append('type', '学测成绩单')
-        this.transcriptFileData.getAll('file').forEach(file => {
-          if (this.transcriptNames.indexOf(file.name) < 0) {
-            this.transcriptNames.push(file.name)
-          }
-        })
-        sendAttachment(this.transcriptFileData, header)
-          .then(res => {
-            if (res.data.succeed) {
-              this.$message.success("上傳成功")
-              this.hasFinishedTranscript = true
-            } else {
-              this.$message.error(res.data.msg)
+        if (this.checkDDL()) {
+          this.$message.error('提交已經截止')
+        } else {
+          this.transcriptFileData.append('type', '学测成绩单')
+          this.transcriptFileData.getAll('file').forEach(file => {
+            if (this.transcriptNames.indexOf(file.name) < 0) {
+              this.transcriptNames.push(file.name)
             }
           })
-          .catch(err => {
-            this.$message.error(err.toString())
-          })
+          sendAttachment(this.transcriptFileData, header)
+            .then(res => {
+              if (res.data.succeed) {
+                this.$message.success("上傳成功")
+                this.hasFinishedTranscript = true
+              } else {
+                this.$message.error(res.data.msg)
+              }
+            })
+            .catch(err => {
+              this.$message.error(err.toString())
+            })
+        }
       }
     }
 
@@ -381,24 +408,28 @@
       if (this.recommendFileData.getAll('file').length === 0) {
         this.$message.error('請按照要求上傳附件')
       } else {
-        this.recommendFileData.append('type', '推荐信')
-        this.recommendFileData.getAll('file').forEach(file => {
-          if (this.recommendNames.indexOf(file.name) < 0) {
-            this.recommendNames.push(file.name)
-          }
-        })
-        sendAttachment(this.recommendFileData, header)
-          .then(res => {
-            if (res.data.succeed) {
-              this.$message.success("上傳成功")
-              this.hasFinishedRecommend = true
-            } else {
-              this.$message.error(res.data.msg)
+        if (this.checkDDL()) {
+          this.$message.error('提交已經截止')
+        } else {
+          this.recommendFileData.append('type', '推荐信')
+          this.recommendFileData.getAll('file').forEach(file => {
+            if (this.recommendNames.indexOf(file.name) < 0) {
+              this.recommendNames.push(file.name)
             }
           })
-          .catch(err => {
-            this.$message.error(err.toString())
-          })
+          sendAttachment(this.recommendFileData, header)
+            .then(res => {
+              if (res.data.succeed) {
+                this.$message.success("上傳成功")
+                this.hasFinishedRecommend = true
+              } else {
+                this.$message.error(res.data.msg)
+              }
+            })
+            .catch(err => {
+              this.$message.error(err.toString())
+            })
+        }
       }
     }
 
@@ -444,24 +475,28 @@
       if (this.photosFileData.getAll('file').length === 0) {
         this.$message.error('請按照要求上傳照片')
       } else {
-        this.photosFileData.append('type', '考生照片')
-        this.photosFileData.getAll('file').forEach(file => {
-          if (this.photosNames.indexOf(file.name) < 0) {
-            this.photosNames.push(file.name)
-          }
-        })
-        sendAttachment(this.photosFileData, header)
-          .then(res => {
-            if (res.data.succeed) {
-              this.$message.success("上傳成功")
-              this.hasFinishedPhotos = true
-            } else {
-              this.$message.error(res.data.msg)
+        if (this.checkDDL()) {
+          this.$message.error('提交已經截止')
+        } else {
+          this.photosFileData.append('type', '考生照片')
+          this.photosFileData.getAll('file').forEach(file => {
+            if (this.photosNames.indexOf(file.name) < 0) {
+              this.photosNames.push(file.name)
             }
           })
-          .catch(err => {
-            this.$message.error(err.toString())
-          })
+          sendAttachment(this.photosFileData, header)
+            .then(res => {
+              if (res.data.succeed) {
+                this.$message.success("上傳成功")
+                this.hasFinishedPhotos = true
+              } else {
+                this.$message.error(res.data.msg)
+              }
+            })
+            .catch(err => {
+              this.$message.error(err.toString())
+            })
+        }
       }
     }
 
@@ -516,24 +551,28 @@
       if (this.othersFileData.getAll('file').length === 0) {
         this.$message.error('請按照要求上傳附件')
       } else {
-        this.othersFileData.append('type', '其他材料')
-        this.othersFileData.getAll('file').forEach(file => {
-          if (this.othersNames.indexOf(file.name) < 0) {
-            this.othersNames.push(file.name)
-          }
-        })
-        sendAttachment(this.othersFileData, header)
-          .then(res => {
-            if (res.data.succeed) {
-              this.$message.success("上傳成功")
-              this.hasFinishedOthers = true
-            } else {
-              this.$message.error(res.data.msg)
+        if (this.checkDDL()) {
+          this.$message.error('提交已經截止')
+        } else {
+          this.othersFileData.append('type', '其他材料')
+          this.othersFileData.getAll('file').forEach(file => {
+            if (this.othersNames.indexOf(file.name) < 0) {
+              this.othersNames.push(file.name)
             }
           })
-          .catch(err => {
-            this.$message.error(err.toString())
-          })
+          sendAttachment(this.othersFileData, header)
+            .then(res => {
+              if (res.data.succeed) {
+                this.$message.success("上傳成功")
+                this.hasFinishedOthers = true
+              } else {
+                this.$message.error(res.data.msg)
+              }
+            })
+            .catch(err => {
+              this.$message.error(err.toString())
+            })
+        }
       }
     }
 

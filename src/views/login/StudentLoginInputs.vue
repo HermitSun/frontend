@@ -53,7 +53,9 @@
       this.token = getStudentToken()
       getDDL()
         .then(res => {
-          this.hasClosed = new Date() >= new Date(res.data.ddl)
+          if (res.data.ddl) {
+            this.hasClosed = new Date() >= new Date(res.data.ddl)
+          }
         })
         .catch(err => {
           this.$message({

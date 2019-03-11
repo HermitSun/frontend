@@ -878,10 +878,12 @@
                 this.hasClosed = true;
                 getDDL()
                     .then(res => {
-                        this.hasClosed = new Date() >= new Date(res.data.ddl);
+                        if (res.data.ddl) {
+                            this.hasClosed = new Date() >= new Date(res.data.ddl)
+                        }
                     })
                     .catch(err => {
-                        this.hasClosed = false
+                        this.hasClosed = false;
                         this.$message({
                             message: err.toString(),
                             type: 'error'
@@ -1020,9 +1022,7 @@
 
                 return information;
             },
-            submitApplication() {
-                let information = this.formatApplication();
-                information.cacheOrSubmit = 1; // 提交
+            checkAndSubmit(information) {
                 this.$refs.form.validate((valid) => {
                     if (valid) {
                         sendApplication(information)
@@ -1060,6 +1060,33 @@
                         return false;
                     }
                 });
+            },
+            submitApplication() {
+                let information = this.formatApplication();
+                information.cacheOrSubmit = 1; // 提交
+                getDDL()
+                    .then(res => {
+                        if (res.data.ddl) {
+                            this.hasClosed = new Date() >= new Date(res.data.ddl);
+                            if (this.hasClosed) {
+                                this.$message({
+                                    message: '提交已經截止',
+                                    type: 'error'
+                                })
+                            } else {
+                                this.checkAndSubmit(information)
+                            }
+                        } else {
+                            this.checkAndSubmit(information)
+                        }
+                    })
+                    .catch(err => {
+                        this.hasClosed = false;
+                        this.$message({
+                            message: err.toString(),
+                            type: 'error'
+                        })
+                    });
             },
             getChineseCriteria(point) {
                 let temp = Number(point);

@@ -116,13 +116,12 @@ export const exportSelected = () => {
         responseType: 'blob'
     });
 };
-
 export const checkStuList = params => {
-    return axios.get(`/list/getlist`, {params: params});
+    return axios.post('/list/acquirement', params);
 };
-export const checkStuDetail = () => {
-    return axios.get(`/list/detail`);
-};
+// export const checkStuDetail = () => {
+//     return axios.get(`/list/detail`);
+// };
 export const setMessage = params => {
     return axios.post(`/message/set`, params);
 };

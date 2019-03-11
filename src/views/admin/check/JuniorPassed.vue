@@ -14,7 +14,7 @@
         <!--列表-->
         <el-table :data="students" :highlight-current-row="true" v-loading="listLoading" ref="table"
                   @selection-change="handleSelectionChange" style="width: 100%;">
-            <el-table-column type="selection" width="60">
+            <el-table-column type="selection" width="50">
             </el-table-column>
             <el-table-column type="expand">
                 <template slot-scope="props">
@@ -42,9 +42,9 @@
             </el-table-column>
             <el-table-column prop="id" label="#" width="80">
             </el-table-column>
-            <el-table-column prop="name" label="姓名" width="120">
+            <el-table-column prop="name" label="姓名" width="100">
             </el-table-column>
-            <el-table-column prop="gender" label="性别" width="120">
+            <el-table-column prop="gender" label="性别" width="80">
             </el-table-column>
             <el-table-column prop="score" label="总级分" width="120" :sortable="true">
             </el-table-column>
@@ -56,7 +56,7 @@
                     <el-tag type="danger" v-else>未通过</el-tag>
                 </template>
             </el-table-column>
-            <el-table-column label="操作" width="180">
+            <el-table-column label="操作" width="160">
                 <template slot-scope="scope">
                     <el-button size="small" @click="handleEdit(scope.row)">编辑</el-button>
                     <el-button type="danger" size="small" @click="handlePass(scope.row)">
@@ -185,7 +185,9 @@
                 checkStuList(params)
                     .then((res) => {
                         this.total = res.data.total;
-                        this.students = res.data.stuList;
+                        this.students = res.data.stuList.filter(list => {
+                            return list !== null;
+                        });
                         this.listLoading = false;
                     })
                     .then(() => {

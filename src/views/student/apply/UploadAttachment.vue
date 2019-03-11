@@ -27,6 +27,7 @@
         </div>
         <!--身份證明-->
         <div class="identity" v-show="active===1">
+            <p v-if="hasClosed" style="color: #F56C6C">已到截止日期！</p>
             <p>請在此上傳在台灣居住的有效身份證明和《台灣居民來往大陸通行證》。</p>
             <el-upload class="upload" drag :action="uploadServer" :file-list="identityList" :limit="2"
                        ref="identityUpload" :auto-upload="false" :headers="tokenHeader" :http-request="uploadIdentity"
@@ -51,6 +52,7 @@
         </div>
         <!--學測成績單-->
         <div class="transcript" v-show="active===2">
+            <p v-if="hasClosed" style="color: #F56C6C">已到截止日期！</p>
             <p>請在此上傳2019年學測成績單。</p>
             <el-upload class="upload" drag :action="uploadServer" :file-list="transcriptList" :limit="1"
                        ref="transcriptUpload" :auto-upload="false" :headers="tokenHeader"
@@ -75,6 +77,7 @@
         </div>
         <!--教師推薦信-->
         <div class="recommend" v-show="active===3">
+            <p v-if="hasClosed" style="color: #F56C6C">已到截止日期！</p>
             <p>請在此上傳由兩位熟悉本人的中學資深教師出具的推薦信。</p>
             <el-upload class="upload" drag :action="uploadServer" :file-list="recommendList" :limit="2"
                        ref="recommendUpload" :auto-upload="false" :headers="tokenHeader" :http-request="uploadRecommend"
@@ -99,8 +102,9 @@
         </div>
         <!--考生照片-->
         <div class="photos" v-show="active===4">
+            <p v-if="hasClosed" style="color: #F56C6C">已到截止日期！</p>
             <p>請在此上傳考生本人的證件用標準照（正面免冠、白色背景、頭像輪廓清晰）。</p>
-            <el-upload class="upload" drag :action="uploadServer" :file-list="photosList" :limit="2"
+            <el-upload class="upload" drag :action="uploadServer" :file-list="photosList" :limit="1"
                        list-type="picture" ref="photosUpload" :auto-upload="false" :headers="tokenHeader"
                        :http-request="uploadPhotos" :on-exceed="handleFileExceed" :on-success="handleUploadSuccess"
                        :on-change="handlePhotosChanges" :before-upload="beforePhotosUpload"
@@ -123,6 +127,7 @@
         </div>
         <!--其他材料-->
         <div class="others" v-show="active===5">
+            <p v-if="hasClosed" style="color: #F56C6C">已到截止日期！</p>
             <p>請在此上傳其他相關材料。</p>
             <el-upload class="upload" drag :action="uploadServer" :file-list="othersList" :limit="3"
                        ref="othersUpload" :auto-upload="false" :headers="tokenHeader" :http-request="uploadOthers"

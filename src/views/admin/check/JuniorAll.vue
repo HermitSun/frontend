@@ -20,47 +20,65 @@
                 <template slot-scope="props">
                     <el-form label-position="left" inline class="table-expand">
                         <el-form-item label="学生姓名">
-                            <span>{{ props.row.name }}</span>
+                            <span>{{ props.row.name}}</span>
                         </el-form-item>
-                        <el-form-item label="填报志愿">
-                            <span>{{ props.row.wishes }}</span>
+                        <el-form-item label="选考科目">
+                            <span>{{ props.row.artOrSci?'文':'理'}}</span>
+                        </el-form-item>
+                        <el-form-item label="第一志愿">
+                            <span>{{ props.row.curriculumChoices.firstChoice }}</span>
+                        </el-form-item>
+                        <el-form-item label="第二志愿">
+                            <span>{{ props.row.curriculumChoices.secondChoice }}</span>
+                        </el-form-item>
+                        <el-form-item label="第三志愿">
+                            <span>{{ props.row.curriculumChoices.thirdChoice }}</span>
+                        </el-form-item>
+                        <el-form-item label="第四志愿">
+                            <span>{{ props.row.curriculumChoices.fourthChoice }}</span>
                         </el-form-item>
                         <el-form-item label="接受调剂">
-                            <span>{{ props.row.adjust }}</span>
+                            <span>{{ props.row.acceptAssignment?'是':'否' }}</span>
                         </el-form-item>
-                        <el-form-item label="成绩详情">
-                            <span>{{ props.row.scores }}</span>
-                        </el-form-item>
-                        <el-form-item label="获得奖项">
-                            <span>{{ props.row.awards }}</span>
-                        </el-form-item>
+                        <!--<el-form-item label="成绩详情">-->
+                        <!--<span>{{ props.row.singleSubjectCriteria}}</span>-->
+                        <!--</el-form-item>-->
+                        <template v-for="(family,index) in props.row.familyParticulars">
+                            <el-form-item :label="'家庭成员'+(index+1)">
+                                <span>{{family.relationship+', '+family.name+', '+family.companyName+family.occupation}}</span>
+                            </el-form-item>
+                        </template>
+                        <template v-for="(award,index) in props.row.activities">
+                            <el-form-item :label="'获得奖项'+(index+1)">
+                                <span>{{award.organization+', '+award.award+', '+award.attendingDate.split('T')[0]}}</span>
+                            </el-form-item>
+                        </template>
                         <el-form-item label="个人陈述">
-                            <span>{{ props.row.states }}</span>
+                            <span>{{ props.row.personalStatement }}</span>
                         </el-form-item>
                     </el-form>
                 </template>
             </el-table-column>
-            <el-table-column prop="id" label="#" width="80">
+            <el-table-column type="index" label="#" width="80">
             </el-table-column>
             <el-table-column prop="name" label="姓名" width="100">
             </el-table-column>
-            <el-table-column prop="gender" label="性别" width="80">
+            <el-table-column prop="sex" label="性别" width="80">
             </el-table-column>
-            <el-table-column prop="score" label="总级分" width="120" :sortable="true">
-            </el-table-column>
-            <el-table-column prop="school" label="就读高中" min-width="180" style="max-width: 200px">
+            <el-table-column prop="highSchool" label="就读高中" min-width="180" style="max-width: 200px">
             </el-table-column>
             <el-table-column label="审核结果" width="150" :sortable="true" :sort-method="sortByResult">
                 <template slot-scope="scope">
-                    <el-tag type="success" v-if="scope.row.status===2">通过</el-tag>
-                    <el-tag type="danger" v-else>未通过</el-tag>
+                    <el-tag type="info" v-if="scope.row.from===2">未处理</el-tag>
+                    <el-tag type="success" v-else-if="scope.row.from===0">通过</el-tag>
+                    <el-tag type="danger" v-else-if="scope.row.from===1">未通过</el-tag>
                 </template>
             </el-table-column>
             <el-table-column label="操作" width="160" fixed="right">
                 <template slot-scope="scope">
                     <el-button size="small" @click="handleEdit(scope.row)">编辑</el-button>
                     <el-button type="danger" size="small" @click="handlePass(scope.row)">
-                        {{scope.row.status===2?'取消':'通过'}}
+                        {{scope.row.from===0?'取消':'通过'}}
                     </el-button>
                 </template>
             </el-table-column>
@@ -70,12 +88,13 @@
             <el-button type="primary" @click="exportVisible=true" icon="el-icon-download"
                        :disabled="this.allSelected.length===0&&this.currentSelected.length===0">批量导出
             </el-button>
-            <el-button type="danger" @click="allPass" icon="el-icon-check"
-                       :disabled="this.allSelected.length===0&&this.currentSelected.length===0">一键通过
-            </el-button>
-            <el-button type="danger" @click="allCancel" icon="el-icon-close"
-                       :disabled="this.allSelected.length===0&&this.currentSelected.length===0">一键取消
-            </el-button>
+            <el-button type="danger" @click="sendResult" icon="el-icon-check">发送结果</el-button>
+            <!--<el-button type="danger" @click="allPass" icon="el-icon-check"-->
+            <!--:disabled="this.allSelected.length===0&&this.currentSelected.length===0">一键通过-->
+            <!--</el-button>-->
+            <!--<el-button type="danger" @click="allCancel" icon="el-icon-close"-->
+            <!--:disabled="this.allSelected.length===0&&this.currentSelected.length===0">一键取消-->
+            <!--</el-button>-->
             <el-pagination layout="prev, pager, next" @current-change="handleCurrentChange" :page-size="15"
                            :total="total" style="float:right;">
             </el-pagination>
@@ -83,21 +102,24 @@
         <!--编辑-->
         <el-dialog title="编辑" :visible.snyc="editFormVisible" :before-close="handleEditClose">
             <el-form :model="editForm" label-width="80px" :rules="editFormRules" ref="editForm">
-                <el-form-item label="姓名" prop="name">
-                    <el-input v-model="editForm.name" auto-complete="off"></el-input>
+                <el-form-item label="姓" prop="firstName">
+                    <el-input v-model="editForm.firstName" auto-complete="off"></el-input>
                 </el-form-item>
-                <el-form-item label="性别">
-                    <el-radio-group v-model="editForm.gender" :disabled="true">
-                        <el-radio class="radio" :label="'男'">男</el-radio>
-                        <el-radio class="radio" :label="'女'">女</el-radio>
-                    </el-radio-group>
+                <el-form-item label="名" prop="lastName">
+                    <el-input v-model="editForm.lastName" auto-complete="off"></el-input>
                 </el-form-item>
-                <el-form-item label="总级分">
-                    <el-input-number v-model="editForm.score" :min="0" :max="72" :disabled="true"></el-input-number>
-                </el-form-item>
-                <el-form-item label="就读高中" prop="school">
-                    <el-input v-model="editForm.school"></el-input>
-                </el-form-item>
+                <!--<el-form-item label="性别">-->
+                <!--<el-radio-group v-model="editForm.gender" :disabled="true">-->
+                <!--<el-radio class="radio" :label="'男'">男</el-radio>-->
+                <!--<el-radio class="radio" :label="'女'">女</el-radio>-->
+                <!--</el-radio-group>-->
+                <!--</el-form-item>-->
+                <!--<el-form-item label="总级分">-->
+                <!--<el-input-number v-model="editForm.score" :min="0" :max="72" :disabled="true"></el-input-number>-->
+                <!--</el-form-item>-->
+                <!--<el-form-item label="就读高中" prop="school">-->
+                <!--<el-input v-model="editForm.school"></el-input>-->
+                <!--</el-form-item>-->
             </el-form>
             <div slot="footer" class="dialog-footer">
                 <el-button @click.native="editFormVisible = false">取消</el-button>
@@ -121,7 +143,15 @@
 </template>
 
 <script>
-    import {checkStuList, exportSelected, modifyStuInfo, modifyStuStatus} from 'utils/api';
+    import {
+        checkStuList,
+        exportSelected,
+        modifyStuInfo,
+        modifyStuStatus,
+        createPdf,
+        updateStudentName,
+        updateStudentState
+    } from 'utils/api';
 
     export default {
         name: 'AllStudents',
@@ -145,11 +175,12 @@
                     ]
                 },
                 editForm: {
-                    id: 0,
-                    name: '',
-                    gender: '',
-                    score: 0,
-                    school: ''
+                    firstName: '',
+                    lastName: '',
+                    idCardNumber: ''
+                    // gender: '',
+                    // score: 0,
+                    // school: ''
                 },
 
                 exportVisible: false,
@@ -175,29 +206,90 @@
             })
         },
         methods: {
+            sendResult() {
+                // 发送结果
+                this.$confirm('确认发送？')
+                    .then(() => {
+
+                    })
+                    .catch(() => {
+                    })
+            },
             handleSelectionChange(selected) {
                 this.currentSelected = selected
             },
             getStudents() {
-                let params = {
+                let _this = this;
+                this.listLoading = true;
+                this.students = [];
+                checkStuList({
                     from: this.froms.JUNIOR_ALL,
                     page: this.page,
                     name: this.filters.name
-                };
-                this.listLoading = true;
-                checkStuList(params)
-                    .then((res) => {
-                        this.total = res.data.total;
-                        this.students = res.data.stuList.filter(list => {
+                }).then((res) => {
+                    this.total += res.data.total;
+                    this.students = res.data.stuList.filter(list => {
+                        return list !== null;
+                    });
+                    for (let i = 0; i < this.students.length; ++i) {
+                        this.students[i].name = this.students[i].firstName + this.students[i].lastName;
+                        this.students[i].from = res.data.studentfrom;
+                    }
+                    return _this;
+                }).then(that => {
+                    checkStuList({
+                        from: _this.froms.JUNIOR_FAILED,
+                        page: _this.page,
+                        name: _this.filters.name
+                    }).then((res) => {
+                        _this.total += res.data.total;
+                        let students = res.data.stuList.filter(list => {
                             return list !== null;
                         });
+                        for (let i = 0; i < students.length; ++i) {
+                            students[i].name = students[i].firstName + students[i].lastName;
+                            students[i].from = res.data.studentfrom;
+                            _this.students.push(students[i]);
+                        }
+                        return _this;
+                    }).catch(err => {
+                        this.$message({
+                            message: res.data.msg,
+                            type: 'error'
+                        });
+                    })
+                }).then(that => {
+                    checkStuList({
+                        from: _this.froms.JUNIOR_PASSED,
+                        page: _this.page,
+                        name: _this.filters.name
+                    }).then((res) => {
+                        _this.total += res.data.total;
+                        let students = res.data.stuList.filter(list => {
+                            return list !== null;
+                        });
+                        for (let i = 0; i < students.length; ++i) {
+                            students[i].name = students[i].firstName + students[i].lastName;
+                            students[i].from = res.data.studentfrom;
+                            _this.students.push(students[i]);
+                        }
                         this.listLoading = false;
+                        return _this;
+                    }).catch(err => {
+                        this.$message({
+                            message: res.data.msg,
+                            type: 'error'
+                        });
                     })
-                    .then(() => {
-                        this.setSelectedRow();
-                    })
-                    .catch(() => {
-                    })
+                }).then(that => {
+                    _this.setSelectedRow();
+                }).catch(err => {
+                    this.$message({
+                        message: '读取失败',
+                        type: 'error'
+                    });
+                    this.listLoading = false;
+                })
             },
             handleCurrentChange(val) {
                 this.changePageRecordSelectedData();
@@ -261,7 +353,7 @@
                 }
             },
             sortByResult(stu1, stu2) {
-                return stu1.status.length - stu2.status.length;
+                return stu1.from - stu2.from;
             },
             handleEdit(row) {
                 this.editFormVisible = true;
@@ -276,82 +368,107 @@
                     })
             },
             handlePass(row) {
-                this.$confirm('确认修改吗？', '提示', {}).then(() => {
-                    modifyStuStatus({
-                        ids: [row.id],
-                        status: row.status === '通过' ? 0 : 1
-                    }).then((res) => {
-                        this.$message({
-                            message: '修改成功',
-                            type: 'success'
-                        });
-                        this.getStudents();
-                    }).catch(() => {
+                this.$confirm('确认修改？', '提示', {}).then(() => {
+                    let params = {
+                        identityNum: row.idCardNumber,
+                        from: 0
+                    };
+                    if (row.from === this.froms.JUNIOR_PASSED) {
+                        params.from = 1;
+                    }
+                    updateStudentState(params)
+                        .then(res => {
+                            if (res.data.succeed) {
+                                this.$message({
+                                    message: '修改成功',
+                                    type: 'success'
+                                });
+                                this.getStudents();
+                            } else {
+                                this.$message({
+                                    message: res.data.msg,
+                                    type: 'error'
+                                });
+                            }
+                        }).catch(err => {
                         this.$message({
                             message: '修改失败',
                             type: 'error'
                         });
-                        this.getStudents();
-                    });
+                    })
                 }).catch(() => {
                 });
             },
             editSubmit() {
                 this.$refs.editForm.validate((valid) => {
                     if (valid) {
-                        this.$confirm('确认提交吗？', '提示', {}).then(() => {
-                            this.editLoading = true;
-                            let params = {
-                                'id': this.editForm.id,
-                                'name': this.editForm.name,
-                                'school': this.editForm.school
-                            };
-                            modifyStuInfo(params).then((res) => {
-                                this.editLoading = false;
-                                if (res.data.isSucceed) {
-                                    this.$message({
-                                        message: '提交成功',
-                                        type: 'success'
-                                    });
-                                } else {
-                                    this.$message({
-                                        message: '提交失败',
-                                        type: 'error'
-                                    });
-                                }
-                                this.$refs.editForm.resetFields();
-                                this.editFormVisible = false;
-                                this.getStudents();
-                            }).catch(err => {
+                        this.$confirm('确认提交吗？', '提示', {})
+                            .then(() => {
+                                this.editLoading = true;
+                                let params = {
+                                    identityNum: this.editForm.idCardNumber,
+                                    firstName: this.editForm.firstName,
+                                    lastName: this.editForm.lastName
+                                };
+                                updateStudentName(params)
+                                    .then(res => {
+                                        if (res.data.succeed) {
+                                            this.$message({
+                                                message: '修改成功',
+                                                type: 'success'
+                                            });
+                                            this.editFormVisible = false;
+                                            this.getStudents();
+                                        } else {
+                                            this.$message({
+                                                message: res.data.msg,
+                                                type: 'error'
+                                            });
+                                        }
+                                    })
+                                    .catch(err => {
+                                        this.$message({
+                                            message: '导出失败',
+                                            type: 'error'
+                                        });
+                                    })
                             })
-                        })
                     }
                 })
             },
             batchExport(form) {
+                // 0是Excel，1是PDF
                 let ids = [];
                 if (this.allSelected.length === 0) {
-                    ids = this.currentSelected.map(student => student.id);
+                    ids = this.currentSelected.map(student => student.idCardNumber);
                 } else {
-                    ids = this.allSelected.map(student => student.id);
+                    ids = this.allSelected.map(student => student.idCardNumber);
                 }
-                exportSelected({
-                    ids: ids,
-                    form: this.exportForm
-                }).then((res) => {
-                    this.download(res);
-                    this.$message({
-                        message: '导出成功',
-                        type: 'success'
-                    });
-                    this.getStudents();
-                }).catch(() => {
-                    this.$message({
-                        message: '导出失败',
-                        type: 'error'
-                    });
-                    this.getStudents();
-                })
+                if (form === 0) {
+                    // 导出为Excel
+                } else {
+                    createPdf(ids)
+                        .then((res) => {
+                            if (res.data.succeed) {
+                                // this.download(res);
+                                this.$message({
+                                    message: '导出成功',
+                                    type: 'success'
+                                });
+                            } else {
+                                this.$message({
+                                    message: res.data.msg,
+                                    type: 'error'
+                                });
+                            }
+                        })
+                        .catch(() => {
+                            this.$message({
+                                message: '导出失败',
+                                type: 'error'
+                            });
+                        })
+                }
             },
             handleExportClose() {
                 this.$confirm('确认关闭？')
@@ -369,63 +486,9 @@
                 let link = document.createElement('a');
                 link.style.display = 'none';
                 link.href = url;
-                link.setAttribute('download', '学生信息.xlsx');//名称可以修改
+                link.setAttribute('download', '学生信息.pdf');//名称可以修改
                 document.body.appendChild(link);
                 link.click()
-            },
-            allPass() {
-                let ids = [];
-                if (this.allSelected.length === 0) {
-                    ids = this.currentSelected.map(student => student.id);
-                } else {
-                    ids = this.allSelected.map(student => student.id);
-                }
-                this.$confirm('确认修改吗？', '提示', {}).then(() => {
-                    modifyStuStatus({
-                        ids: ids,
-                        status: 1
-                    }).then((res) => {
-                        this.$message({
-                            message: '修改成功',
-                            type: 'success'
-                        });
-                        this.getStudents();
-                    }).catch(() => {
-                        this.$message({
-                            message: '修改失败',
-                            type: 'error'
-                        });
-                        this.getStudents();
-                    });
-                }).catch(() => {
-                });
-            },
-            allCancel() {
-                let ids = [];
-                if (this.allSelected.length === 0) {
-                    ids = this.currentSelected.map(student => student.id);
-                } else {
-                    ids = this.allSelected.map(student => student.id);
-                }
-                this.$confirm('确认修改吗？', '提示', {}).then(() => {
-                    modifyStuStatus({
-                        ids: ids,
-                        status: 0
-                    }).then((res) => {
-                        this.$message({
-                            message: '修改成功',
-                            type: 'success'
-                        });
-                        this.getStudents();
-                    }).catch(() => {
-                        this.$message({
-                            message: '修改失败',
-                            type: 'error'
-                        });
-                        this.getStudents();
-                    });
-                }).catch(() => {
-                });
             }
         }
     }

@@ -119,7 +119,7 @@
       this.deleteMessage(ids)
     }
 
-    batchSingleMessage (row) {
+    deleteSingleMessage (row) {
       let ids = []
       ids.push(row.id)
       this.deleteMessage(ids)

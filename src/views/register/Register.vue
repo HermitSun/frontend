@@ -148,7 +148,6 @@
                 this.$router.push('/')
               } else {
                 this.$message.error(res.data.msg)
-                form.resetFields()
               }
             })
             .catch((err) => {

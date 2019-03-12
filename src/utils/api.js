@@ -119,6 +119,17 @@ export const exportSelected = () => {
 export const checkStuList = params => {
     return axios.post('/list/acquirement', params);
 };
+export const updateStudentName = (params) => {
+    return axios.post('/updateStudentName/updating', params);
+};
+export const updateStudentState = (params) => {
+    return axios.post('/updateStudentState/updating', params);
+};
+
+// 导出
+export const createPdf = (params) => {
+    return axios.post('/fileDownload/pdfCreation', params);
+};
 // export const checkStuDetail = () => {
 //     return axios.get(`/list/detail`);
 // };

@@ -207,11 +207,12 @@
         methods: {
             sendResult() {
                 // 发送结果
-                this.$confirm('确认发送？')
+                this.$confirm('确认发送通知邮件？')
                     .then(() => {
 
                     })
                     .catch(() => {
+                        //
                     })
             },
             handleSelectionChange(selected) {

@@ -1,6 +1,11 @@
 import axios from 'axios';
 import {getStudentToken, getAdminToken} from "./token.ts";
 
+/*
+* @author: Wen Sun
+* 全局API
+*/
+
 const BASE_URL = process.env.NODE_ENV === 'production'
     ? 'http://47.107.239.200:3141'
     : 'http://localhost:3141';
@@ -72,15 +77,17 @@ export const getAttachmentNames = () => {
 };
 
 // 管理員
-export const allStart = (params) => {
-    return axios.post('/start/start', params)
-};
+// export const allStart = (params) => {
+//     return axios.post('/start/start', params)
+// };
+// 设置邮箱和授权码
 export const setAdminEmail = (params) => {
     return axios.post('/email/adminEmailSet', params)
 };
 export const getAdminEmail = () => {
     return axios.get('/email/preAdmission')
 };
+// 站内消息（广播）的增删改查和发送
 export const adminGetMessage = () => {
     return axios.get('/message/released_broadcast');
 };
@@ -93,6 +100,7 @@ export const adminUpdateMessage = (params) => {
 export const adminDeleteMessage = (params) => {
     return axios.delete('/message/global_broadcast', params);
 };
+// 招生专业的增删改查
 export const addMajor = (params) => {
     return axios.post('/majorSetting/majorAdding', params);
 };
@@ -102,12 +110,14 @@ export const deleteMajor = (params) => {
 export const changeMajor = (params) => {
     return axios.post('/majorSetting/majorUpdate', params);
 };
+// DDL的设置
 export const setDDL = (params) => {
     return axios.post('/DDL/setting', params);
 };
 export const getDDL = () => {
     return axios.get('/DDL/getting');
 };
+// 导出与下载
 export const exportSelected = () => {
     return axios({
         method: 'post',
@@ -116,6 +126,7 @@ export const exportSelected = () => {
         responseType: 'blob'
     });
 };
+// 学生审核及通知消息
 export const checkStuList = params => {
     return axios.post('/list/acquirement', params);
 };
@@ -125,24 +136,10 @@ export const updateStudentName = (params) => {
 export const updateStudentState = (params) => {
     return axios.post('/updateStudentState/updating', params);
 };
-
+export const remindStudent = () => {
+    return axios.post('/email/hint');
+};
 // 导出
 export const createPdf = (params) => {
     return axios.post('/fileDownload/pdfCreation', params);
-};
-// export const checkStuDetail = () => {
-//     return axios.get(`/list/detail`);
-// };
-export const setMessage = params => {
-    return axios.post(`/message/set`, params);
-};
-
-export const remind = () => {
-    return axios.post(`/email/remind`);
-};
-export const modifyStuInfo = (params) => {
-    return axios.post(`/list/save`, params);
-};
-export const modifyStuStatus = (params) => {
-    return axios.post(`/list/save`, params);
 };

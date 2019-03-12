@@ -39,7 +39,7 @@
 
 <script lang="ts">
   import { Vue, Component } from 'vue-property-decorator'
-  import { allStart, exportSelected, getAdminEmail, getDDL, setAdminEmail, setDDL } from 'utils/api'
+  import { exportSelected, getAdminEmail, getDDL, setAdminEmail, setDDL } from 'utils/api'
 
   @Component({})
   export default class Settings extends Vue {

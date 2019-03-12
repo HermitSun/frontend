@@ -194,7 +194,6 @@
     mounted () {
       // 获取附件上传状态
       this.$nextTick(() => {
-        // this.hasClosed = true
         getDDL()
           .then(res => {
             if (res.data.ddl) {

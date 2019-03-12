@@ -143,8 +143,14 @@
 </template>
 
 <script>
-    import {checkStuList, exportSelected, modifyStuInfo, modifyStuStatus} from 'utils/api';
-    import {createPdf, updateStudentState} from "../../../utils/api";
+    import {
+        checkStuList,
+        exportSelected,
+        modifyStuInfo,
+        modifyStuStatus,
+        createPdf,
+        updateStudentState
+    } from 'utils/api';
 
     export default {
         name: 'SeniorAll',

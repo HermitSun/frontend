@@ -875,7 +875,6 @@
         },
         mounted() {
             this.$nextTick(() => {
-                this.hasClosed = true;
                 getDDL()
                     .then(res => {
                         if (res.data.ddl) {

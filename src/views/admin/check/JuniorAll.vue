@@ -154,7 +154,7 @@
     } from 'utils/api';
 
     export default {
-        name: 'AllStudents',
+        name: 'JuniorAll',
         data() {
             return {
                 filters: {name: ''},
@@ -193,10 +193,9 @@
                 froms: {
                     'JUNIOR_PASSED': 0,
                     'JUNIOR_FAILED': 1,
-                    'JUNIOR_ALL': 2,
+                    'NULL': 2,
                     'SENIOR_PASSED': 3,
-                    'SENIOR_FAILED': 4,
-                    'SENIOR_ALL': 5
+                    'SENIOR_FAILED': 4
                 }
             }
         },
@@ -223,7 +222,7 @@
                 this.listLoading = true;
                 this.students = [];
                 checkStuList({
-                    from: this.froms.JUNIOR_ALL,
+                    from: this.froms.NULL,
                     page: this.page,
                     name: this.filters.name
                 }).then((res) => {
@@ -371,10 +370,10 @@
                 this.$confirm('确认修改？', '提示', {}).then(() => {
                     let params = {
                         identityNum: row.idCardNumber,
-                        from: 0
+                        from: this.froms.JUNIOR_PASSED
                     };
                     if (row.from === this.froms.JUNIOR_PASSED) {
-                        params.from = 1;
+                        params.from = this.froms.JUNIOR_FAILED;
                     }
                     updateStudentState(params)
                         .then(res => {

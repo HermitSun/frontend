@@ -128,7 +128,7 @@
         </el-dialog>
         <!--导出-->
         <el-dialog title="导出" :visible.snyc="exportVisible" :before-close="handleExportClose">
-            <el-button type="primary" @click="batchExport(0)"
+            <el-button type="primary" @click="batchExport(0)" :disabled="true"
                        style="float: left; margin-left: 150px">导出为Excel
             </el-button>
             <el-button type="primary" @click="batchExport(1)"

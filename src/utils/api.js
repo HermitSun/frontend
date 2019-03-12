@@ -13,14 +13,18 @@ const BASE_URL = process.env.NODE_ENV === 'production'
 axios.defaults.baseURL = BASE_URL;
 
 axios.interceptors.request.use((config) => {
-        let stuToken = getStudentToken();
-        let adminToken = getAdminToken();
-        if (stuToken) {  // 判断是否存在token，如果存在的话，则每个http header都加上token
-            config.headers.Authorization = `Bearer ${stuToken}`;
-        } else if (adminToken) {
-            config.headers.Authorization = `Bearer ${adminToken}`;
+        if (config.url.startsWith('/email')) {
+            return config;
+        } else {
+            let stuToken = getStudentToken();
+            let adminToken = getAdminToken();
+            if (stuToken) {  // 判断是否存在token，如果存在的话，则每个http header都加上token
+                config.headers.Authorization = `Bearer ${stuToken}`;
+            } else if (adminToken) {
+                config.headers.Authorization = `Bearer ${adminToken}`;
+            }
+            return config;
         }
-        return config;
     },
     (err) => {
         return Promise.reject(err);
@@ -46,6 +50,9 @@ export const resetPassword = (params) => {
 // 消息
 export const studentGetMessage = () => {
     return axios.get('/message/');
+};
+export const getResultMessage = (params) => {
+    return axios.post('/message/resultMessage', params);
 };
 
 // 申請表
@@ -136,8 +143,8 @@ export const updateStudentName = (params) => {
 export const updateStudentState = (params) => {
     return axios.post('/updateStudentState/updating', params);
 };
-export const remindStudent = () => {
-    return axios.post('/email/hint');
+export const notifyStudent = (params) => {
+    return axios.post('/email/hint', params);
 };
 // 导出
 export const createPdf = (params) => {

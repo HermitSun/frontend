@@ -38,7 +38,7 @@
                                 <span slot="title" style="font-size: medium">{{item.name}}</span>
                             </template>
                             <el-menu-item v-for="child in item.children" :index="child.path" :key="child.path"
-                                          :disabled="child.path==='/student/senior-check'">
+                                          :disabled="!hasAccess&&child.path==='/student/senior-check'">
                                 {{child.name}}
                             </el-menu-item>
                         </el-submenu>
@@ -76,9 +76,9 @@
 
 <script lang="ts">
   import { Vue, Component } from 'vue-property-decorator'
-  import { delToken, getStudentToken } from 'utils/token.ts'
+  import { delToken, getEmailAddress, getStudentToken } from 'utils/token.ts'
   import Message from './Message.vue'
-  import { studentGetMessage } from 'utils/api'
+  import { getResultMessage, studentGetMessage } from 'utils/api'
 
   @Component({
     components: { Message }
@@ -90,6 +90,7 @@
     userAvatar: string = ''
     //收到的消息
     hasNewMessage: boolean = false
+    hasAccess: boolean = false
     token: string = ''
 
     get navItems () {
@@ -100,14 +101,22 @@
 
     mounted () {
       this.token = getStudentToken()
+      const email = getEmailAddress()
       /*如果token不存在，則跳轉到登錄頁*/
       if (this.token == '') {
         this.$router.push('/')
       }
-      // this.handleNewMessage()
-      // window.setInterval(() => {
-      //   setTimeout(this.handleNewMessage, 0)
-      // }, 60000)//60s查詢一次消息
+      if (email) {
+        getResultMessage({
+          email: email
+        }).then(res => {
+          if (res.data.succ && res.data.from !== 1) {
+            this.hasAccess = true
+          }
+        }).catch(err => {
+          //
+        })
+      }
     }
 
     // handleNewMessage () {

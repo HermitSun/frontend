@@ -129,14 +129,19 @@
         <!--导出-->
         <el-dialog title="导出" :visible.snyc="exportVisible" :before-close="handleExportClose">
             <el-button type="primary" @click="batchExport(0)" :disabled="true"
-                       style="float: left; margin-left: 150px">导出为Excel
+                       style="float: left; margin-left: 150px">
+                {{exportExcelFinished?'下载Excel':'导出为Excel'}}
             </el-button>
-            <el-button type="primary" @click="batchExport(1)"
+            <el-button type="primary" @click="batchExport(1)" v-if="!exportPDFFinished"
                        style="float: right; margin-right: 150px;">导出为PDF
+            </el-button>
+            <el-button type="primary" @click="downloadPDF" v-else
+                       style="float: right; margin-right: 150px;">下载PDF
             </el-button>
             <div class="clearFix"></div>
             <div slot="footer" class="dialog-footer">
                 <el-button @click.native="exportVisible = false">取消</el-button>
+                <el-button type="primary" @click.native="exportVisible = false">确定</el-button>
             </div>
         </el-dialog>
     </el-main>
@@ -150,7 +155,8 @@
         modifyStuStatus,
         createPdf,
         updateStudentName,
-        updateStudentState
+        updateStudentState,
+        notifyStudent
     } from 'utils/api';
 
     export default {
@@ -161,6 +167,9 @@
                 students: [],
                 currentSelected: [],
                 allSelected: [],
+                exportExcelFinished: false,
+                exportPDFFinished: false,
+                pdfUrl: '',
 
                 total: 0,
                 page: 1,
@@ -207,13 +216,31 @@
         methods: {
             sendResult() {
                 // 发送结果
-                this.$confirm('确认发送通知邮件？')
+                this.$confirm('发送通知邮件给通过审核的学生？')
                     .then(() => {
-
-                    })
-                    .catch(() => {
-                        //
-                    })
+                        notifyStudent({
+                            state: 0
+                        }).then(res => {
+                            if (res.data.succeed) {
+                                this.$message({
+                                    message: '发送成功',
+                                    type: 'success'
+                                });
+                            } else {
+                                this.$message({
+                                    message: res.data.msg,
+                                    type: 'error'
+                                });
+                            }
+                        }).catch(err => {
+                            this.$message({
+                                message: '发送失败',
+                                type: 'error'
+                            });
+                        })
+                    }).catch(() => {
+                    //
+                })
             },
             handleSelectionChange(selected) {
                 this.currentSelected = selected
@@ -450,11 +477,11 @@
                     createPdf(ids)
                         .then((res) => {
                             if (res.data.succeed) {
-                                // this.download(res);
                                 this.$message({
                                     message: '导出成功',
                                     type: 'success'
                                 });
+                                this.exportPDFFinished = true;
                             } else {
                                 this.$message({
                                     message: res.data.msg,
@@ -478,6 +505,26 @@
                     .catch(() => {
                     })
             },
+            downloadPDF() {
+                exportSelected()
+                    .then(res => {
+                        if (res.data) {
+                            console.log(res.data);
+                            this.download(res.data);
+                        } else {
+                            this.$message({
+                                message: '下载失败',
+                                type: 'error'
+                            });
+                        }
+                    })
+                    .catch(err => {
+                        this.$message({
+                            message: '下载失败',
+                            type: 'error'
+                        });
+                    })
+            },
             download(data) {
                 if (!data) {
                     return;
@@ -486,7 +533,7 @@
                 let link = document.createElement('a');
                 link.style.display = 'none';
                 link.href = url;
-                link.setAttribute('download', '学生信息.pdf');//名称可以修改
+                link.setAttribute('download', '学生信息.zip');//名称可以修改
                 document.body.appendChild(link);
                 link.click()
             }

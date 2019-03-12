@@ -149,7 +149,8 @@
         modifyStuInfo,
         modifyStuStatus,
         createPdf,
-        updateStudentState
+        updateStudentState,
+        notifyStudent
     } from 'utils/api';
 
     export default {
@@ -206,12 +207,31 @@
         methods: {
             sendResult() {
                 // 发送结果
-                this.$confirm('确认发送？')
+                this.$confirm('发送通知邮件给通过审核的学生？')
                     .then(() => {
-
-                    })
-                    .catch(() => {
-                    })
+                        notifyStudent({
+                            state: 1
+                        }).then(res => {
+                            if (res.data.succeed) {
+                                this.$message({
+                                    message: '发送成功',
+                                    type: 'success'
+                                });
+                            } else {
+                                this.$message({
+                                    message: res.data.msg,
+                                    type: 'error'
+                                });
+                            }
+                        }).catch(err => {
+                            this.$message({
+                                message: '发送失败',
+                                type: 'error'
+                            });
+                        })
+                    }).catch(() => {
+                    //
+                })
             },
             handleSelectionChange(selected) {
                 this.currentSelected = selected

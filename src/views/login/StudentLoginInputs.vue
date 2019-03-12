@@ -32,7 +32,7 @@
 
 <script lang="ts">
   import { Vue, Component, Watch } from 'vue-property-decorator'
-  import { getStudentToken, setStudentToken } from 'utils/token.ts'
+  import { getStudentToken, setStudentToken, setEmailAddress } from 'utils/token.ts'
   import { getDDL, login } from 'utils/api'
   import { bus } from './bus.ts'
 
@@ -97,6 +97,7 @@
           if (response.data.token) {
             this.showPrompt = false
             setStudentToken(response.data.token)
+            setEmailAddress(this.emailAddress)
             setTimeout(function () {
               this.$router.push('/student')
             }.bind(this), 1000)

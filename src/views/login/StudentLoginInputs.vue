@@ -91,8 +91,9 @@
       } else {
         /*接口请求*/
         login({
-          'username': this.emailAddress,
-          'password': this.password
+          username: this.emailAddress,
+          password: this.password,
+          forRole: 'STUDENT'
         }).then((response) => {
           if (response.data.token) {
             this.showPrompt = false
@@ -107,6 +108,9 @@
               this.showPrompt = true
             } else if (response.data.msg == LoginErrors.PASSWORD_WRONG) {
               this.promptContent = "密碼錯誤"
+              this.showPrompt = true
+            } else if (response.data.msg == LoginErrors.ENTRANCE_WRONG) {
+              this.promptContent = "登錄入口錯誤"
               this.showPrompt = true
             } else if (response.data.msg == LoginErrors.OTHERS) {
               this.promptContent = "登錄失敗"
@@ -137,6 +141,7 @@
     PASSWORD_WRONG = '密码错误',
     CAPTCHA_WRONG = '验证码错误',
     USER_DISABLED = '用户已被禁用',
+    ENTRANCE_WRONG = '登录接口错误',
     OTHERS = '登录失败'
   }
 

@@ -74,8 +74,9 @@
         alert("请输入密码")
       } else {
         login({
-          'username': this.username,
-          'password': this.password
+          username: this.username,
+          password: this.password,
+          forRole: 'ADMIN'
         }).then((response) => {
           if (response.data.token) {
             this.showPrompt = false
@@ -86,6 +87,9 @@
           } else {
             if (response.data.msg === LoginErrors.OTHERS) {
               this.promptContent = "登录失败"
+              this.showPrompt = true
+            } else if (response.data.msg == LoginErrors.ENTRANCE_WRONG) {
+              this.promptContent = "登錄入口錯誤"
               this.showPrompt = true
             } else if (response.data.msg === LoginErrors.PASSWORD_WRONG) {
               this.promptContent = "密码错误"
@@ -115,6 +119,7 @@
   enum LoginErrors {
     PASSWORD_WRONG = '密码错误',
     CAPTCHA_WRONG = '验证码错误',
+    ENTRANCE_WRONG = '登录接口错误',
     OTHERS = '登录失败'
   }
 
@@ -169,8 +174,9 @@
     .login .inputs p i {
         display: inline-block;
         width: 28px;
-        height: 28px;
+        height: 40px;
         background: url(./img/LoginIcons.png) no-repeat;
+        background-size: 15px;
         position: absolute;
         right: 6px;
         top: 7px;
@@ -182,7 +188,7 @@
     }
 
     .password i {
-        background-position: 7px -50px !important;
+        background-position: 7px -58px !important;
     }
 
     .login .inputs input {

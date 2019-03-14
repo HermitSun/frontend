@@ -7,7 +7,7 @@ import {getStudentToken, getAdminToken} from "./token.ts";
 */
 
 const BASE_URL = process.env.NODE_ENV === 'production'
-    ? 'http://47.107.239.200:3141'
+    ? 'http://47.99.190.101:3141'
     : 'http://localhost:3141';
 
 axios.defaults.baseURL = BASE_URL;

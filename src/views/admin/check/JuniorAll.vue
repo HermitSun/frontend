@@ -1,16 +1,16 @@
 <template>
     <el-main>
         <!--查询-->
-        <el-col :span="24" class="toolbar" style="padding-bottom: 0;">
-            <el-form :inline="true" :model="filters">
-                <el-form-item>
-                    <el-input v-model="filters.name" size="small" placeholder="姓名"></el-input>
-                </el-form-item>
-                <el-form-item>
-                    <el-button type="primary" size="small" @click="getStudents" icon="el-icon-search">查询</el-button>
-                </el-form-item>
-            </el-form>
-        </el-col>
+        <!--<el-col :span="24" class="toolbar" style="padding-bottom: 0;">-->
+            <!--<el-form :inline="true" :model="filters">-->
+                <!--<el-form-item>-->
+                    <!--<el-input v-model="filters.name" size="small" placeholder="姓名"></el-input>-->
+                <!--</el-form-item>-->
+                <!--<el-form-item>-->
+                    <!--<el-button type="primary" size="small" @click="getStudents" icon="el-icon-search">查询</el-button>-->
+                <!--</el-form-item>-->
+            <!--</el-form>-->
+        <!--</el-col>-->
         <!--列表-->
         <el-table :data="students" :highlight-current-row="true" v-loading="listLoading" ref="table"
                   @selection-change="handleSelectionChange" style="width: 100%;">
@@ -95,9 +95,9 @@
             <!--<el-button type="danger" @click="allCancel" icon="el-icon-close"-->
             <!--:disabled="this.allSelected.length===0&&this.currentSelected.length===0">一键取消-->
             <!--</el-button>-->
-            <el-pagination layout="prev, pager, next" @current-change="handleCurrentChange" :page-size="15"
-                           :total="total" style="float:right;">
-            </el-pagination>
+            <!--<el-pagination layout="prev, pager, next" @current-change="handleCurrentChange" :page-size="15"-->
+                           <!--:total="total" style="float:right;">-->
+            <!--</el-pagination>-->
         </el-col>
         <!--编辑-->
         <el-dialog title="编辑" :visible.snyc="editFormVisible" :before-close="handleEditClose">

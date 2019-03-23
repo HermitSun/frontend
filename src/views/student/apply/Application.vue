@@ -856,13 +856,13 @@
                         {required: true, message: '請選擇終止時間', trigger: 'blur'}
                     ],
                     chinese: [
-                        {required: true, message: "請填寫國文成績", trigger: 'blur'},
+                        {required: true, message: "請正確填寫國文成績", trigger: 'blur'},
                     ],
                     math: [
-                        {required: true, message: "請填寫數學成績", trigger: 'blur'},
+                        {required: true, message: "請正確填寫數學成績", trigger: 'blur'},
                     ],
                     english: [
-                        {required: true, message: "請填寫英文成績", trigger: 'blur'},
+                        {required: true, message: "請正確填寫英文成績", trigger: 'blur'},
                     ],
                     personalStatement: [
                         {required: true, message: "請填寫", trigger: 'blur'},
@@ -1024,6 +1024,40 @@
             checkAndSubmit(information) {
                 this.$refs.form.validate((valid) => {
                     if (valid) {
+                        let canUpload = true;
+                        for (let key in information.results) {
+                            if (isNaN(information.results[key])) {
+                                canUpload = false;
+                                break;
+                            }
+                        }
+                        if (!canUpload) {
+                            this.$message({
+                                message: '提交失敗，請檢查表單內容',
+                                type: 'error'
+                            });
+                            for (let key in information.results) {
+                                information.results[key] = '';
+                            }
+                            return false;
+                        } else {
+                            for (let key in information.actualLevelPoints) {
+                                if (isNaN(information.actualLevelPoints[key])) {
+                                    canUpload = false;
+                                    break;
+                                }
+                            }
+                            if (!canUpload) {
+                                this.$message({
+                                    message: '提交失敗，請檢查表單內容',
+                                    type: 'error'
+                                });
+                                for (let key in information.actualLevelPoints) {
+                                    information.actualLevelPoints[key] = '';
+                                }
+                                return false;
+                            }
+                        }
                         sendApplication(information)
                             .then((res) => {
                                 if (res.data.succeed) {

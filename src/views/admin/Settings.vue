@@ -30,6 +30,7 @@
                 </el-form-item>
                 <el-form-item>
                     <el-button type="primary" @click="setDeadLine">设置</el-button>
+                    <el-button type="danger" @click="sendDDLAlert">发送提醒</el-button>
                 </el-form-item>
             </el-form>
         </el-card>
@@ -39,7 +40,7 @@
 
 <script lang="ts">
   import { Vue, Component } from 'vue-property-decorator'
-  import { exportSelected, getAdminEmail, getDDL, setAdminEmail, setDDL } from 'utils/api'
+  import { ddlAlert, exportSelected, getAdminEmail, getDDL, setAdminEmail, setDDL } from 'utils/api'
 
   @Component({})
   export default class Settings extends Vue {
@@ -94,6 +95,29 @@
           }
         })
         .catch((err) => {
+          this.$message({
+            message: err.toString(),
+            type: 'error'
+          })
+        })
+    }
+
+    sendDDLAlert () {
+      ddlAlert()
+        .then(res => {
+          if (res.data.succeed) {
+            this.$message({
+              message: '发送成功',
+              type: 'success'
+            })
+          } else {
+            this.$message({
+              message: res.data.msg,
+              type: 'error'
+            })
+          }
+        })
+        .catch(err => {
           this.$message({
             message: err.toString(),
             type: 'error'

@@ -2,14 +2,14 @@
     <el-main>
         <!--查询-->
         <!--<el-col :span="24" class="toolbar" style="padding-bottom: 0;">-->
-            <!--<el-form :inline="true" :model="filters">-->
-                <!--<el-form-item>-->
-                    <!--<el-input v-model="filters.name" size="small" placeholder="姓名"></el-input>-->
-                <!--</el-form-item>-->
-                <!--<el-form-item>-->
-                    <!--<el-button type="primary" size="small" @click="getStudents" icon="el-icon-search">查询</el-button>-->
-                <!--</el-form-item>-->
-            <!--</el-form>-->
+        <!--<el-form :inline="true" :model="filters">-->
+        <!--<el-form-item>-->
+        <!--<el-input v-model="filters.name" size="small" placeholder="姓名"></el-input>-->
+        <!--</el-form-item>-->
+        <!--<el-form-item>-->
+        <!--<el-button type="primary" size="small" @click="getStudents" icon="el-icon-search">查询</el-button>-->
+        <!--</el-form-item>-->
+        <!--</el-form>-->
         <!--</el-col>-->
         <!--列表-->
         <el-table :data="students" :highlight-current-row="true" v-loading="listLoading" ref="table"
@@ -96,7 +96,7 @@
             <!--:disabled="this.allSelected.length===0&&this.currentSelected.length===0">一键取消-->
             <!--</el-button>-->
             <!--<el-pagination layout="prev, pager, next" @current-change="handleCurrentChange" :page-size="15"-->
-                           <!--:total="total" style="float:right;">-->
+            <!--:total="total" style="float:right;">-->
             <!--</el-pagination>-->
         </el-col>
         <!--编辑-->
@@ -261,6 +261,7 @@
                     for (let i = 0; i < this.students.length; ++i) {
                         this.students[i].name = this.students[i].firstName + this.students[i].lastName;
                         this.students[i].from = res.data.studentfrom;
+                        this.sex = res.data.sex === 1 ? '男' : '女';
                     }
                     return _this;
                 }).then(that => {

@@ -94,6 +94,9 @@ export const setAdminEmail = (params) => {
 export const getAdminEmail = () => {
     return axios.get('/email/preAdmission')
 };
+export const ddlAlert = () => {
+    return axios.get('email/ddlWarning');
+};
 // 站内消息（广播）的增删改查和发送
 export const adminGetMessage = () => {
     return axios.get('/message/released_broadcast');

@@ -128,9 +128,11 @@
         </el-dialog>
         <!--导出-->
         <el-dialog title="导出" :visible.snyc="exportVisible" :before-close="handleExportClose">
-            <el-button type="primary" @click="batchExport(0)" :disabled="true"
-                       style="float: left; margin-left: 150px">
-                {{exportExcelFinished?'下载Excel':'导出为Excel'}}
+            <el-button type="primary" @click="batchExport(0)" v-if="!exportExcelFinished"
+                       style="float: left; margin-left: 150px">导出为Excel
+            </el-button>
+            <el-button type="primary" @click="downloadExcel" v-else
+                       style="float: left; margin-left: 150px;">下载Excel
             </el-button>
             <el-button type="primary" @click="batchExport(1)" v-if="!exportPDFFinished"
                        style="float: right; margin-right: 150px;">导出为PDF
@@ -156,7 +158,9 @@
         createPdf,
         updateStudentName,
         updateStudentState,
-        notifyStudent
+        notifyStudent,
+        createExcel,
+        exportExcel
     } from 'utils/api';
 
     export default {
@@ -169,7 +173,6 @@
                 allSelected: [],
                 exportExcelFinished: false,
                 exportPDFFinished: false,
-                pdfUrl: '',
 
                 total: 0,
                 page: 1,
@@ -474,6 +477,20 @@
                 }
                 if (form === 0) {
                     // 导出为Excel
+                    createExcel()
+                        .then((res) => {
+                            this.$message({
+                                message: '导出成功',
+                                type: 'success'
+                            });
+                            this.exportExcelFinished = true;
+                        })
+                        .catch(() => {
+                            this.$message({
+                                message: '导出失败',
+                                type: 'error'
+                            });
+                        })
                 } else {
                     createPdf(ids)
                         .then((res) => {
@@ -510,7 +527,6 @@
                 exportSelected()
                     .then(res => {
                         if (res.data) {
-                            console.log(res.data);
                             this.download(res.data);
                         } else {
                             this.$message({
@@ -525,6 +541,37 @@
                             type: 'error'
                         });
                     })
+            },
+            downloadExcel() {
+                exportExcel()
+                    .then(res => {
+                        if (res.data) {
+                            this.downloadExcelAux(res.data);
+                        } else {
+                            this.$message({
+                                message: '下载失败',
+                                type: 'error'
+                            });
+                        }
+                    })
+                    .catch(err => {
+                        this.$message({
+                            message: '下载失败',
+                            type: 'error'
+                        });
+                    })
+            },
+            downloadExcelAux(data) {
+                if (!data) {
+                    return;
+                }
+                let url = window.URL.createObjectURL(new Blob([data]));
+                let link = document.createElement('a');
+                link.style.display = 'none';
+                link.href = url;
+                link.setAttribute('download', '学生信息.xlsx');//名称可以修改
+                document.body.appendChild(link);
+                link.click()
             },
             download(data) {
                 if (!data) {

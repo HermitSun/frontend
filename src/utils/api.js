@@ -128,11 +128,19 @@ export const getDDL = () => {
     return axios.get('/DDL/getting');
 };
 // 导出与下载
+// PDF
 export const exportSelected = () => {
     return axios({
         method: 'post',
         url: '/fileDownload/fileDownload',
-        // data: params,
+        responseType: 'blob'
+    });
+};
+// Excel
+export const exportExcel = () => {
+    return axios({
+        method: 'post',
+        url: '/fileDownload/excelDownload',
         responseType: 'blob'
     });
 };
@@ -152,4 +160,7 @@ export const notifyStudent = (params) => {
 // 导出
 export const createPdf = (params) => {
     return axios.post('/fileDownload/pdfCreation', params);
+};
+export const createExcel = () => {
+    return axios.post('/fileDownload/xlsxCreation');
 };

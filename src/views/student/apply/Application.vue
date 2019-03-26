@@ -525,7 +525,7 @@
                             </el-col>
                         </el-row>
 
-                        <el-form :model="form.curriculumChoices" :rules="rules" ref="form.curriculumChoices"
+                        <el-form :model="form.curriculumChoices" :rules="rules" ref="curriculumChoices"
                                  label-width="130px" hide-required-asterisk :disabled="hasClosed">
 
                             <el-form-item label="1st choice 第一志願" prop="firstChoice" label-width="155px">
@@ -870,7 +870,8 @@
                     ],
                 },
                 majors: [],
-                majorInfos: []
+                majorInfos: [],
+                formValid: true
             };
         },
         mounted() {
@@ -1022,6 +1023,7 @@
                 return information;
             },
             checkAndSubmit(information) {
+                this.formValid = true;
                 this.$refs.form.validate((valid) => {
                     if (valid) {
                         let canUpload = true;
@@ -1057,6 +1059,19 @@
                                 }
                                 return false;
                             }
+                        }
+                        let invalid = false;
+                        this.$refs.curriculumChoices.validate((valid) => {
+                            if (!valid) {
+                                invalid = true;
+                            }
+                        });
+                        if (invalid) {
+                            this.$message({
+                                message: '提交失敗，請檢查表單內容',
+                                type: 'error'
+                            });
+                            return false;
                         }
                         sendApplication(information)
                             .then((res) => {

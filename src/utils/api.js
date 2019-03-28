@@ -128,6 +128,13 @@ export const getDDL = () => {
     return axios.get('/DDL/getting');
 };
 // 导出与下载
+// 导出
+export const createPdf = (params) => {
+    return axios.post('/fileDownload/pdfCreation', params);
+};
+export const createExcel = () => {
+    return axios.post('/fileDownload/xlsxCreation');
+};
 // PDF
 export const exportSelected = () => {
     return axios({
@@ -144,6 +151,13 @@ export const exportExcel = () => {
         responseType: 'blob'
     });
 };
+export const exportAll = () => {
+    return axios({
+        method: 'post',
+        url: '/fileDownload/Attachments',
+        responseType: 'blob'
+    });
+};
 // 学生审核及通知消息
 export const checkStuList = params => {
     return axios.post('/list/acquirement', params);
@@ -156,11 +170,4 @@ export const updateStudentState = (params) => {
 };
 export const notifyStudent = (params) => {
     return axios.post('/email/hint', params);
-};
-// 导出
-export const createPdf = (params) => {
-    return axios.post('/fileDownload/pdfCreation', params);
-};
-export const createExcel = () => {
-    return axios.post('/fileDownload/xlsxCreation');
 };

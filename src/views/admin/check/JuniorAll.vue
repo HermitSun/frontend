@@ -18,7 +18,10 @@
             </el-table-column>
             <el-table-column type="expand">
                 <template slot-scope="props">
-                    <el-form label-position="left" inline class="table-expand">
+                    <div v-if="!props.row.firstName">
+                        <p>暂无数据!</p>
+                    </div>
+                    <el-form label-position="left" inline class="table-expand" v-else>
                         <el-form-item label="学生姓名">
                             <span>{{ props.row.name}}</span>
                         </el-form-item>
@@ -67,6 +70,8 @@
             </el-table-column>
             <el-table-column prop="highSchool" label="就读高中" min-width="180" style="max-width: 200px">
             </el-table-column>
+            <el-table-column prop="status" label="报名状态" min-width="120" sortable>
+            </el-table-column>
             <el-table-column label="审核结果" width="150" :sortable="true" :sort-method="sortByResult">
                 <template slot-scope="scope">
                     <el-tag type="info" v-if="scope.row.from===2">未处理</el-tag>
@@ -88,6 +93,7 @@
             <el-button type="primary" @click="exportVisible=true" icon="el-icon-download"
                        :disabled="this.allSelected.length===0&&this.currentSelected.length===0">批量导出
             </el-button>
+            <el-button type="primary" @click="exportAll" icon="el-icon-download">全部导出</el-button>
             <el-button type="danger" @click="sendResult" icon="el-icon-check">发送结果</el-button>
             <!--<el-button type="danger" @click="allPass" icon="el-icon-check"-->
             <!--:disabled="this.allSelected.length===0&&this.currentSelected.length===0">一键通过-->
@@ -160,7 +166,8 @@
         updateStudentState,
         notifyStudent,
         createExcel,
-        exportExcel
+        exportExcel,
+        exportAll
     } from 'utils/api';
 
     export default {
@@ -261,10 +268,25 @@
                     this.students = res.data.stuList.filter(list => {
                         return list !== null;
                     });
+                    const complete = res.data.complete;
+                    const lack_materials = res.data.lack_materials;
+                    const lack_upload = res.data.lack_upload;
+                    const lack_both = res.data.lack_both;
                     for (let i = 0; i < this.students.length; ++i) {
                         this.students[i].name = this.students[i].firstName + this.students[i].lastName;
                         this.students[i].from = res.data.studentfrom;
-                        this.sex = res.data.sex === 1 ? '男' : '女';
+                        this.students[i].sex = this.students[i].sex === 1 ? '男' : '女';
+                        if (i <= complete) {
+                            this.students[i].status = '材料齐全';
+                        } else if (i <= lack_materials) {
+                            this.students[i].status = '缺少附件';
+                        } else if (i <= lack_upload) {
+                            this.students[i].status = '未提交申请但材料齐全';
+                        } else if (i <= lack_both) {
+                            this.students[i].status = '未提交申请且材料缺失';
+                        } else {
+                            this.students[i].status = '啥都没有';
+                        }
                     }
                     return _this;
                 }).then(that => {
@@ -280,6 +302,7 @@
                         for (let i = 0; i < students.length; ++i) {
                             students[i].name = students[i].firstName + students[i].lastName;
                             students[i].from = res.data.studentfrom;
+                            students[i].sex = students[i].sex === 1 ? '男' : '女';
                             _this.students.push(students[i]);
                         }
                         return _this;
@@ -302,6 +325,7 @@
                         for (let i = 0; i < students.length; ++i) {
                             students[i].name = students[i].firstName + students[i].lastName;
                             students[i].from = res.data.studentfrom;
+                            students[i].sex = students[i].sex === 1 ? '男' : '女';
                             _this.students.push(students[i]);
                         }
                         this.listLoading = false;
@@ -584,6 +608,31 @@
                 link.setAttribute('download', '学生信息.zip');//名称可以修改
                 document.body.appendChild(link);
                 link.click()
+            },
+            exportAll() {
+                // 全部导出
+                this.$confirm('确认导出？')
+                    .then(() => {
+                        exportAll()
+                            .then(res => {
+                                if (res.data) {
+                                    this.download(res.data);
+                                } else {
+                                    this.$message({
+                                        message: '下载失败',
+                                        type: 'error'
+                                    });
+                                }
+                            })
+                            .catch(err => {
+                                this.$message({
+                                    message: '下载失败',
+                                    type: 'error'
+                                });
+                            })
+                    })
+                    .catch(() => {
+                    });
             }
         }
     }

@@ -1011,10 +1011,10 @@
                 information.actualLevelPoints.sciences = Number(this.form.actualLevelPoints.sciences);
 
                 information.singleSubjectCriteria.chinese = this.getSubjectCriteria(this.getChineseCriteria(this.form.actualLevelPoints.chinese));
-                information.singleSubjectCriteria.math = this.getSubjectCriteria(this.getChineseCriteria(this.form.actualLevelPoints.math));
-                information.singleSubjectCriteria.english = this.getSubjectCriteria(this.getChineseCriteria(this.form.actualLevelPoints.english));
-                information.singleSubjectCriteria.socials = this.getSubjectCriteria(this.getChineseCriteria(this.form.actualLevelPoints.socials));
-                information.singleSubjectCriteria.sciences = this.getSubjectCriteria(this.getChineseCriteria(this.form.actualLevelPoints.sciences));
+                information.singleSubjectCriteria.math = this.getSubjectCriteria(this.getMathCriteria(this.form.actualLevelPoints.math));
+                information.singleSubjectCriteria.english = this.getSubjectCriteria(this.getEnglishCriteria(this.form.actualLevelPoints.english));
+                information.singleSubjectCriteria.socials = this.getSubjectCriteria(this.getSocialCriteria(this.form.actualLevelPoints.socials));
+                information.singleSubjectCriteria.sciences = this.getSubjectCriteria(this.getScienceCriteria(this.form.actualLevelPoints.sciences));
 
                 if (information.birthDate.indexOf('T') >= 0) {
                     information.birthDate = information.birthDate.substring(0, information.birthDate.indexOf('T'))

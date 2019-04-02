@@ -32,8 +32,8 @@
           email: email
         }).then(res => {
           if (res.data.succ) {
-            this.hasReleased = true
-            this.hasPassed = res.data.from === 0;
+            this.hasReleased = res.data.from === 0 || res.data.from === 1
+            this.hasPassed = res.data.from === 0
           } else {
             this.$message({
               message: res.data.message === 'No such from' ? '結果尚未發佈' : res.data.message,

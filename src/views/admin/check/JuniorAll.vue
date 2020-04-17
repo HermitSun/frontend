@@ -25,6 +25,14 @@
                         <el-form-item label="学生姓名">
                             <span>{{ props.row.name}}</span>
                         </el-form-item>
+                        <!--这个是因为今年新加的字段，而且后端跑路了-->
+                        <!--只能通过这种方式来进行添加-->
+                        <!--2020.04.17-->
+                        <el-form-item label="报名序号">
+                            <span>{{
+                                props.row.phoneNumbers.homePhoneNumber.split('zz&&nb')[1]
+                                }}</span>
+                        </el-form-item>
                         <el-form-item label="选考科目">
                             <span>{{ props.row.artOrSci?'文':'理'}}</span>
                         </el-form-item>

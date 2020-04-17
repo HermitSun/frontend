@@ -11,7 +11,7 @@
     "mock": "node static/MockServer.js"
   },
   "dependencies": {
-    "axios": "^0.18.0",
+    "axios": "^0.18.1",
     "cssnano": "^4.1.9",
     "cssnano-preset-advanced": "^4.0.7",
     "element-ui": "^2.5.3",

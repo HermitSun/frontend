@@ -3,7 +3,7 @@
         <div v-if="hasClosed">
             <p style="color: #F56C6C">已到截止日期！</p>
         </div>
-        <div v-else-if="!hasClosed&&hasFinished">
+        <div v-else-if="!hasClosed && hasFinished">
             <p style="color: #67C23A">您已完成申請表填寫。</p>
         </div>
         <el-form :model="this.form" :rules="this.rules" ref="form" label-width="138px" :inline="true"
@@ -135,10 +135,11 @@
                                 <el-form-item>
                                     <div slot="label">
                                         <div>Home</div>
-                                        <div>住宅</div>
+                                        <div>宅電</div>
                                     </div>
                                     <el-input v-model="form.phoneNumbers.homePhoneNumber" clearable
-                                              style="width: 195px;" placeholder="請輸入宅電"></el-input>
+                                              style="width: 195px;" placeholder="請輸入宅電"
+                                              maxlength="20"></el-input>
                                 </el-form-item>
 
                                 <el-form-item prop="mobilePhoneNumber">
@@ -162,7 +163,8 @@
                                         <div>傳真</div>
                                     </div>
                                     <el-input v-model="form.phoneNumbers.faxNumber" clearable
-                                              style="width: 195px;" placeholder="請輸入傳真"></el-input>
+                                              style="width: 195px;" placeholder="請輸入傳真"
+                                              maxlength="20"></el-input>
                                 </el-form-item>
                             </el-form-item>
                         </el-form>
@@ -179,6 +181,28 @@
                                 </div>
                             </el-col>
                         </el-row>
+
+                        <!--供教育部核對而額外增加的屬性-->
+                        <!--2020.04.17-->
+                        <el-form :model="form"
+                                 :rules="rules"
+                                 label-width="150px"
+                                 :inline="true"
+                                 :disabled="hasClosed">
+                            <el-form-item label-width="120px">
+                                <div slot="label">
+                                    <div>Basic Info</div>
+                                    <div>基本信息</div>
+                                </div>
+                            </el-form-item>
+                            <el-form-item label="學測成績單報名序號" prop="registerNumber">
+                                <el-input v-model="form.registerNumber"
+                                          placeholder="請輸入學測成績單報名序號"
+                                          maxlength="8"
+                                          clearable></el-input>
+                            </el-form-item>
+                        </el-form>
+                        <hr/>
 
                         <el-form label-width="130px" :inline="true" :disabled="hasClosed">
                             <el-form-item label=" " label-width="120px"></el-form-item>
@@ -248,62 +272,63 @@
                                 </el-form-item>
                             </el-form-item>
                         </el-form>
-                        <el-form :model="form.levelRange" :rules="rules" :inline="true">
-                            <el-form-item label-width="140px">
-                                <div slot="label">
-                                    <div>Level range</div>
-                                    <div>級距</div>
-                                </div>
-                                <el-form-item prop="chinese">
-                                    <el-input v-model="form.levelRange.chinese" placeholder="CHINESE 國文"
-                                              style="width:130px" :disabled="true"></el-input>
-                                </el-form-item>
-                                <el-form-item prop="math">
-                                    <el-input v-model="form.levelRange.math" placeholder="MATH 數學"
-                                              style="width:130px" :disabled="true"></el-input>
-                                </el-form-item>
-                                <el-form-item prop="english">
-                                    <el-input v-model="form.levelRange.english" placeholder="ENGLISH 英文"
-                                              style="width:130px" :disabled="true"></el-input>
-                                </el-form-item>
-                                <el-form-item>
-                                    <el-input v-model="form.levelRange.socials" placeholder="SOCIAL 社會"
-                                              style="width:130px" :disabled="true"></el-input>
-                                </el-form-item>
-                                <el-form-item>
-                                    <el-input v-model="form.levelRange.sciences" placeholder="SCIENCES 自然"
-                                              style="width:130px" :disabled="true"></el-input>
-                                </el-form-item>
-                            </el-form-item>
-                        </el-form>
-                        <el-form :model="form.singleSubjectCriteria" :rules="rules" :inline="true">
-                            <el-form-item label-width="140px">
-                                <div slot="label">
-                                    <div>Single subject criteria</div>
-                                    <div>單科標準</div>
-                                </div>
-                                <el-form-item prop="chinese">
-                                    <el-input v-model="getCriteria1" placeholder="CHINESE 國文" style="width:130px"
-                                              :disabled="true"></el-input>
-                                </el-form-item>
-                                <el-form-item prop="math">
-                                    <el-input v-model="getCriteria2" placeholder="MATH 數學" style="width:130px"
-                                              :disabled="true"></el-input>
-                                </el-form-item>
-                                <el-form-item prop="english">
-                                    <el-input v-model="getCriteria3" placeholder="ENGLISH 英文" style="width:130px"
-                                              :disabled="true"></el-input>
-                                </el-form-item>
-                                <el-form-item>
-                                    <el-input v-model="getCriteria4" placeholder="SOCIAL 社會" style="width:130px"
-                                              :disabled="true"></el-input>
-                                </el-form-item>
-                                <el-form-item>
-                                    <el-input v-model="getCriteria5" placeholder="SCIENCES 自然" style="width:130px"
-                                              :disabled="true"></el-input>
-                                </el-form-item>
-                            </el-form-item>
-                        </el-form>
+                        <!--因為這裡每年都會發生變化，不適合硬編碼，所以直接取消-->
+                        <!--                        <el-form :model="form.levelRange" :rules="rules" :inline="true">-->
+                        <!--                            <el-form-item label-width="140px">-->
+                        <!--                                <div slot="label">-->
+                        <!--                                    <div>Level range</div>-->
+                        <!--                                    <div>級距</div>-->
+                        <!--                                </div>-->
+                        <!--                                <el-form-item prop="chinese">-->
+                        <!--                                    <el-input v-model="form.levelRange.chinese" placeholder="CHINESE 國文"-->
+                        <!--                                              style="width:130px" :disabled="true"></el-input>-->
+                        <!--                                </el-form-item>-->
+                        <!--                                <el-form-item prop="math">-->
+                        <!--                                    <el-input v-model="form.levelRange.math" placeholder="MATH 數學"-->
+                        <!--                                              style="width:130px" :disabled="true"></el-input>-->
+                        <!--                                </el-form-item>-->
+                        <!--                                <el-form-item prop="english">-->
+                        <!--                                    <el-input v-model="form.levelRange.english" placeholder="ENGLISH 英文"-->
+                        <!--                                              style="width:130px" :disabled="true"></el-input>-->
+                        <!--                                </el-form-item>-->
+                        <!--                                <el-form-item>-->
+                        <!--                                    <el-input v-model="form.levelRange.socials" placeholder="SOCIAL 社會"-->
+                        <!--                                              style="width:130px" :disabled="true"></el-input>-->
+                        <!--                                </el-form-item>-->
+                        <!--                                <el-form-item>-->
+                        <!--                                    <el-input v-model="form.levelRange.sciences" placeholder="SCIENCES 自然"-->
+                        <!--                                              style="width:130px" :disabled="true"></el-input>-->
+                        <!--                                </el-form-item>-->
+                        <!--                            </el-form-item>-->
+                        <!--                        </el-form>-->
+                        <!--                        <el-form :model="form.singleSubjectCriteria" :rules="rules" :inline="true">-->
+                        <!--                            <el-form-item label-width="140px">-->
+                        <!--                                <div slot="label">-->
+                        <!--                                    <div>Single subject criteria</div>-->
+                        <!--                                    <div>單科標準</div>-->
+                        <!--                                </div>-->
+                        <!--                                <el-form-item prop="chinese">-->
+                        <!--                                    <el-input v-model="getCriteria1" placeholder="CHINESE 國文" style="width:130px"-->
+                        <!--                                              :disabled="true"></el-input>-->
+                        <!--                                </el-form-item>-->
+                        <!--                                <el-form-item prop="math">-->
+                        <!--                                    <el-input v-model="getCriteria2" placeholder="MATH 數學" style="width:130px"-->
+                        <!--                                              :disabled="true"></el-input>-->
+                        <!--                                </el-form-item>-->
+                        <!--                                <el-form-item prop="english">-->
+                        <!--                                    <el-input v-model="getCriteria3" placeholder="ENGLISH 英文" style="width:130px"-->
+                        <!--                                              :disabled="true"></el-input>-->
+                        <!--                                </el-form-item>-->
+                        <!--                                <el-form-item>-->
+                        <!--                                    <el-input v-model="getCriteria4" placeholder="SOCIAL 社會" style="width:130px"-->
+                        <!--                                              :disabled="true"></el-input>-->
+                        <!--                                </el-form-item>-->
+                        <!--                                <el-form-item>-->
+                        <!--                                    <el-input v-model="getCriteria5" placeholder="SCIENCES 自然" style="width:130px"-->
+                        <!--                                              :disabled="true"></el-input>-->
+                        <!--                                </el-form-item>-->
+                        <!--                            </el-form-item>-->
+                        <!--                        </el-form>-->
                     </div>
                 </el-collapse-item>
                 <el-collapse-item title="三. 就讀學校">
@@ -744,6 +769,8 @@
                         endDate: ''
                     },
 
+                    registerNumber: '', // 報名序號
+
                     results: {
                         chinese: '',
                         math: '',
@@ -868,6 +895,22 @@
                         {required: true, message: "請填寫", trigger: 'blur'},
                         {max: 500, message: "字數不得超過500字", trigger: 'blur'}
                     ],
+                    registerNumber: [
+                        {
+                            validator: (rule, value, callback) => {
+                                console.log(value);
+                                if (value === '') {
+                                    callback(new Error('請填寫報名序號'))
+                                } else if (!/^[A-Z0-9]{8}$/.test(value)) {
+                                    // 8位數字和字母
+                                    callback(new Error('請檢查報名序號是否正確'))
+                                } else {
+                                    callback()
+                                }
+                            },
+                            trigger: 'blur'
+                        }
+                    ]
                 },
                 majors: [],
                 majorInfos: [],
@@ -1022,6 +1065,8 @@
 
                 return information;
             },
+            // 提交時不再提交具體的級距和單科標準，因為每年都會發生變更，不適合硬編碼
+            // 因為這是一個遺留系統，無法修改數據庫，所以改為提交默認值
             checkAndSubmit(information) {
                 this.formValid = true;
                 this.$refs.form.validate((valid) => {
@@ -1073,6 +1118,15 @@
                             });
                             return false;
                         }
+                        // 因為後端跑路了，所以只能在前端做出修改，複用數據庫裡已有的字段
+                        // 考慮到現在使用固定電話的人已經很少了，所以使用這個字段
+                        // 以下是數據庫裡的相應結構：
+                        // home_phone_number                | varchar(50)
+                        // 查閱相關資料後，在表單中已經做出限制，宅電長度不超過20
+                        // 通過這個magic string來進行分割
+                        const separator = 'zz&&nb';
+                        information.phoneNumbers.homePhoneNumber += separator + information.registerNumber;
+                        console.log(information)
                         sendApplication(information)
                             .then((res) => {
                                 if (res.data.succeed) {
@@ -1099,6 +1153,11 @@
                                     message: err.toString(),
                                     type: 'error'
                                 })
+                            })
+                            .finally(() => {
+                                // 重置被修改過的宅電
+                                information.phoneNumbers.homePhoneNumber =
+                                    information.phoneNumbers.homePhoneNumber.split(separator)[0]
                             })
                     } else {
                         this.$message({
@@ -1229,7 +1288,12 @@
                         this.form.address = info.address;
                         this.form.postalCode = info.postalCode;
 
-                        this.form.phoneNumbers.homePhoneNumber = info.phoneNumbers.homePhoneNumber;
+                        // 從後端取出時，利用這個magic string進行分割
+                        const separator = 'zz&&nb';
+                        const homePhoneNumberAndRegisterNumber = info.phoneNumbers.homePhoneNumber.split(separator);
+                        // 這兩個順序是反的，需要注意
+                        this.form.registerNumber = homePhoneNumberAndRegisterNumber[1];
+                        this.form.phoneNumbers.homePhoneNumber = homePhoneNumberAndRegisterNumber[0];
                         this.form.phoneNumbers.areaCode = info.phoneNumbers.mobilePhoneNumber.substring(0, info.phoneNumbers.mobilePhoneNumber.indexOf("6") + 1);
                         this.form.phoneNumbers.mobilePhoneNumber = info.phoneNumbers.mobilePhoneNumber.substring(info.phoneNumbers.mobilePhoneNumber.indexOf("6") + 1);
                         this.form.phoneNumbers.faxNumber = info.phoneNumbers.faxNumber;
